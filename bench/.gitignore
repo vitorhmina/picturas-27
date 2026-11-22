@@ -1,0 +1,5 @@
+.venv/
+data/
+__pycache__/
+.bench.lock
+.run_all.lock/

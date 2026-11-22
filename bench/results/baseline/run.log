@@ -1,0 +1,70 @@
+[2026-11-22 03:28:16] label=baseline runs=5 commit=0523102
+[2026-11-22 03:28:16] START elasticity.py --label baseline --runs 5
+commit 05231022  services=32
+warm-up: one subtitles job (loads the Whisper model; discarded)
+  warm-up done
+E1 run 1: light wait=96.98140287399292 total=106.43315744400024 heavy total=102.40297389030457
+E1 run 2: light wait=112.80480074882507 total=120.97858762741089 heavy total=117.90817856788635
+E1 run 3: light wait=99.92878937721252 total=107.72283339500427 heavy total=105.46832370758057
+E1 run 4: light wait=82.71566534042358 total=90.40591168403625 heavy total=88.4504463672638
+E1 run 5: light wait=83.9870285987854 total=92.0739357471466 heavy total=88.97639465332031
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\E1.json
+E2 run 1: makespan=269.5054578781128 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 2: makespan=331.20544481277466 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 3: makespan=338.36329531669617 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 4: makespan=350.0322332382202 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 5: makespan=286.96970653533936 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\E2.json
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\E3.json
+[2026-11-22 04:11:48] END   elasticity.py --label baseline --runs 5 (exit 0)
+[2026-11-22 04:11:49] START chaos.py --label baseline --target none --runs 5
+commit 05231022  target=none services=[]
+run 1: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 5: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\chaos-none.json
+[2026-11-22 04:14:49] END   chaos.py --label baseline --target none --runs 5 (exit 0)
+[2026-11-22 04:14:49] START chaos.py --label baseline --target image-tool --runs 5
+commit 05231022  target=image-tool services=['contrast_tool']
+run 1: done=2 error=0 hung=3 / 5  recovery=None  orphans=8
+run 2: done=2 error=0 hung=3 / 5  recovery=None  orphans=8
+run 3: done=3 error=0 hung=2 / 5  recovery=None  orphans=5
+run 4: done=3 error=0 hung=2 / 5  recovery=None  orphans=8
+run 5: done=3 error=0 hung=2 / 5  recovery=None  orphans=6
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\chaos-image-tool.json
+[2026-11-22 04:30:06] END   chaos.py --label baseline --target image-tool --runs 5 (exit 0)
+[2026-11-22 04:30:06] START chaos.py --label baseline --target video --runs 5
+commit 05231022  target=video services=['video_tool']
+run 1: done=5 error=0 hung=0 / 5  recovery=32.783435583114624  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=51.76192021369934  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=34.930466175079346  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=31.78845715522766  orphans=0
+run 5: done=3 error=0 hung=2 / 5  recovery=None  orphans=2
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\chaos-video.json
+[2026-11-22 04:48:31] END   chaos.py --label baseline --target video --runs 5 (exit 0)
+[2026-11-22 04:48:31] START chaos.py --label baseline --target projects --runs 5
+commit 05231022  target=projects services=['projects']
+run 1: done=2 error=0 hung=3 / 5  recovery=None  orphans=5
+run 2: done=5 error=0 hung=0 / 5  recovery=2.1267738342285156  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=10.318715810775757  orphans=0
+run 4: done=3 error=0 hung=2 / 5  recovery=None  orphans=1
+run 5: done=2 error=0 hung=3 / 5  recovery=None  orphans=7
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\chaos-projects.json
+[2026-11-22 04:59:28] END   chaos.py --label baseline --target projects --runs 5 (exit 0)
+[2026-11-22 04:59:28] START summarize.py baseline
+C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\summary.csv
+[2026-11-22 04:59:28] END   summarize.py baseline (exit 0)
+[2026-11-22 04:59:28] ALL DONE
+[2026-11-22 04:59:45] NOTE  chaos-video re-run: the PC was in Modern Standby 04:29:34-04:48:18 (Kernel-Power 506/507) during the first run; its results are kept as chaos-video.INVALID-standby.json
+[2026-11-22 04:59:50] START chaos.py --label baseline --target video --runs 5 (re-run)
+commit 05231022  target=video services=['video_tool']
+run 1: done=5 error=0 hung=0 / 5  recovery=28.635169982910156  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=28.645812034606934  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=28.650214910507202  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=28.650765419006348  orphans=0
+run 5: done=5 error=0 hung=0 / 5  recovery=28.63495373725891  orphans=0
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\chaos-video.json
+[2026-11-22 05:04:02] END   chaos.py --label baseline --target video --runs 5 (re-run, exit 0)
+C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\baseline\summary.csv
