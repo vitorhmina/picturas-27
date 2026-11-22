@@ -95,7 +95,7 @@ its volumes, whose S3 layout (one bucket per user) is incompatible. Run
 Video worker tests run on the host (needs ffmpeg/ffprobe on the PATH, no Docker):
 
 ```bash
-cd Tools/video && python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+cd Tools/video_common && python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 .venv/bin/python -m pytest -q tests
 ```
 
