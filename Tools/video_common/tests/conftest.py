@@ -4,8 +4,11 @@ import sys
 
 import pytest
 
-# allows "import effects" / "import video_processor" as in the container
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Each video service ships video_common plus its own stage modules flat in /app.
+# The tests exercise every stage, so all four folders go on the path.
+_TOOLS = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+for _folder in ("video_frames", "video_subtitles", "video_effects", "video_common"):
+    sys.path.insert(0, os.path.join(_TOOLS, _folder))
 
 
 def make_video(path, seconds=4, size="320x240", fps=25, audio=True, vcodec="libx264"):

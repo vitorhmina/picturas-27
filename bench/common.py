@@ -20,7 +20,8 @@ RESULTS = BENCH / "results"
 # The full 177 s clip makes one subtitles job take ~7 min on the test machine; 60 s keeps the
 # heavy job several times longer than the light one while making the suite ~2 h instead of 4-5 h.
 SPEECH_SOURCE = SAMPLES / "speech_mandela_177s_1080p.webm"
-SPEECH_VIDEO = DATA / "speech_60s.webm"
+# BENCH_SPEECH_VIDEO=full runs the suite on the full 177 s clip instead (recorded in environment()).
+SPEECH_VIDEO = SPEECH_SOURCE if __import__("os").environ.get("BENCH_SPEECH_VIDEO") == "full" else DATA / "speech_60s.webm"
 SHORT_VIDEO = SAMPLES / "sample_10s_720p.mp4"
 MOV_VIDEO = SAMPLES / "sample_6s.mov"
 
@@ -61,6 +62,7 @@ def environment() -> dict:
         "platform": platform.platform(),
         "python": platform.python_version(),
         "cpu_count": __import__("os").cpu_count(),
+        "speech_video": SPEECH_VIDEO.name,
     }
     try:
         info["docker"] = json.loads(subprocess.check_output(

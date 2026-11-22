@@ -1,0 +1,720 @@
+{
+  "scenario": "E2",
+  "env": {
+    "timestamp": "2026-11-22T06:46:38.583860+00:00",
+    "git_commit": "0d7e33284595c14be7bee5f49f6aaa6ae4e510ad",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "speech_video": "speech_mandela_177s_1080p.webm",
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "dev-control-plane"
+    ],
+    "services": [
+      "api_gateway",
+      "bg_remove_ai_tool",
+      "binarization_tool",
+      "border_tool",
+      "brightness_tool",
+      "contrast_tool",
+      "cut_ai_tool",
+      "cut_tool",
+      "expand_ai_tool",
+      "frontend",
+      "generative-mock",
+      "img_storage",
+      "mongo-backup",
+      "nginx",
+      "obj_ai_tool",
+      "people_ai_tool",
+      "projects",
+      "projects_mongoDB",
+      "rabbitmq",
+      "resize_tool",
+      "rotate_tool",
+      "saturation_tool",
+      "seaweedfs",
+      "subscriptions",
+      "subscriptions_mongoDB",
+      "text_ai_tool",
+      "upgrade_ai_tool",
+      "users",
+      "users_mongoDB",
+      "video_effects_tool",
+      "video_frames_tool",
+      "video_subtitles_tool",
+      "watermark_tool_ms",
+      "ws_gateway"
+    ]
+  },
+  "params": {
+    "base": "https://localhost:8080",
+    "label": "split-177s",
+    "runs": 5,
+    "scenarios": "E1,E2,E3",
+    "light_delay": 5.0,
+    "burst": 10,
+    "timeout": 1800.0,
+    "settle": 60.0,
+    "no_warmup": false
+  },
+  "runs": [
+    {
+      "jobs": [
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795331495.3891292,
+          "first_progress": 1795331713.0615077,
+          "finished": 1795332041.581592,
+          "wait_s": 217.67237854003906,
+          "total_s": 546.1924629211426,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795331495.389211,
+          "first_progress": 1795331537.4547298,
+          "finished": 1795331545.6930847,
+          "wait_s": 42.065518856048584,
+          "total_s": 50.303873777389526,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795331495.3888943,
+          "first_progress": 1795331523.5688343,
+          "finished": 1795331537.5370328,
+          "wait_s": 28.17993998527527,
+          "total_s": 42.14813852310181,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795331495.3890073,
+          "first_progress": 1795331513.2268639,
+          "finished": 1795331514.8425548,
+          "wait_s": 17.83785653114319,
+          "total_s": 19.453547477722168,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795331495.389433,
+          "first_progress": 1795331497.129086,
+          "finished": 1795331499.6343582,
+          "wait_s": 1.7396531105041504,
+          "total_s": 4.244925260543823,
+          "results": 6,
+          "error": null
+        },
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795331495.3897676,
+          "first_progress": 1795331547.5128305,
+          "finished": 1795331897.5906012,
+          "wait_s": 52.1230628490448,
+          "total_s": 402.20083355903625,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795331495.3914826,
+          "first_progress": 1795331514.807375,
+          "finished": 1795331524.1076233,
+          "wait_s": 19.415892362594604,
+          "total_s": 28.716140747070312,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795331495.3893063,
+          "first_progress": 1795331496.915518,
+          "finished": 1795331512.4619062,
+          "wait_s": 1.5262117385864258,
+          "total_s": 17.0725998878479,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795331495.3895817,
+          "first_progress": 1795331512.137398,
+          "finished": 1795331513.8258421,
+          "wait_s": 16.74781632423401,
+          "total_s": 18.43626046180725,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795331495.3887002,
+          "first_progress": 1795331499.8291793,
+          "finished": 1795331502.7031817,
+          "wait_s": 4.440479040145874,
+          "total_s": 7.314481496810913,
+          "results": 6,
+          "error": null
+        }
+      ],
+      "makespan_s": 546.1928918361664
+    },
+    {
+      "jobs": [
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795332045.1083417,
+          "first_progress": 1795332278.707318,
+          "finished": 1795332568.7902002,
+          "wait_s": 233.59897637367249,
+          "total_s": 523.6818585395813,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795332045.1084943,
+          "first_progress": 1795332079.230488,
+          "finished": 1795332094.3854883,
+          "wait_s": 34.12199378013611,
+          "total_s": 49.27699398994446,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795332045.1092002,
+          "first_progress": 1795332065.0182836,
+          "finished": 1795332079.0867276,
+          "wait_s": 19.909083366394043,
+          "total_s": 33.977527379989624,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795332045.1087484,
+          "first_progress": 1795332046.5544274,
+          "finished": 1795332047.926966,
+          "wait_s": 1.445678949356079,
+          "total_s": 2.8182175159454346,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795332045.1088464,
+          "first_progress": 1795332049.9684803,
+          "finished": 1795332052.3058672,
+          "wait_s": 4.859633922576904,
+          "total_s": 7.197020769119263,
+          "results": 6,
+          "error": null
+        },
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795332045.108946,
+          "first_progress": 1795332103.9605188,
+          "finished": 1795332419.7056637,
+          "wait_s": 58.8515727519989,
+          "total_s": 374.5967175960541,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795332045.1086302,
+          "first_progress": 1795332094.3483381,
+          "finished": 1795332102.6603699,
+          "wait_s": 49.239707946777344,
+          "total_s": 57.55173969268799,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795332045.109041,
+          "first_progress": 1795332050.1063612,
+          "finished": 1795332064.617612,
+          "wait_s": 4.997320175170898,
+          "total_s": 19.508570909500122,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795332045.1115406,
+          "first_progress": 1795332048.0182385,
+          "finished": 1795332050.007388,
+          "wait_s": 2.906697988510132,
+          "total_s": 4.89584755897522,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795332045.1081395,
+          "first_progress": 1795332046.8842845,
+          "finished": 1795332050.2807598,
+          "wait_s": 1.7761449813842773,
+          "total_s": 5.1726202964782715,
+          "results": 6,
+          "error": null
+        }
+      ],
+      "makespan_s": 523.6820607185364
+    },
+    {
+      "jobs": [
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795332572.7548044,
+          "first_progress": 1795332625.782254,
+          "finished": 1795332931.256476,
+          "wait_s": 53.02744960784912,
+          "total_s": 358.5016715526581,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795332572.7549458,
+          "first_progress": 1795332615.825793,
+          "finished": 1795332624.1196117,
+          "wait_s": 43.070847272872925,
+          "total_s": 51.36466598510742,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795332572.7550597,
+          "first_progress": 1795332586.174105,
+          "finished": 1795332600.4895964,
+          "wait_s": 13.419045209884644,
+          "total_s": 27.73453664779663,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795332572.755147,
+          "first_progress": 1795332573.9927797,
+          "finished": 1795332575.4761958,
+          "wait_s": 1.2376327514648438,
+          "total_s": 2.7210488319396973,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795332572.7552207,
+          "first_progress": 1795332574.3830748,
+          "finished": 1795332577.8302274,
+          "wait_s": 1.6278541088104248,
+          "total_s": 5.075006723403931,
+          "results": 6,
+          "error": null
+        },
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795332572.7559516,
+          "first_progress": 1795332788.5773015,
+          "finished": 1795333078.0277543,
+          "wait_s": 215.82134985923767,
+          "total_s": 505.2718026638031,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795332572.7553902,
+          "first_progress": 1795332577.2754126,
+          "finished": 1795332586.2471843,
+          "wait_s": 4.520022392272949,
+          "total_s": 13.491794109344482,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795332572.7553127,
+          "first_progress": 1795332600.907758,
+          "finished": 1795332615.9453247,
+          "wait_s": 28.152445316314697,
+          "total_s": 43.190011978149414,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795332572.7554626,
+          "first_progress": 1795332575.464631,
+          "finished": 1795332577.5772839,
+          "wait_s": 2.7091684341430664,
+          "total_s": 4.821821212768555,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795332572.7545252,
+          "first_progress": 1795332577.1539078,
+          "finished": 1795332579.9145901,
+          "wait_s": 4.399382591247559,
+          "total_s": 7.160064935684204,
+          "results": 6,
+          "error": null
+        }
+      ],
+      "makespan_s": 505.27322912216187
+    },
+    {
+      "jobs": [
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795333082.5473566,
+          "first_progress": 1795333300.510532,
+          "finished": 1795333586.9943,
+          "wait_s": 217.96317529678345,
+          "total_s": 504.44694328308105,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795333082.5479834,
+          "first_progress": 1795333086.8432424,
+          "finished": 1795333095.8080676,
+          "wait_s": 4.29525899887085,
+          "total_s": 13.26008415222168,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795333082.5474515,
+          "first_progress": 1795333095.5421495,
+          "finished": 1795333110.1721642,
+          "wait_s": 12.99469804763794,
+          "total_s": 27.624712705612183,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795333082.5475395,
+          "first_progress": 1795333083.7508154,
+          "finished": 1795333085.2169054,
+          "wait_s": 1.2032759189605713,
+          "total_s": 2.669365882873535,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795333082.5476127,
+          "first_progress": 1795333083.930295,
+          "finished": 1795333087.5201285,
+          "wait_s": 1.3826823234558105,
+          "total_s": 4.972515821456909,
+          "results": 6,
+          "error": null
+        },
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795333082.5478463,
+          "first_progress": 1795333136.0146585,
+          "finished": 1795333443.1214974,
+          "wait_s": 53.46681213378906,
+          "total_s": 360.57365107536316,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795333082.5477693,
+          "first_progress": 1795333126.6706665,
+          "finished": 1795333134.817941,
+          "wait_s": 44.122897148132324,
+          "total_s": 52.27017164230347,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795333082.5477016,
+          "first_progress": 1795333110.2053225,
+          "finished": 1795333127.088983,
+          "wait_s": 27.657620906829834,
+          "total_s": 44.5412814617157,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795333082.5479107,
+          "first_progress": 1795333085.1234212,
+          "finished": 1795333086.2686396,
+          "wait_s": 2.5755105018615723,
+          "total_s": 3.720728874206543,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795333082.5472069,
+          "first_progress": 1795333086.8690288,
+          "finished": 1795333089.7476556,
+          "wait_s": 4.321821928024292,
+          "total_s": 7.200448751449585,
+          "results": 6,
+          "error": null
+        }
+      ],
+      "makespan_s": 504.44709300994873
+    },
+    {
+      "jobs": [
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795333591.7006662,
+          "first_progress": 1795333850.7360182,
+          "finished": 1795334144.2895026,
+          "wait_s": 259.03535199165344,
+          "total_s": 552.5888364315033,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795333591.70075,
+          "first_progress": 1795333646.0882864,
+          "finished": 1795333655.5411282,
+          "wait_s": 54.38753628730774,
+          "total_s": 63.84037804603577,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795333591.7008717,
+          "first_progress": 1795333631.865839,
+          "finished": 1795333645.964545,
+          "wait_s": 40.16496729850769,
+          "total_s": 54.263673305511475,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795333591.7009773,
+          "first_progress": 1795333594.6891375,
+          "finished": 1795333596.7011456,
+          "wait_s": 2.9881601333618164,
+          "total_s": 5.000168323516846,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795333591.701191,
+          "first_progress": 1795333593.8917015,
+          "finished": 1795333597.1882827,
+          "wait_s": 2.1905105113983154,
+          "total_s": 5.487091779708862,
+          "results": 6,
+          "error": null
+        },
+        {
+          "kind": "subtitles",
+          "status": "done",
+          "submitted": 1795333591.7008138,
+          "first_progress": 1795333656.9391005,
+          "finished": 1795333993.6341243,
+          "wait_s": 65.23828673362732,
+          "total_s": 401.933310508728,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "light",
+          "status": "done",
+          "submitted": 1795333591.7013814,
+          "first_progress": 1795333623.3783412,
+          "finished": 1795333631.8683994,
+          "wait_s": 31.6769597530365,
+          "total_s": 40.16701793670654,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "effects",
+          "status": "done",
+          "submitted": 1795333591.7010791,
+          "first_progress": 1795333597.0121775,
+          "finished": 1795333623.629694,
+          "wait_s": 5.311098337173462,
+          "total_s": 31.928614854812622,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "speed",
+          "status": "done",
+          "submitted": 1795333591.7019637,
+          "first_progress": 1795333593.1065066,
+          "finished": 1795333594.5977995,
+          "wait_s": 1.4045429229736328,
+          "total_s": 2.8958358764648438,
+          "results": 1,
+          "error": null
+        },
+        {
+          "kind": "frames",
+          "status": "done",
+          "submitted": 1795333591.7005105,
+          "first_progress": 1795333597.5725563,
+          "finished": 1795333601.1964328,
+          "wait_s": 5.8720457553863525,
+          "total_s": 9.495922327041626,
+          "results": 6,
+          "error": null
+        }
+      ],
+      "makespan_s": 552.5889921188354
+    }
+  ],
+  "summary": {
+    "makespan_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 504.44709300994873,
+      "p50": 523.6820607185364,
+      "p95": 552.5889921188354,
+      "max": 552.5889921188354,
+      "mean": 526.4368533611298
+    },
+    "job_total_s": {
+      "n": 50,
+      "n_valid": 50,
+      "min": 2.669365882873535,
+      "p50": 27.624712705612183,
+      "p95": 523.6818585395813,
+      "max": 552.5888364315033,
+      "mean": 108.45947112083435
+    },
+    "job_wait_s": {
+      "n": 50,
+      "n_valid": 50,
+      "min": 1.2032759189605713,
+      "p50": 13.419045209884644,
+      "p95": 217.96317529678345,
+      "max": 259.03535199165344,
+      "mean": 40.39388060092926
+    },
+    "by_kind_total_s": {
+      "subtitles": {
+        "n": 10,
+        "n_valid": 10,
+        "min": 358.5016715526581,
+        "p50": 402.20083355903625,
+        "p95": 552.5888364315033,
+        "max": 552.5888364315033,
+        "mean": 452.9988088130951
+      },
+      "light": {
+        "n": 10,
+        "n_valid": 10,
+        "min": 13.26008415222168,
+        "p50": 49.27699398994446,
+        "p95": 63.84037804603577,
+        "max": 63.84037804603577,
+        "mean": 42.024286007881166
+      },
+      "effects": {
+        "n": 10,
+        "n_valid": 10,
+        "min": 17.0725998878479,
+        "p50": 31.928614854812622,
+        "p95": 54.263673305511475,
+        "max": 54.263673305511475,
+        "mean": 34.198966765403746
+      },
+      "speed": {
+        "n": 10,
+        "n_valid": 10,
+        "min": 2.669365882873535,
+        "p50": 3.720728874206543,
+        "p95": 19.453547477722168,
+        "max": 19.453547477722168,
+        "mean": 6.743284201622009
+      },
+      "frames": {
+        "n": 10,
+        "n_valid": 10,
+        "min": 4.244925260543823,
+        "p50": 5.487091779708862,
+        "p95": 9.495922327041626,
+        "max": 9.495922327041626,
+        "mean": 6.332009816169739
+      }
+    }
+  }
+}

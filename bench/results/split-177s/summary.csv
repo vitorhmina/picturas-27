@@ -1,0 +1,33 @@
+metric,unit,split-177s
+E1 light job wait p50,s,134.74
+E1 light job wait p95,s,137.32
+E1 light job total p95,s,145.88
+E1 subtitles job total p50,s,228.76
+E2 burst makespan p50,s,523.68
+E2 burst makespan p95,s,552.59
+E2 job latency p95,s,523.68
+E2 job wait p95,s,217.96
+E3 idle memory before,MiB,3235.68
+E3 idle memory after,MiB,2795.43
+E3 containers idle after,count,34
+E3 peak total CPU p50,%,869.66
+E3 peak total memory p50,MiB,5010.59
+R1 terminal jobs (none) min,%,100.0
+R1 terminal jobs (none) mean,%,100.0
+R1 hung jobs (none) total,count,0
+R3 orphan processes (none) max,count,0
+R1 terminal jobs (image-tool) min,%,40.0
+R1 terminal jobs (image-tool) mean,%,80.0
+R1 hung jobs (image-tool) total,count,5
+R2 recovery (image-tool) p95,s,9.26
+R3 orphan processes (image-tool) max,count,8
+R1 terminal jobs (video) min,%,100.0
+R1 terminal jobs (video) mean,%,100.0
+R1 hung jobs (video) total,count,0
+R2 recovery (video) p95,s,32.75
+R3 orphan processes (video) max,count,0
+R1 terminal jobs (projects) min,%,40.0
+R1 terminal jobs (projects) mean,%,80.0
+R1 hung jobs (projects) total,count,5
+R2 recovery (projects) p95,s,12.59
+R3 orphan processes (projects) max,count,4

@@ -1,0 +1,10 @@
+IDENTICAL  effects                                type=video/video
+IDENTICAL  trim_speed_effects                     type=video/video
+IDENTICAL  effects_preview                        type=video/video
+IDENTICAL  subtitles                              type=video/video
+IDENTICAL  effects_subtitles_effects_preview      type=video/video
+IDENTICAL  subtitles_then_trim_preview            type=video/video
+IDENTICAL  extract_only                           type=frames/frames
+IDENTICAL  effects_then_extract_preview           type=image/image
+IDENTICAL  subtitles_then_extract                 type=frames/frames
+9/9 identical

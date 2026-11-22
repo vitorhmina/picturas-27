@@ -12,6 +12,8 @@ var processSchema = new mongoose.Schema({
   cache_key: { type: String, required: false },
   cancelToken: { type: Number, required: false },
   token: { type: Number, required: true },
+  // video jobs: the stage plan (utils/videoStages.js); cur_pos is the stage index
+  stages: { type: Array, required: false },
 }, { timestamps: true });
 
 module.exports = mongoose.model("process", processSchema);
