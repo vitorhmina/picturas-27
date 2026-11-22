@@ -125,8 +125,11 @@ cd Tools/video_common && python3 -m venv .venv && .venv/bin/pip install -r requi
 - Internal service-to-service TLS certificates are expired and not validated
   (`rejectUnauthorized: false`); several secrets are committed. Known issues, not patterns.
 - RabbitMQ consumers must survive broker restarts.
-- The image tools auto-acknowledge messages and swap `messageId`/`correlationId` in their error
-  replies, so their errors do not reach the user.
+- Messaging is at-least-once: tools ack only after their reply is confirmed, `projects` acks a
+  reply only after its handler finished, and messages are persistent. A message can therefore
+  arrive twice; handlers must tolerate duplicates. The pre-built `watermark` image still auto-acks.
+- Tool error replies go through `ToolMSG.send_msg(..., new_img_uri, type, err_code, err_msg,
+  og_img_uri)`; keep `type` in the positional order.
 - The users service answers errors with a non-standard 701 status (including "daily limit
   reached"); `projects` maps that case to 403 before replying.
 - Image/video handling is branched in the orchestrator and PIL effects are duplicated in
