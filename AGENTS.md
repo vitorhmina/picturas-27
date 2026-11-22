@@ -128,6 +128,10 @@ cd Tools/video_common && python3 -m venv .venv && .venv/bin/pip install -r requi
 - Messaging is at-least-once: tools ack only after their reply is confirmed, `projects` acks a
   reply only after its handler finished, and messages are persistent. A message can therefore
   arrive twice; handlers must tolerate duplicates. The pre-built `watermark` image still auto-acks.
+- Create every `Process` with `tool` and `params` and publish it with `dispatch()`
+  (`projects/utils/recovery.js`), never `send_msg_tool` directly: the recovery watchdog relies on
+  the record to publish lost steps again. Delete a `Process` only after its step's effects are
+  stored and its successor exists.
 - Tool error replies go through `ToolMSG.send_msg(..., new_img_uri, type, err_code, err_msg,
   og_img_uri)`; keep `type` in the positional order.
 - The users service answers errors with a non-standard 701 status (including "daily limit

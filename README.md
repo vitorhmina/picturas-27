@@ -177,6 +177,18 @@ of losing it. A message whose handler fails is retried once and then dropped. Co
 re-opened after a broker restart, and on `SIGTERM` a tool finishes its current message before
 exiting. The pre-built `watermark` image keeps its own behaviour.
 
+**Process recovery** (`projects/utils/recovery.js`): each pending step is a `Process` record that
+also stores the message it needs and when the broker confirmed it. The orchestrator removes a
+record only after the step's outputs are stored and its successor is registered, so a
+redelivered reply resumes the step; flags on the record (`output_stored`, `successor_msg_id`)
+keep a resumed step from storing results or notifying twice. A watchdog, run at start-up and every
+15 s, publishes records that were never confirmed (for example, `projects` stopped while the broker
+was down) and fails steps that are overdue with nothing waiting in their tool's queue, so the user
+gets an error instead of a project that never finishes. A published step is never published again,
+because image steps after the first overwrite their input. Settings (env vars of `projects`):
+`RECOVERY_INTERVAL_MS` (15 s), `RECOVERY_UNDISPATCHED_MS` (30 s), `RECOVERY_IMAGE_TIMEOUT_MS`
+(5 min), `RECOVERY_VIDEO_TIMEOUT_MS` (60 min).
+
 ### Infrastructure
 
 - **Message Queue**: RabbitMQ (asynchronous tool invocation)
