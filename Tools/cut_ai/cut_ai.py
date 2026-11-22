@@ -178,7 +178,7 @@ class CutAI:
                 'error',
                 processing_time,
                 None,
-                self._codes['wrong_procedure'],
+                "image", self._codes['wrong_procedure'],
                 "The procedure received does not fit into this tool",
                 img_path
             )
@@ -211,7 +211,7 @@ class CutAI:
                 'error',
                 processing_time,
                 None,
-                self._codes['error_processing'],
+                "image", self._codes['error_processing'],
                 str(e),
                 img_path
             )

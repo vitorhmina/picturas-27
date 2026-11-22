@@ -53,7 +53,7 @@ class Border:
             processing_time = (cur_timestamp - timestamp).total_seconds() * 1000
             cur_timestamp = cur_timestamp.isoformat()
 
-            self._tool_msg.send_msg(msg_id, resp_msg_id, cur_timestamp, 'error', processing_time, None, self._codes['wrong_procedure'], "The procedure received does not fit into this tool", img_path)
+            self._tool_msg.send_msg(msg_id, resp_msg_id, cur_timestamp, 'error', processing_time, None, "image", self._codes['wrong_procedure'], "The procedure received does not fit into this tool", img_path)
             return
 
         try:
@@ -69,7 +69,7 @@ class Border:
             processing_time = (cur_timestamp - timestamp).total_seconds() * 1000
             cur_timestamp = cur_timestamp.isoformat()
             
-            self._tool_msg.send_msg(msg_id, resp_msg_id, cur_timestamp, 'error', processing_time, None, self._codes['error_processing'], "An error occured while processing the request", img_path)
+            self._tool_msg.send_msg(msg_id, resp_msg_id, cur_timestamp, 'error', processing_time, None, "image", self._codes['error_processing'], "An error occured while processing the request", img_path)
 
     def exec(self, args):
         while True:
