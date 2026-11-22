@@ -15,6 +15,7 @@ Timing conventions (all wall-clock seconds from time.time()):
 """
 from __future__ import annotations
 
+import json
 import mimetypes
 import threading
 import time
@@ -70,7 +71,7 @@ class BenchUser:
         self.http.headers["Authorization"] = f"Bearer {self.jwt}"
 
         self.sio = socketio.Client(ssl_verify=False, reconnection=True)
-        for name in ("video-progress", "process-error", "process-update"):
+        for name in ("video-progress", "process-error", "process-update", "preview-ready", "preview-error"):
             self.sio.on(name, self._recorder(name))
         # Several users connect at once when a batch is prepared; a slow TLS
         # handshake must not abort the whole run, so retry a few times.
@@ -186,6 +187,23 @@ class BenchProject:
         except ValueError:
             return False
         return isinstance(body, dict) and bool(body.get("completed"))
+
+    def preview(self, media_index: int = 0, timeout_s: float = 600.0) -> dict:
+        """Requests a preview and waits for `preview-ready` (or `preview-error`)."""
+        t0 = time.time()
+        _check(self.user.http.post(f"{self._url}/preview/{self.media_id(media_index)}", json={}, timeout=120),
+               "preview")
+        while time.time() < t0 + timeout_s:
+            ready = self.user.events_since(t0, "preview-ready")
+            if ready:
+                raw = ready[0][2].get("raw")
+                return {"status": "done", "urls": json.loads(raw) if isinstance(raw, str) else ready[0][2],
+                        "total_s": ready[0][0] - t0}
+            failed = self.user.events_since(t0, "preview-error")
+            if failed:
+                return {"status": "error", "error": failed[0][2], "total_s": failed[0][0] - t0}
+            time.sleep(0.5)
+        return {"status": "timeout", "total_s": None}
 
     def results(self) -> dict:
         resp = self.user.http.get(f"{self._url}/process/url", timeout=60)
