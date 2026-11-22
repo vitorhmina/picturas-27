@@ -17,7 +17,6 @@ const JSZip = require("jszip");
 const { v4: uuidv4 } = require('uuid');
 
 const {
-  send_msg_tool,
   send_msg_client,
   send_msg_client_error,
   send_msg_client_preview,
@@ -28,6 +27,7 @@ const {
 
 const Project = require("../controllers/project");
 const Process = require("../controllers/process");
+const { dispatch, removeStageFiles } = require("../utils/recovery");
 const Result = require("../controllers/result");
 const Preview = require("../controllers/preview");
 const jwt = require("jsonwebtoken");
@@ -73,7 +73,6 @@ const {
   assignStageOutputs,
   stageTool,
   stageParams,
-  intermediateOutputs,
 } = require("../utils/videoStages");
 
 // A video runs stage by stage on the video services (utils/videoStages.js):
@@ -86,13 +85,6 @@ function startVideoStages(tools, preview, finalUri, progress) {
     params: stageParams(stages, 0, { preview, progress }),
     new_img_uri: stages[0].output,
   };
-}
-
-// Intermediate stage files are only needed until the next stage has read them.
-function removeStageFiles(stages) {
-  for (const uri of intermediateOutputs(stages)) {
-    fs.rmSync(path.resolve(__dirname, "..", uri), { force: true });
-  }
 }
 
 const storage = multer.memoryStorage();
@@ -201,14 +193,18 @@ function process_msg() {
     // variáveis “seguras” para usar no catch
     let runnerIdSafe = null;
     let ownerIdSafe = null;
+    let msgIdSafe = null;
+    let holdsRunSafe = false;
 
     try {
       const msg_content = JSON.parse(msg.content.toString());
       const msg_id = msg_content.correlationId;
 
       const process = await Process.getOneByMsgId(msg_id);
-      if (!process) return;
+      // no record: a duplicate of a reply already handled; failed: a job kept as a barrier
+      if (!process || process.failed) return;
 
+      msgIdSafe = msg_id;
       ownerIdSafe = process.user_id;
       runnerIdSafe = process.runner_id || process.user_id;
 
@@ -232,21 +228,19 @@ function process_msg() {
       // persisted, including ordinary images in mixed projects. Failed jobs stay
       // as barriers so another source cannot commit a partial run.
       const holdsRunCommit = project.tools.some((tool) => tool.procedure === "extract_frames") && !/preview/.test(msg_id);
-      // An intermediate video stage keeps its Process until the next stage is
-      // registered: otherwise another source finishing in between could find no
-      // pending work and commit the run while this video is still mid-pipeline.
-      const intermediateVideoStage =
-        Array.isArray(process.stages) && process.cur_pos + 1 < process.stages.length;
-      const keepsProcess = holdsRunCommit || intermediateVideoStage;
-      if (!keepsProcess) await Process.delete(process.user_id, process.project_id, process._id);
+      holdsRunSafe = holdsRunCommit;
+      // The Process is deleted only once this step's effects are stored (below),
+      // and a non-final step only after its successor is registered. If projects
+      // stops midway, the broker redelivers this reply and the step resumes from
+      // the record instead of being lost; the record's flags make that safe.
+      const resumed = Boolean(process.output_stored || process.successor_msg_id);
       
       if (msg_content.status === "error") {
         console.log(JSON.stringify(msg_content));
         if (process.stages) removeStageFiles(process.stages);
-        // A failed stage ends this video's chain (extraction runs keep it as a barrier).
-        if (intermediateVideoStage && !holdsRunCommit) {
-          await Process.delete(process.user_id, process.project_id, process._id);
-        }
+        // A failed job ends its chain (extraction runs keep it as a barrier).
+        if (holdsRunCommit) await Process.markFailed(msg_id);
+        else await Process.delete(process.user_id, process.project_id, process._id);
         if (/preview/.test(msg_id)) {
           send_msg_client_preview_error(`update-client-preview-${uuidv4()}`, timestamp, runnerId, msg_content.error.code, msg_content.error.msg)
         }
@@ -277,7 +271,7 @@ function process_msg() {
       if (active !== tok) {
         console.log(`[RUN-GUARD] IGNORE msg=${msg_id} processTok=${tok} activeTok=${active}`);
         if (process.stages) removeStageFiles(process.stages);
-        if (keepsProcess) await Process.delete(process.user_id, process.project_id, process._id);
+        await Process.delete(process.user_id, process.project_id, process._id);
         return;
       }
 
@@ -296,6 +290,8 @@ function process_msg() {
       const isLast = type == "text" || chainEnd;
 
 if (/preview/.test(msg_id) && isLast) {
+  // a resumed step already stored its preview before projects stopped
+  if (!process.output_stored) {
   const file_path = path.resolve(__dirname, "..", output_file_uri);
   const file_name = path.basename(file_path);
   const fileStream = fs.createReadStream(file_path);
@@ -323,6 +319,8 @@ if (/preview/.test(msg_id) && isLast) {
   };
 
   await Preview.create(preview);
+  await Process.markOutputStored(msg_id);
+  }
 
   // considerar "preview final" quando:
   // - a tool devolveu texto (tipicamente o fim), ou quando
@@ -411,9 +409,14 @@ if (/preview/.test(msg_id) && isLast) {
   }
 }
 
-      if (/preview/.test(msg_id) && chainEnd) return;
+      if (/preview/.test(msg_id) && chainEnd) {
+        await Process.delete(process.user_id, process.project_id, process._id);
+        return;
+      }
 
-      if (!/preview/.test(msg_id) && isLast && type === "frames") {
+      if (!/preview/.test(msg_id) && isLast && process.output_stored) {
+        // a resumed step: its results were stored before projects stopped
+      } else if (!/preview/.test(msg_id) && isLast && type === "frames") {
         if (!holdsRunCommit || !sourceIsVideo) throw new Error("Unexpected extracted frames for this job");
         await persistFrameResults(msg_content.output, process, {
           upload: async (file, name) => {
@@ -462,10 +465,12 @@ if (/preview/.test(msg_id) && isLast) {
         await Result.create(result);
       }
 
+      if (!/preview/.test(msg_id) && isLast && !process.output_stored) await Process.markOutputStored(msg_id);
+
       // Se esta imagem acabou o pipeline, pode ser que a execução tenha terminado
       if (!/preview/.test(msg_id) && isLast) {
 
-        if (holdsRunCommit && chainEnd) await Process.delete(process.user_id, process.project_id, process._id);
+        if (chainEnd) await Process.delete(process.user_id, process.project_id, process._id);
         // A terminal source has all outputs stored; intermediate text results
         // retain their barrier until their successor is registered below.
         const remaining = await Process.countByProjectAndToken(
@@ -511,12 +516,16 @@ if (/preview/.test(msg_id) && isLast) {
 
       if (holdsRunCommit) {
         const latest = await Project.getOne(process.user_id, process.project_id);
-        if (!latest || (latest.activeToken || 0) !== (process.token || 0)) return;
+        if (!latest || (latest.activeToken || 0) !== (process.token || 0)) {
+          await Process.delete(process.user_id, process.project_id, process._id);
+          return;
+        }
       }
 
       // Notify only after the result is stored and the completed run is committed.
       // The frontend counts one step per video, so intermediate stages stay silent.
-      if (!/preview/.test(msg_id) && (!videoStages || chainEnd))
+      // A resumed step was already notified before projects stopped.
+      if (!/preview/.test(msg_id) && (!videoStages || chainEnd) && !resumed)
         send_msg_client(
           user_msg_id,
           timestamp,
@@ -525,9 +534,10 @@ if (/preview/.test(msg_id) && isLast) {
 
       if (chainEnd) return;
 
-      const new_msg_id = /preview/.test(msg_id)
+      // a resumed step reuses the successor it already registered
+      const new_msg_id = process.successor_msg_id || (/preview/.test(msg_id)
         ? `preview-${uuidv4()}`
-        : `request-${uuidv4()}`;
+        : `request-${uuidv4()}`);
 
       let tool_name, params, read_img, output_img;
       if (videoStages) {
@@ -563,22 +573,31 @@ if (/preview/.test(msg_id) && isLast) {
         token: process.token,
         // a video keeps its plan; its preview keeps the cache key of the request
         ...(videoStages ? { stages: videoStages, cache_key: process.cache_key } : {}),
+        // the message this step needs (published again by recovery if needed)
+        tool: tool_name,
+        params: params,
       };
 
-      // Making sure database entry is created before sending message to avoid conflicts
-      await Process.create(new_process);
-      if (keepsProcess) await Process.delete(process.user_id, process.project_id, process._id);
-      send_msg_tool(
-        new_msg_id,
-        timestamp,
-        new_process.og_img_uri,
-        new_process.new_img_uri,
-        tool_name,
-        params
-      );
+      // Register the successor before removing this step (so the run cannot be
+      // committed in between), then publish it. A resumed step finds its successor
+      // already registered and publishes it only if that had not happened yet.
+      await Process.setSuccessor(msg_id, new_msg_id);
+      let successor = await Process.getOneByMsgId(new_msg_id);
+      if (!successor) successor = await Process.create(new_process);
+      await Process.delete(process.user_id, process.project_id, process._id);
+      if (!successor.dispatched_at) await dispatch(successor);
     } catch (err) {
 
       console.error("[process_msg] error:", err);
+
+      // First failure: rethrow so the broker delivers the reply once more (a
+      // transient fault, e.g. storage briefly unavailable, gets a second chance).
+      if (!(msg.fields && msg.fields.redelivered)) throw err;
+      // Second failure: end the job and tell the user (as a tool error would).
+      if (msgIdSafe) {
+        if (holdsRunSafe) await Process.markFailed(msgIdSafe).catch(() => {});
+        else await Process.deleteByMsgId(msgIdSafe).catch(() => {});
+      }
 
       const target = runnerIdSafe || ownerIdSafe;
 
@@ -1297,18 +1316,14 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
         cancelToken: project.cancelToken || 0,
         token: project.activeToken || 0,
         ...(stages ? { stages } : {}),
+        tool: tool_name,
+        params: params,
       };
 
       Process.create(process)
-        .then(() => {
-          send_msg_tool(
-            msg_id,
-            timestamp,
-            og_img_uri,
-            new_img_uri,
-            tool_name,
-            params
-          );
+        .then((created) => {
+          // if this fails, recovery publishes the saved record later
+          dispatch(created).catch((err) => console.error("[PREVIEW][dispatch] error:", err));
           res.sendStatus(201);
         })
         .catch((err) => {
@@ -1717,6 +1732,8 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
             cancelToken: project.cancelToken || 0,
             token: runToken,
             ...(stages ? { stages } : {}),
+            tool: tool_name,
+            params: params,
           };
 
           pendingJobs.push({ process, msg_id, timestamp, og_img_uri, new_img_uri, tool_name, params });
@@ -1728,7 +1745,9 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
           await dispatchProcessBatch(pendingJobs, {
             create: (job) => Process.create(job),
             remove: (job) => Process.delete(job.user_id, job.project_id, job._id),
-            send: (job) => send_msg_tool(job.msg_id, job.timestamp, job.og_img_uri, job.new_img_uri, job.tool_name, job.params),
+            // not awaited: the records are saved, so if the broker is unavailable
+            // recovery publishes them later instead of the request hanging
+            send: (job) => { dispatch(job.process).catch((err) => console.error("[PROCESS][dispatch] error:", err)); },
           });
         } catch (error) {
           return res.status(603).jsonp("Could not start all processing requests. Please try again.");

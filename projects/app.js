@@ -6,6 +6,7 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 
 const { router: projectsRouter, process_msg } = require("./routes/projects");
+const { startRecovery } = require("./utils/recovery");
 
 // Run Docker
 const mongoDB = "mongodb://projects_mongoDB:27018/project";
@@ -17,6 +18,8 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Error connecting to Mongodb"));
 db.once("open", () => {
   console.log("Mongodb connection successful");
+  // publish steps left unpublished by a previous instance, then watch for lost ones
+  startRecovery();
 });
 
 var app = express();

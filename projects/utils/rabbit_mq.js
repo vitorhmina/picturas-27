@@ -103,6 +103,22 @@ async function startConsumer(connection, consumer) {
     });
 }
 
+// Ready (not yet delivered) messages in a queue; null if it cannot be checked.
+async function queue_depth(queue) {
+    try {
+        const { connection } = await connect();
+        const channel = await connection.createChannel();
+        channel.on('error', () => {}); // a missing queue closes this channel only
+        try {
+            return (await channel.checkQueue(queue)).messageCount;
+        } finally {
+            channel.close().catch(() => {});
+        }
+    } catch (err) {
+        return null;
+    }
+}
+
 function read_rabbit_msg(queue, callback) {
     const consumer = { queue, callback, connection: null };
     consumers.push(consumer);
@@ -110,4 +126,4 @@ function read_rabbit_msg(queue, callback) {
         .catch((err) => console.error(`[rabbit] consumer on ${queue} failed: ${err.message}`));
 }
 
-module.exports = { send_rabbit_msg, read_rabbit_msg };
+module.exports = { send_rabbit_msg, read_rabbit_msg, queue_depth };
