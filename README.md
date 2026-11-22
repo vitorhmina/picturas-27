@@ -169,6 +169,14 @@ MP4/H.264 + AAC and report progress for the whole pipeline as `video-progress` e
 `ws_queue`. Each acknowledges its message only at the end and leaves no partial output on
 failure. `ffmpeg` is installed only in these containers, and Whisper only in the subtitles one.
 
+**Message delivery** is at-least-once (`Tools/utils/rabbit_mq.py`, `projects/utils/rabbit_mq.js`):
+messages are persistent and every publish waits for the broker's confirmation; a tool takes one
+message at a time and acknowledges it only after its reply is confirmed, and `projects`
+acknowledges a reply only after handling it, so a crashed service gets its message again instead
+of losing it. A message whose handler fails is retried once and then dropped. Connections are
+re-opened after a broker restart, and on `SIGTERM` a tool finishes its current message before
+exiting. The pre-built `watermark` image keeps its own behaviour.
+
 ### Infrastructure
 
 - **Message Queue**: RabbitMQ (asynchronous tool invocation)

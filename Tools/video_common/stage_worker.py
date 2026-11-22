@@ -65,6 +65,8 @@ class StageWorker:
         self._channel.queue_bind(queue=self.queue, exchange=EXCHANGE, routing_key=self.queue)
         # one job at a time per replica; parallelism comes from replicas
         self._channel.basic_qos(prefetch_count=1)
+        # replies wait for the broker's confirmation before the job is acknowledged
+        self._channel.confirm_delivery()
 
     @staticmethod
     def _connect():
@@ -83,7 +85,9 @@ class StageWorker:
         raise RuntimeError("Could not connect to RabbitMQ")
 
     def _publish(self, queue, msg):
-        self._channel.basic_publish(exchange=EXCHANGE, routing_key=queue, body=json.dumps(msg))
+        # persistent: a reply survives a broker restart (the queues are durable)
+        self._channel.basic_publish(exchange=EXCHANGE, routing_key=queue, body=json.dumps(msg),
+                                    properties=pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent))
 
     def _reply_success(self, msg_id, started, output_uri, video_info):
         output = {"type": video_info.get("output_type", "video"),

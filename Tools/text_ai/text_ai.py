@@ -78,7 +78,7 @@ class Text_AI:
                 'error', 
                 processing_time, 
                 None,
-                self._codes['wrong_procedure'], 
+                "image", self._codes['wrong_procedure'], 
                 "The procedure received does not fit into this tool", 
                 img_path
             )

@@ -1,0 +1,7 @@
+Part 1 (reliable messaging) checks, 2026-11-22.
+
+Completion results (R1/R3) are valid. Timings (R2, job durations) are NOT comparable:
+the host was throttled during these runs (battery charging from 44%, heavy browser load,
+a kind cluster using 25-40% CPU); processing the 10 s sample directly in the video
+worker, with no messaging, took 41.6 s instead of ~13 s. Timings are re-measured in the
+final run.

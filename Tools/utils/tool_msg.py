@@ -62,14 +62,17 @@ class ToolMSG:
                 if err_code is None or err_msg is None or og_img_uri is None:
                     raise Exception("Make sure, in case of error status, err_code, err_msg and og_img_uri are not None")
                 
+                # correlationId carries the request id, as in a success reply: the
+                # orchestrator finds the job by it (the ids used to be swapped here)
                 msg = {
-                    "messageId": msg_id,
-                    "correlationId": resp_msg_id,
+                    "messageId": resp_msg_id,
+                    "correlationId": msg_id,
                     "timestamp": timestamp,
                     "status": status,
                     "error": {
                         "code": err_code,
                         "message": err_msg,
+                        "msg": err_msg,  # the orchestrator reads error.msg
                         "details": {
                             "inputFileURI": og_img_uri
                         }
