@@ -1,0 +1,9 @@
+Part 2 (process recovery) checks, 2026-11-22.
+
+error_path: OK, process-error reached the user after 0.1 s
+outage_crash.py: OK, job completed (3/3) in 40.5 s after a broker outage plus an orchestrator kill
+  (with reliable messaging only, the job never finishes)
+e2e_smoke: 5/5
+chaos none / image-tool / projects: 100% completed, 0 hung, 0 orphans in 5/5 runs each
+
+Timings are not comparable (same throttled host as reliable-messaging/NOTE.txt).
