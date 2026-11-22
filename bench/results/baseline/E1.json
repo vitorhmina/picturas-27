@@ -1,0 +1,222 @@
+{
+  "scenario": "E1",
+  "env": {
+    "timestamp": "2026-11-22T03:28:19.775443+00:00",
+    "git_commit": "052310226c51fa57a17101c7bd1ad795674aac95",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "dev-control-plane"
+    ],
+    "services": [
+      "api_gateway",
+      "bg_remove_ai_tool",
+      "binarization_tool",
+      "border_tool",
+      "brightness_tool",
+      "contrast_tool",
+      "cut_ai_tool",
+      "cut_tool",
+      "expand_ai_tool",
+      "frontend",
+      "generative-mock",
+      "img_storage",
+      "mongo-backup",
+      "nginx",
+      "obj_ai_tool",
+      "people_ai_tool",
+      "projects",
+      "projects_mongoDB",
+      "rabbitmq",
+      "resize_tool",
+      "rotate_tool",
+      "saturation_tool",
+      "seaweedfs",
+      "subscriptions",
+      "subscriptions_mongoDB",
+      "text_ai_tool",
+      "upgrade_ai_tool",
+      "users",
+      "users_mongoDB",
+      "video_tool",
+      "watermark_tool_ms",
+      "ws_gateway"
+    ]
+  },
+  "params": {
+    "base": "https://localhost:8080",
+    "label": "baseline",
+    "runs": 5,
+    "scenarios": "E1,E2,E3",
+    "light_delay": 5.0,
+    "burst": 10,
+    "timeout": 1800.0,
+    "settle": 60.0,
+    "no_warmup": false
+  },
+  "runs": [
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795318430.6840162,
+        "first_progress": 1795318430.9196582,
+        "finished": 1795318533.08699,
+        "wait_s": 0.2356419563293457,
+        "total_s": 102.40297389030457,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795318435.859898,
+        "first_progress": 1795318532.841301,
+        "finished": 1795318542.2930555,
+        "wait_s": 96.98140287399292,
+        "total_s": 106.43315744400024,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795318547.473955,
+        "first_progress": 1795318547.6852148,
+        "finished": 1795318665.3821335,
+        "wait_s": 0.2112598419189453,
+        "total_s": 117.90817856788635,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795318552.6227758,
+        "first_progress": 1795318665.4275765,
+        "finished": 1795318673.6013634,
+        "wait_s": 112.80480074882507,
+        "total_s": 120.97858762741089,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795318675.826589,
+        "first_progress": 1795318676.07557,
+        "finished": 1795318781.2949128,
+        "wait_s": 0.24898099899291992,
+        "total_s": 105.46832370758057,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795318681.0138938,
+        "first_progress": 1795318780.9426832,
+        "finished": 1795318788.7367272,
+        "wait_s": 99.92878937721252,
+        "total_s": 107.72283339500427,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795318790.1317956,
+        "first_progress": 1795318790.3170984,
+        "finished": 1795318878.582242,
+        "wait_s": 0.185302734375,
+        "total_s": 88.4504463672638,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795318795.2557225,
+        "first_progress": 1795318877.9713879,
+        "finished": 1795318885.6616342,
+        "wait_s": 82.71566534042358,
+        "total_s": 90.40591168403625,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795318886.8076706,
+        "first_progress": 1795318886.9620287,
+        "finished": 1795318975.7840652,
+        "wait_s": 0.1543581485748291,
+        "total_s": 88.97639465332031,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795318891.905965,
+        "first_progress": 1795318975.8929937,
+        "finished": 1795318983.9799008,
+        "wait_s": 83.9870285987854,
+        "total_s": 92.0739357471466,
+        "results": 1,
+        "error": null
+      }
+    }
+  ],
+  "summary": {
+    "light_wait_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 82.71566534042358,
+      "p50": 96.98140287399292,
+      "p95": 112.80480074882507,
+      "max": 112.80480074882507,
+      "mean": 95.2835373878479
+    },
+    "light_total_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 90.40591168403625,
+      "p50": 106.43315744400024,
+      "p95": 120.97858762741089,
+      "max": 120.97858762741089,
+      "mean": 103.52288517951965
+    },
+    "heavy_total_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 88.4504463672638,
+      "p50": 102.40297389030457,
+      "p95": 117.90817856788635,
+      "max": 117.90817856788635,
+      "mean": 100.64126343727112
+    },
+    "light_status": [
+      "done",
+      "done",
+      "done",
+      "done",
+      "done"
+    ]
+  }
+}

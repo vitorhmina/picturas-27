@@ -1,0 +1,1104 @@
+{
+  "scenario": "E3",
+  "env": {
+    "timestamp": "2026-11-22T03:28:19.775443+00:00",
+    "git_commit": "052310226c51fa57a17101c7bd1ad795674aac95",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "dev-control-plane"
+    ],
+    "services": [
+      "api_gateway",
+      "bg_remove_ai_tool",
+      "binarization_tool",
+      "border_tool",
+      "brightness_tool",
+      "contrast_tool",
+      "cut_ai_tool",
+      "cut_tool",
+      "expand_ai_tool",
+      "frontend",
+      "generative-mock",
+      "img_storage",
+      "mongo-backup",
+      "nginx",
+      "obj_ai_tool",
+      "people_ai_tool",
+      "projects",
+      "projects_mongoDB",
+      "rabbitmq",
+      "resize_tool",
+      "rotate_tool",
+      "saturation_tool",
+      "seaweedfs",
+      "subscriptions",
+      "subscriptions_mongoDB",
+      "text_ai_tool",
+      "upgrade_ai_tool",
+      "users",
+      "users_mongoDB",
+      "video_tool",
+      "watermark_tool_ms",
+      "ws_gateway"
+    ]
+  },
+  "params": {
+    "base": "https://localhost:8080",
+    "label": "baseline",
+    "runs": 5,
+    "scenarios": "E1,E2,E3",
+    "light_delay": 5.0,
+    "burst": 10,
+    "timeout": 1800.0,
+    "settle": 60.0,
+    "no_warmup": false
+  },
+  "idle_before": {
+    "containers": [
+      {
+        "name": "picturas-api_gateway-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 120.8
+      },
+      {
+        "name": "picturas-bg_remove_ai_tool-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 335.8
+      },
+      {
+        "name": "picturas-binarization_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 13.25
+      },
+      {
+        "name": "picturas-border_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 13.33
+      },
+      {
+        "name": "picturas-brightness_tool-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 12.77
+      },
+      {
+        "name": "picturas-contrast_tool-1",
+        "cpu_pct": 0.03,
+        "mem_mib": 13.32
+      },
+      {
+        "name": "picturas-cut_ai_tool-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 221.0
+      },
+      {
+        "name": "picturas-cut_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 13.96
+      },
+      {
+        "name": "picturas-expand_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 20.57
+      },
+      {
+        "name": "picturas-frontend-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 66.19
+      },
+      {
+        "name": "picturas-generative-mock-1",
+        "cpu_pct": 9.13,
+        "mem_mib": 45.69
+      },
+      {
+        "name": "picturas-img_storage-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 69.41
+      },
+      {
+        "name": "picturas-mongo-backup-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 1.707
+      },
+      {
+        "name": "picturas-nginx-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 21.0
+      },
+      {
+        "name": "picturas-obj_ai_tool-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 162.1
+      },
+      {
+        "name": "picturas-people_ai_tool-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 170.1
+      },
+      {
+        "name": "picturas-projects-1",
+        "cpu_pct": 0.13,
+        "mem_mib": 273.7
+      },
+      {
+        "name": "picturas-projects_mongoDB-1",
+        "cpu_pct": 0.36,
+        "mem_mib": 69.99
+      },
+      {
+        "name": "picturas-rabbitmq-1",
+        "cpu_pct": 0.95,
+        "mem_mib": 117.2
+      },
+      {
+        "name": "picturas-resize_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 13.21
+      },
+      {
+        "name": "picturas-rotate_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 13.29
+      },
+      {
+        "name": "picturas-saturation_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 13.29
+      },
+      {
+        "name": "picturas-seaweedfs-1",
+        "cpu_pct": 0.9,
+        "mem_mib": 435.3
+      },
+      {
+        "name": "picturas-subscriptions-1",
+        "cpu_pct": 0.13,
+        "mem_mib": 75.69
+      },
+      {
+        "name": "picturas-subscriptions_mongoDB-1",
+        "cpu_pct": 0.43,
+        "mem_mib": 73.59
+      },
+      {
+        "name": "picturas-text_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 23.85
+      },
+      {
+        "name": "picturas-upgrade_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 24.42
+      },
+      {
+        "name": "picturas-users-1",
+        "cpu_pct": 0.14,
+        "mem_mib": 87.44
+      },
+      {
+        "name": "picturas-users_mongoDB-1",
+        "cpu_pct": 0.45,
+        "mem_mib": 69.48
+      },
+      {
+        "name": "picturas-video_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 791.0
+      },
+      {
+        "name": "picturas-watermark_tool_ms-1",
+        "cpu_pct": 0.06,
+        "mem_mib": 32.01
+      },
+      {
+        "name": "picturas-ws_gateway-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 71.38
+      }
+    ],
+    "running_containers": 32,
+    "total_cpu_pct": 12.790000000000001,
+    "total_mem_mib": 3485.837
+  },
+  "idle_after": {
+    "containers": [
+      {
+        "name": "picturas-api_gateway-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 119.8
+      },
+      {
+        "name": "picturas-bg_remove_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 268.5
+      },
+      {
+        "name": "picturas-binarization_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 10.62
+      },
+      {
+        "name": "picturas-border_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 10.63
+      },
+      {
+        "name": "picturas-brightness_tool-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 10.72
+      },
+      {
+        "name": "picturas-contrast_tool-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 10.64
+      },
+      {
+        "name": "picturas-cut_ai_tool-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 152.7
+      },
+      {
+        "name": "picturas-cut_tool-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 11.32
+      },
+      {
+        "name": "picturas-expand_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 15.89
+      },
+      {
+        "name": "picturas-frontend-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 47.55
+      },
+      {
+        "name": "picturas-generative-mock-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 40.25
+      },
+      {
+        "name": "picturas-img_storage-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 68.29
+      },
+      {
+        "name": "picturas-mongo-backup-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 1.289
+      },
+      {
+        "name": "picturas-nginx-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 20.36
+      },
+      {
+        "name": "picturas-obj_ai_tool-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 115.1
+      },
+      {
+        "name": "picturas-people_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 116.8
+      },
+      {
+        "name": "picturas-projects-1",
+        "cpu_pct": 0.21,
+        "mem_mib": 352.6
+      },
+      {
+        "name": "picturas-projects_mongoDB-1",
+        "cpu_pct": 0.59,
+        "mem_mib": 50.08
+      },
+      {
+        "name": "picturas-rabbitmq-1",
+        "cpu_pct": 0.47,
+        "mem_mib": 99.86
+      },
+      {
+        "name": "picturas-resize_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 10.59
+      },
+      {
+        "name": "picturas-rotate_tool-1",
+        "cpu_pct": 0.04,
+        "mem_mib": 10.83
+      },
+      {
+        "name": "picturas-saturation_tool-1",
+        "cpu_pct": 0.01,
+        "mem_mib": 10.6
+      },
+      {
+        "name": "picturas-seaweedfs-1",
+        "cpu_pct": 1.05,
+        "mem_mib": 394.1
+      },
+      {
+        "name": "picturas-subscriptions-1",
+        "cpu_pct": 0.19,
+        "mem_mib": 63.05
+      },
+      {
+        "name": "picturas-subscriptions_mongoDB-1",
+        "cpu_pct": 0.55,
+        "mem_mib": 45.95
+      },
+      {
+        "name": "picturas-text_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 19.22
+      },
+      {
+        "name": "picturas-upgrade_ai_tool-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 18.84
+      },
+      {
+        "name": "picturas-users-1",
+        "cpu_pct": 0.2,
+        "mem_mib": 79.19
+      },
+      {
+        "name": "picturas-users_mongoDB-1",
+        "cpu_pct": 0.64,
+        "mem_mib": 44.46
+      },
+      {
+        "name": "picturas-video_tool-1",
+        "cpu_pct": 0.02,
+        "mem_mib": 764.5
+      },
+      {
+        "name": "picturas-watermark_tool_ms-1",
+        "cpu_pct": 0.08,
+        "mem_mib": 23.17
+      },
+      {
+        "name": "picturas-ws_gateway-1",
+        "cpu_pct": 0.0,
+        "mem_mib": 51.86
+      }
+    ],
+    "running_containers": 32,
+    "total_cpu_pct": 4.15,
+    "total_mem_mib": 3059.359
+  },
+  "peak_per_run": [
+    {
+      "total": {
+        "cpu_pct": 712.5400000000001,
+        "mem_mib": 5167.427999999999
+      },
+      "containers": {
+        "picturas-api_gateway-1": {
+          "cpu_pct": 22.51,
+          "mem_mib": 152.0
+        },
+        "picturas-bg_remove_ai_tool-1": {
+          "cpu_pct": 0.11,
+          "mem_mib": 335.6
+        },
+        "picturas-binarization_tool-1": {
+          "cpu_pct": 0.12,
+          "mem_mib": 13.25
+        },
+        "picturas-border_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 13.33
+        },
+        "picturas-brightness_tool-1": {
+          "cpu_pct": 0.03,
+          "mem_mib": 12.78
+        },
+        "picturas-contrast_tool-1": {
+          "cpu_pct": 0.14,
+          "mem_mib": 13.57
+        },
+        "picturas-cut_ai_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 220.8
+        },
+        "picturas-cut_tool-1": {
+          "cpu_pct": 0.43,
+          "mem_mib": 13.96
+        },
+        "picturas-expand_ai_tool-1": {
+          "cpu_pct": 1.11,
+          "mem_mib": 20.57
+        },
+        "picturas-frontend-1": {
+          "cpu_pct": 0.02,
+          "mem_mib": 66.2
+        },
+        "picturas-generative-mock-1": {
+          "cpu_pct": 28.19,
+          "mem_mib": 50.44
+        },
+        "picturas-img_storage-1": {
+          "cpu_pct": 10.18,
+          "mem_mib": 77.27
+        },
+        "picturas-mongo-backup-1": {
+          "cpu_pct": 0.0,
+          "mem_mib": 1.707
+        },
+        "picturas-nginx-1": {
+          "cpu_pct": 2.58,
+          "mem_mib": 23.45
+        },
+        "picturas-obj_ai_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 162.2
+        },
+        "picturas-people_ai_tool-1": {
+          "cpu_pct": 0.06,
+          "mem_mib": 169.9
+        },
+        "picturas-projects-1": {
+          "cpu_pct": 17.5,
+          "mem_mib": 329.4
+        },
+        "picturas-projects_mongoDB-1": {
+          "cpu_pct": 26.36,
+          "mem_mib": 86.82
+        },
+        "picturas-rabbitmq-1": {
+          "cpu_pct": 311.58,
+          "mem_mib": 194.1
+        },
+        "picturas-resize_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 13.21
+        },
+        "picturas-rotate_tool-1": {
+          "cpu_pct": 0.02,
+          "mem_mib": 13.29
+        },
+        "picturas-saturation_tool-1": {
+          "cpu_pct": 0.15,
+          "mem_mib": 13.29
+        },
+        "picturas-seaweedfs-1": {
+          "cpu_pct": 8.64,
+          "mem_mib": 640.5
+        },
+        "picturas-subscriptions-1": {
+          "cpu_pct": 49.42,
+          "mem_mib": 76.16
+        },
+        "picturas-subscriptions_mongoDB-1": {
+          "cpu_pct": 36.34,
+          "mem_mib": 77.84
+        },
+        "picturas-text_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 23.85
+        },
+        "picturas-upgrade_ai_tool-1": {
+          "cpu_pct": 0.51,
+          "mem_mib": 24.43
+        },
+        "picturas-users-1": {
+          "cpu_pct": 1.05,
+          "mem_mib": 92.06
+        },
+        "picturas-users_mongoDB-1": {
+          "cpu_pct": 30.32,
+          "mem_mib": 75.02
+        },
+        "picturas-video_tool-1": {
+          "cpu_pct": 702.46,
+          "mem_mib": 2432.0
+        },
+        "picturas-watermark_tool_ms-1": {
+          "cpu_pct": 0.18,
+          "mem_mib": 32.26
+        },
+        "picturas-ws_gateway-1": {
+          "cpu_pct": 6.97,
+          "mem_mib": 72.78
+        }
+      }
+    },
+    {
+      "total": {
+        "cpu_pct": 800.37,
+        "mem_mib": 5093.451999999999
+      },
+      "containers": {
+        "picturas-api_gateway-1": {
+          "cpu_pct": 18.68,
+          "mem_mib": 164.2
+        },
+        "picturas-bg_remove_ai_tool-1": {
+          "cpu_pct": 0.68,
+          "mem_mib": 317.6
+        },
+        "picturas-binarization_tool-1": {
+          "cpu_pct": 0.27,
+          "mem_mib": 12.43
+        },
+        "picturas-border_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 12.48
+        },
+        "picturas-brightness_tool-1": {
+          "cpu_pct": 1.38,
+          "mem_mib": 11.98
+        },
+        "picturas-contrast_tool-1": {
+          "cpu_pct": 0.07,
+          "mem_mib": 12.47
+        },
+        "picturas-cut_ai_tool-1": {
+          "cpu_pct": 0.05,
+          "mem_mib": 196.7
+        },
+        "picturas-cut_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 13.06
+        },
+        "picturas-expand_ai_tool-1": {
+          "cpu_pct": 0.26,
+          "mem_mib": 19.3
+        },
+        "picturas-frontend-1": {
+          "cpu_pct": 0.02,
+          "mem_mib": 59.7
+        },
+        "picturas-generative-mock-1": {
+          "cpu_pct": 30.75,
+          "mem_mib": 49.4
+        },
+        "picturas-img_storage-1": {
+          "cpu_pct": 8.87,
+          "mem_mib": 121.4
+        },
+        "picturas-mongo-backup-1": {
+          "cpu_pct": 0.0,
+          "mem_mib": 1.531
+        },
+        "picturas-nginx-1": {
+          "cpu_pct": 1.77,
+          "mem_mib": 23.47
+        },
+        "picturas-obj_ai_tool-1": {
+          "cpu_pct": 0.07,
+          "mem_mib": 146.2
+        },
+        "picturas-people_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 151.1
+        },
+        "picturas-projects-1": {
+          "cpu_pct": 41.82,
+          "mem_mib": 356.4
+        },
+        "picturas-projects_mongoDB-1": {
+          "cpu_pct": 46.46,
+          "mem_mib": 62.02
+        },
+        "picturas-rabbitmq-1": {
+          "cpu_pct": 280.59,
+          "mem_mib": 182.9
+        },
+        "picturas-resize_tool-1": {
+          "cpu_pct": 0.07,
+          "mem_mib": 12.38
+        },
+        "picturas-rotate_tool-1": {
+          "cpu_pct": 0.04,
+          "mem_mib": 12.42
+        },
+        "picturas-saturation_tool-1": {
+          "cpu_pct": 0.06,
+          "mem_mib": 12.43
+        },
+        "picturas-seaweedfs-1": {
+          "cpu_pct": 6.19,
+          "mem_mib": 597.6
+        },
+        "picturas-subscriptions-1": {
+          "cpu_pct": 1.26,
+          "mem_mib": 70.69
+        },
+        "picturas-subscriptions_mongoDB-1": {
+          "cpu_pct": 62.93,
+          "mem_mib": 69.57
+        },
+        "picturas-text_ai_tool-1": {
+          "cpu_pct": 0.23,
+          "mem_mib": 22.12
+        },
+        "picturas-upgrade_ai_tool-1": {
+          "cpu_pct": 0.19,
+          "mem_mib": 22.6
+        },
+        "picturas-users-1": {
+          "cpu_pct": 7.53,
+          "mem_mib": 86.17
+        },
+        "picturas-users_mongoDB-1": {
+          "cpu_pct": 42.87,
+          "mem_mib": 81.57
+        },
+        "picturas-video_tool-1": {
+          "cpu_pct": 636.94,
+          "mem_mib": 2367.488
+        },
+        "picturas-watermark_tool_ms-1": {
+          "cpu_pct": 0.35,
+          "mem_mib": 29.0
+        },
+        "picturas-ws_gateway-1": {
+          "cpu_pct": 7.9,
+          "mem_mib": 65.71
+        }
+      }
+    },
+    {
+      "total": {
+        "cpu_pct": 920.55,
+        "mem_mib": 5127.569
+      },
+      "containers": {
+        "picturas-api_gateway-1": {
+          "cpu_pct": 18.05,
+          "mem_mib": 150.5
+        },
+        "picturas-bg_remove_ai_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 308.6
+        },
+        "picturas-binarization_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 11.95
+        },
+        "picturas-border_tool-1": {
+          "cpu_pct": 0.14,
+          "mem_mib": 12.24
+        },
+        "picturas-brightness_tool-1": {
+          "cpu_pct": 0.14,
+          "mem_mib": 11.58
+        },
+        "picturas-contrast_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 11.98
+        },
+        "picturas-cut_ai_tool-1": {
+          "cpu_pct": 0.17,
+          "mem_mib": 184.3
+        },
+        "picturas-cut_tool-1": {
+          "cpu_pct": 0.38,
+          "mem_mib": 12.84
+        },
+        "picturas-expand_ai_tool-1": {
+          "cpu_pct": 0.25,
+          "mem_mib": 18.29
+        },
+        "picturas-frontend-1": {
+          "cpu_pct": 0.02,
+          "mem_mib": 56.16
+        },
+        "picturas-generative-mock-1": {
+          "cpu_pct": 74.63,
+          "mem_mib": 49.75
+        },
+        "picturas-img_storage-1": {
+          "cpu_pct": 10.1,
+          "mem_mib": 120.6
+        },
+        "picturas-mongo-backup-1": {
+          "cpu_pct": 0.0,
+          "mem_mib": 1.434
+        },
+        "picturas-nginx-1": {
+          "cpu_pct": 2.04,
+          "mem_mib": 22.95
+        },
+        "picturas-obj_ai_tool-1": {
+          "cpu_pct": 0.07,
+          "mem_mib": 138.0
+        },
+        "picturas-people_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 140.4
+        },
+        "picturas-projects-1": {
+          "cpu_pct": 20.06,
+          "mem_mib": 418.2
+        },
+        "picturas-projects_mongoDB-1": {
+          "cpu_pct": 52.81,
+          "mem_mib": 67.43
+        },
+        "picturas-rabbitmq-1": {
+          "cpu_pct": 327.28,
+          "mem_mib": 188.1
+        },
+        "picturas-resize_tool-1": {
+          "cpu_pct": 0.19,
+          "mem_mib": 11.89
+        },
+        "picturas-rotate_tool-1": {
+          "cpu_pct": 0.31,
+          "mem_mib": 11.92
+        },
+        "picturas-saturation_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 11.93
+        },
+        "picturas-seaweedfs-1": {
+          "cpu_pct": 8.78,
+          "mem_mib": 622.5
+        },
+        "picturas-subscriptions-1": {
+          "cpu_pct": 18.97,
+          "mem_mib": 67.77
+        },
+        "picturas-subscriptions_mongoDB-1": {
+          "cpu_pct": 178.23,
+          "mem_mib": 69.11
+        },
+        "picturas-text_ai_tool-1": {
+          "cpu_pct": 0.34,
+          "mem_mib": 21.34
+        },
+        "picturas-upgrade_ai_tool-1": {
+          "cpu_pct": 0.11,
+          "mem_mib": 21.44
+        },
+        "picturas-users-1": {
+          "cpu_pct": 3.23,
+          "mem_mib": 83.39
+        },
+        "picturas-users_mongoDB-1": {
+          "cpu_pct": 26.84,
+          "mem_mib": 62.58
+        },
+        "picturas-video_tool-1": {
+          "cpu_pct": 654.41,
+          "mem_mib": 2483.2
+        },
+        "picturas-watermark_tool_ms-1": {
+          "cpu_pct": 0.14,
+          "mem_mib": 27.2
+        },
+        "picturas-ws_gateway-1": {
+          "cpu_pct": 4.01,
+          "mem_mib": 60.69
+        }
+      }
+    },
+    {
+      "total": {
+        "cpu_pct": 778.22,
+        "mem_mib": 5020.098
+      },
+      "containers": {
+        "picturas-api_gateway-1": {
+          "cpu_pct": 27.98,
+          "mem_mib": 162.2
+        },
+        "picturas-bg_remove_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 296.0
+        },
+        "picturas-binarization_tool-1": {
+          "cpu_pct": 0.12,
+          "mem_mib": 11.66
+        },
+        "picturas-border_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 11.68
+        },
+        "picturas-brightness_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 11.18
+        },
+        "picturas-contrast_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 11.43
+        },
+        "picturas-cut_ai_tool-1": {
+          "cpu_pct": 0.5,
+          "mem_mib": 172.4
+        },
+        "picturas-cut_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 12.07
+        },
+        "picturas-expand_ai_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 17.16
+        },
+        "picturas-frontend-1": {
+          "cpu_pct": 0.0,
+          "mem_mib": 52.75
+        },
+        "picturas-generative-mock-1": {
+          "cpu_pct": 55.11,
+          "mem_mib": 48.01
+        },
+        "picturas-img_storage-1": {
+          "cpu_pct": 7.03,
+          "mem_mib": 76.52
+        },
+        "picturas-mongo-backup-1": {
+          "cpu_pct": 0.0,
+          "mem_mib": 1.359
+        },
+        "picturas-nginx-1": {
+          "cpu_pct": 2.67,
+          "mem_mib": 22.21
+        },
+        "picturas-obj_ai_tool-1": {
+          "cpu_pct": 0.25,
+          "mem_mib": 129.3
+        },
+        "picturas-people_ai_tool-1": {
+          "cpu_pct": 0.06,
+          "mem_mib": 131.1
+        },
+        "picturas-projects-1": {
+          "cpu_pct": 35.73,
+          "mem_mib": 410.5
+        },
+        "picturas-projects_mongoDB-1": {
+          "cpu_pct": 160.87,
+          "mem_mib": 71.95
+        },
+        "picturas-rabbitmq-1": {
+          "cpu_pct": 307.16,
+          "mem_mib": 175.5
+        },
+        "picturas-resize_tool-1": {
+          "cpu_pct": 0.2,
+          "mem_mib": 11.36
+        },
+        "picturas-rotate_tool-1": {
+          "cpu_pct": 0.26,
+          "mem_mib": 11.61
+        },
+        "picturas-saturation_tool-1": {
+          "cpu_pct": 0.12,
+          "mem_mib": 11.39
+        },
+        "picturas-seaweedfs-1": {
+          "cpu_pct": 8.57,
+          "mem_mib": 621.7
+        },
+        "picturas-subscriptions-1": {
+          "cpu_pct": 3.37,
+          "mem_mib": 64.95
+        },
+        "picturas-subscriptions_mongoDB-1": {
+          "cpu_pct": 72.91,
+          "mem_mib": 61.1
+        },
+        "picturas-text_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 20.32
+        },
+        "picturas-upgrade_ai_tool-1": {
+          "cpu_pct": 0.14,
+          "mem_mib": 20.29
+        },
+        "picturas-users-1": {
+          "cpu_pct": 0.72,
+          "mem_mib": 82.63
+        },
+        "picturas-users_mongoDB-1": {
+          "cpu_pct": 71.08,
+          "mem_mib": 68.86
+        },
+        "picturas-video_tool-1": {
+          "cpu_pct": 690.67,
+          "mem_mib": 2446.336
+        },
+        "picturas-watermark_tool_ms-1": {
+          "cpu_pct": 0.25,
+          "mem_mib": 25.73
+        },
+        "picturas-ws_gateway-1": {
+          "cpu_pct": 6.66,
+          "mem_mib": 55.8
+        }
+      }
+    },
+    {
+      "total": {
+        "cpu_pct": 687.05,
+        "mem_mib": 5004.015000000001
+      },
+      "containers": {
+        "picturas-api_gateway-1": {
+          "cpu_pct": 15.48,
+          "mem_mib": 156.4
+        },
+        "picturas-bg_remove_ai_tool-1": {
+          "cpu_pct": 0.07,
+          "mem_mib": 281.9
+        },
+        "picturas-binarization_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 11.05
+        },
+        "picturas-border_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 11.06
+        },
+        "picturas-brightness_tool-1": {
+          "cpu_pct": 0.1,
+          "mem_mib": 11.0
+        },
+        "picturas-contrast_tool-1": {
+          "cpu_pct": 0.06,
+          "mem_mib": 11.05
+        },
+        "picturas-cut_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 162.6
+        },
+        "picturas-cut_tool-1": {
+          "cpu_pct": 0.12,
+          "mem_mib": 11.71
+        },
+        "picturas-expand_ai_tool-1": {
+          "cpu_pct": 0.14,
+          "mem_mib": 16.59
+        },
+        "picturas-frontend-1": {
+          "cpu_pct": 0.04,
+          "mem_mib": 50.11
+        },
+        "picturas-generative-mock-1": {
+          "cpu_pct": 33.52,
+          "mem_mib": 49.91
+        },
+        "picturas-img_storage-1": {
+          "cpu_pct": 8.95,
+          "mem_mib": 70.85
+        },
+        "picturas-mongo-backup-1": {
+          "cpu_pct": 0.0,
+          "mem_mib": 1.332
+        },
+        "picturas-nginx-1": {
+          "cpu_pct": 2.67,
+          "mem_mib": 23.25
+        },
+        "picturas-obj_ai_tool-1": {
+          "cpu_pct": 0.06,
+          "mem_mib": 122.1
+        },
+        "picturas-people_ai_tool-1": {
+          "cpu_pct": 0.11,
+          "mem_mib": 124.2
+        },
+        "picturas-projects-1": {
+          "cpu_pct": 19.15,
+          "mem_mib": 439.1
+        },
+        "picturas-projects_mongoDB-1": {
+          "cpu_pct": 31.28,
+          "mem_mib": 54.31
+        },
+        "picturas-rabbitmq-1": {
+          "cpu_pct": 249.58,
+          "mem_mib": 181.1
+        },
+        "picturas-resize_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 11.24
+        },
+        "picturas-rotate_tool-1": {
+          "cpu_pct": 0.13,
+          "mem_mib": 11.0
+        },
+        "picturas-saturation_tool-1": {
+          "cpu_pct": 0.09,
+          "mem_mib": 11.02
+        },
+        "picturas-seaweedfs-1": {
+          "cpu_pct": 8.07,
+          "mem_mib": 645.5
+        },
+        "picturas-subscriptions-1": {
+          "cpu_pct": 45.83,
+          "mem_mib": 64.53
+        },
+        "picturas-subscriptions_mongoDB-1": {
+          "cpu_pct": 53.46,
+          "mem_mib": 49.62
+        },
+        "picturas-text_ai_tool-1": {
+          "cpu_pct": 0.08,
+          "mem_mib": 19.75
+        },
+        "picturas-upgrade_ai_tool-1": {
+          "cpu_pct": 0.11,
+          "mem_mib": 19.59
+        },
+        "picturas-users-1": {
+          "cpu_pct": 7.75,
+          "mem_mib": 83.6
+        },
+        "picturas-users_mongoDB-1": {
+          "cpu_pct": 50.12,
+          "mem_mib": 60.43
+        },
+        "picturas-video_tool-1": {
+          "cpu_pct": 653.87,
+          "mem_mib": 2398.208
+        },
+        "picturas-watermark_tool_ms-1": {
+          "cpu_pct": 0.32,
+          "mem_mib": 24.68
+        },
+        "picturas-ws_gateway-1": {
+          "cpu_pct": 13.3,
+          "mem_mib": 54.81
+        }
+      }
+    }
+  ],
+  "summary": {
+    "idle_before_mem_mib": 3485.837,
+    "idle_after_mem_mib": 3059.359,
+    "idle_before_containers": 32,
+    "idle_after_containers": 32,
+    "peak_total_cpu_pct": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 687.05,
+      "p50": 778.22,
+      "p95": 920.55,
+      "max": 920.55,
+      "mean": 779.746
+    },
+    "peak_total_mem_mib": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 5004.015000000001,
+      "p50": 5093.451999999999,
+      "p95": 5167.427999999999,
+      "max": 5167.427999999999,
+      "mean": 5082.5124
+    }
+  }
+}
