@@ -14,6 +14,17 @@ var processSchema = new mongoose.Schema({
   token: { type: Number, required: true },
   // video jobs: the stage plan (utils/videoStages.js); cur_pos is the stage index
   stages: { type: Array, required: false },
+  // Recovery (utils/recovery.js). The record carries the message its step needs,
+  // so it can be published again if projects stopped before publishing it.
+  tool: { type: String, required: false },
+  params: { type: mongoose.Schema.Types.Mixed, required: false },
+  dispatched_at: { type: Date, required: false },     // when the broker confirmed the message
+  output_stored: { type: Boolean, required: false },  // results/previews of this step are saved
+  successor_msg_id: { type: String, required: false }, // the next step, once registered
+  failed: { type: Boolean, required: false },         // failed job kept as a commit barrier
 }, { timestamps: true });
+
+processSchema.index({ msg_id: 1 });
+processSchema.index({ dispatched_at: 1 });
 
 module.exports = mongoose.model("process", processSchema);

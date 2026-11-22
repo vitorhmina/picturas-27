@@ -45,3 +45,27 @@ module.exports.countByProjectAndToken = async (project_id, token) => {
   return await Process.countDocuments({ project_id, token }).exec();
 };
 
+
+// --- recovery (utils/recovery.js) ---
+
+const setByMsgId = (msg_id, fields) => Process.updateOne({ msg_id }, { $set: fields }).exec();
+
+module.exports.markDispatched = (msg_id) => setByMsgId(msg_id, { dispatched_at: new Date() });
+
+module.exports.markOutputStored = (msg_id) => setByMsgId(msg_id, { output_stored: true });
+
+module.exports.setSuccessor = (msg_id, successor_msg_id) => setByMsgId(msg_id, { successor_msg_id });
+
+module.exports.markFailed = (msg_id) => setByMsgId(msg_id, { failed: true });
+
+module.exports.deleteByMsgId = (msg_id) => Process.deleteOne({ msg_id }).exec();
+
+// records saved before `before` whose message was never confirmed by the broker
+module.exports.findUndispatched = async (before) => {
+  return await Process.find({ dispatched_at: null, tool: { $exists: true }, createdAt: { $lt: before } }).exec();
+};
+
+// steps published before `before` that are still pending
+module.exports.findDispatchedBefore = async (before) => {
+  return await Process.find({ dispatched_at: { $lt: before }, failed: { $ne: true } }).exec();
+};
