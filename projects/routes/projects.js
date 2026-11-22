@@ -68,6 +68,32 @@ const {
 } = require("../utils/video");
 const { persistFrameResults } = require("../utils/frameResults");
 const { dispatchProcessBatch } = require("../utils/processBatch");
+const {
+  planVideoStages,
+  assignStageOutputs,
+  stageTool,
+  stageParams,
+  intermediateOutputs,
+} = require("../utils/videoStages");
+
+// A video runs stage by stage on the video services (utils/videoStages.js):
+// the first message carries stage 0; each reply dispatches the next stage.
+function startVideoStages(tools, preview, finalUri, progress) {
+  const stages = assignStageOutputs(planVideoStages(tools, preview), finalUri, uuidv4().slice(0, 8));
+  return {
+    stages,
+    tool_name: stageTool(stages[0]),
+    params: stageParams(stages, 0, { preview, progress }),
+    new_img_uri: stages[0].output,
+  };
+}
+
+// Intermediate stage files are only needed until the next stage has read them.
+function removeStageFiles(stages) {
+  for (const uri of intermediateOutputs(stages)) {
+    fs.rmSync(path.resolve(__dirname, "..", uri), { force: true });
+  }
+}
 
 const storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
@@ -206,10 +232,21 @@ function process_msg() {
       // persisted, including ordinary images in mixed projects. Failed jobs stay
       // as barriers so another source cannot commit a partial run.
       const holdsRunCommit = project.tools.some((tool) => tool.procedure === "extract_frames") && !/preview/.test(msg_id);
-      if (!holdsRunCommit) await Process.delete(process.user_id, process.project_id, process._id);
+      // An intermediate video stage keeps its Process until the next stage is
+      // registered: otherwise another source finishing in between could find no
+      // pending work and commit the run while this video is still mid-pipeline.
+      const intermediateVideoStage =
+        Array.isArray(process.stages) && process.cur_pos + 1 < process.stages.length;
+      const keepsProcess = holdsRunCommit || intermediateVideoStage;
+      if (!keepsProcess) await Process.delete(process.user_id, process.project_id, process._id);
       
       if (msg_content.status === "error") {
         console.log(JSON.stringify(msg_content));
+        if (process.stages) removeStageFiles(process.stages);
+        // A failed stage ends this video's chain (extraction runs keep it as a barrier).
+        if (intermediateVideoStage && !holdsRunCommit) {
+          await Process.delete(process.user_id, process.project_id, process._id);
+        }
         if (/preview/.test(msg_id)) {
           send_msg_client_preview_error(`update-client-preview-${uuidv4()}`, timestamp, runnerId, msg_content.error.code, msg_content.error.msg)
         }
@@ -239,19 +276,23 @@ function process_msg() {
 
       if (active !== tok) {
         console.log(`[RUN-GUARD] IGNORE msg=${msg_id} processTok=${tok} activeTok=${active}`);
-        if (holdsRunCommit) await Process.delete(process.user_id, process.project_id, process._id);
+        if (process.stages) removeStageFiles(process.stages);
+        if (keepsProcess) await Process.delete(process.user_id, process.project_id, process._id);
         return;
       }
 
       const next_pos = process.cur_pos + 1;
 
-      // Images only go through the image tools (trim is video-only);
-      // a video is processed in one go by the video worker, so its reply is
-      // always the last one of the chain.
+      // Images only go through the image tools (trim is video-only). A video runs
+      // one stage per video service, so its chain ends with its last stage.
       const imgTools = imageTools(project);
-      // A video worker also returns an image for extraction previews, or frames
-      // for full extraction. Neither should enter the image-effect chain.
-      const chainEnd = sourceIsVideo || type === "video" || type === "frames" || next_pos >= imgTools.length;
+      const videoStages = Array.isArray(process.stages) && process.stages.length ? process.stages : null;
+      // A video stage can also return an image (extraction preview) or frames
+      // (full extraction). Neither enters the image-effect chain.
+      const chainEnd = videoStages
+        ? next_pos >= videoStages.length
+        : sourceIsVideo || type === "video" || type === "frames" || next_pos >= imgTools.length;
+      if (videoStages && chainEnd) removeStageFiles(videoStages);
       const isLast = type == "text" || chainEnd;
 
 if (/preview/.test(msg_id) && isLast) {
@@ -474,7 +515,8 @@ if (/preview/.test(msg_id) && isLast) {
       }
 
       // Notify only after the result is stored and the completed run is committed.
-      if (!/preview/.test(msg_id))
+      // The frontend counts one step per video, so intermediate stages stay silent.
+      if (!/preview/.test(msg_id) && (!videoStages || chainEnd))
         send_msg_client(
           user_msg_id,
           timestamp,
@@ -487,13 +529,23 @@ if (/preview/.test(msg_id) && isLast) {
         ? `preview-${uuidv4()}`
         : `request-${uuidv4()}`;
 
-      const tool = imgTools[next_pos];
-
-      const tool_name = tool.procedure;
-      const params = tool.params;
-
-      const read_img = type == "text" ? prev_process_input_img : output_file_uri;
-      const output_img = type == "text" ? prev_process_output_img : output_file_uri;
+      let tool_name, params, read_img, output_img;
+      if (videoStages) {
+        // next video stage: reads the previous stage's output, writes its own
+        tool_name = stageTool(videoStages[next_pos]);
+        params = stageParams(videoStages, next_pos, {
+          preview: /preview/.test(msg_id),
+          progress: { user: runnerId, projectId: String(project._id), imgId: String(img_id) },
+        });
+        read_img = output_file_uri;
+        output_img = videoStages[next_pos].output;
+      } else {
+        const tool = imgTools[next_pos];
+        tool_name = tool.procedure;
+        params = tool.params;
+        read_img = type == "text" ? prev_process_input_img : output_file_uri;
+        output_img = type == "text" ? prev_process_output_img : output_file_uri;
+      }
 
       // o token de cancelamento que vai ser propagado para o successor
       const processToken = process.cancelToken || 0;
@@ -509,11 +561,13 @@ if (/preview/.test(msg_id) && isLast) {
         new_img_uri: output_img,
         cancelToken: processToken,
         token: process.token,
+        // a video keeps its plan; its preview keeps the cache key of the request
+        ...(videoStages ? { stages: videoStages, cache_key: process.cache_key } : {}),
       };
 
       // Making sure database entry is created before sending message to avoid conflicts
       await Process.create(new_process);
-      if (holdsRunCommit) await Process.delete(process.user_id, process.project_id, process._id);
+      if (keepsProcess) await Process.delete(process.user_id, process.project_id, process._id);
       send_msg_tool(
         new_msg_id,
         timestamp,
@@ -1107,21 +1161,15 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
         }
       }
 
-      // video: the whole pipeline goes in one message to the video worker,
-      // which only processes the initial excerpt
+      // video: its stages run on the video services with the preview flag set,
+      // so only the initial excerpt is rendered (dispatched below)
       const tool = previewIsVideo ? { procedure: "video" } : imageTools(project)[0];
       if (!tool) {
         return res.status(400).jsonp("No tools selected");
       }
 
-      const tool_name = tool.procedure;
-      const params = previewIsVideo
-        ? {
-            tools: videoPipeline(project, req.params.img),
-            preview: true,
-            progress: { user: runnerUserId, projectId: req.params.project, imgId: req.params.img },
-          }
-        : tool.params;
+      let tool_name = tool.procedure;
+      let params = tool.params;
 
       const source_path = `/../images/users/${ownerId}/projects/${req.params.project}/src`;
       const result_path = `/../images/users/${ownerId}/projects/${req.params.project}/preview`;
@@ -1225,7 +1273,16 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
 
       const img_name_parts = img.new_uri.split("/");
       const img_name = img_name_parts[img_name_parts.length - 1];
-      const new_img_uri = `./images/users/${ownerId}/projects/${req.params.project}/preview/${img_name}`;
+      let new_img_uri = `./images/users/${ownerId}/projects/${req.params.project}/preview/${img_name}`;
+      let stages;
+      if (previewIsVideo) {
+        ({ stages, tool_name, params, new_img_uri } = startVideoStages(
+          videoPipeline(project, req.params.img),
+          true,
+          new_img_uri,
+          { user: runnerUserId, projectId: req.params.project, imgId: req.params.img },
+        ));
+      }
 
       const process = {
         user_id: ownerId,        
@@ -1239,6 +1296,7 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
         cache_key: cacheKey,
         cancelToken: project.cancelToken || 0,
         token: project.activeToken || 0,
+        ...(stages ? { stages } : {}),
       };
 
       Process.create(process)
@@ -1628,17 +1686,18 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
           const timestamp = new Date().toISOString();
 
           const og_img_uri = img.og_uri;
-          const new_img_uri = img.new_uri;
+          let new_img_uri = img.new_uri;
           let tool_name;
           let params;
+          let stages;
           if (isVideoMedia(img)) {
-            // video: the whole pipeline in a single message to the video worker
-            tool_name = "video";
-            params = {
-              tools: videoPipeline(project, img._id),
-              preview: false,
-              progress: { user: runnerUserId, projectId: req.params.project, imgId: String(img._id) },
-            };
+            // video: the first stage of its pipeline; the plan travels in the Process
+            ({ stages, tool_name, params, new_img_uri } = startVideoStages(
+              videoPipeline(project, img._id),
+              false,
+              img.new_uri,
+              { user: runnerUserId, projectId: req.params.project, imgId: String(img._id) },
+            ));
           } else {
             const tool = imageTools(project)[0];
             if (!tool) continue; // only video effects: images are left as they are
@@ -1657,6 +1716,7 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
             new_img_uri: new_img_uri,
             cancelToken: project.cancelToken || 0,
             token: runToken,
+            ...(stages ? { stages } : {}),
           };
 
           pendingJobs.push({ process, msg_id, timestamp, og_img_uri, new_img_uri, tool_name, params });
