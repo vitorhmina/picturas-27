@@ -1,0 +1,101 @@
+{
+  "env": {
+    "timestamp": "2026-11-22T17:19:24.722699+00:00",
+    "git_commit": "e9c87509b2e66e9f904a7ce311cd26a0b78167bc",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "speech_video": "speech_60s.webm",
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "dev-control-plane"
+    ]
+  },
+  "records": [
+    {
+      "name": "video-effects",
+      "status": "done",
+      "results": 1,
+      "total_s": 83.70313048362732,
+      "process_updates": 1,
+      "expected_updates": 1,
+      "error": null,
+      "video": [
+        {
+          "duration": 10.0,
+          "video_codec": "h264",
+          "has_audio": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "name": "video-effects-subtitles-effects",
+      "status": "done",
+      "results": 1,
+      "total_s": 514.2956984043121,
+      "process_updates": 1,
+      "expected_updates": 1,
+      "error": null,
+      "video": [
+        {
+          "duration": 59.99,
+          "video_codec": "h264",
+          "has_audio": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "name": "video-effects-then-frames",
+      "status": "done",
+      "results": 4,
+      "total_s": 14.653366088867188,
+      "process_updates": 1,
+      "expected_updates": 1,
+      "error": null,
+      "ok": true
+    },
+    {
+      "name": "mixed-images-and-video",
+      "status": "done",
+      "results": 3,
+      "total_s": 14.63918161392212,
+      "process_updates": 5,
+      "expected_updates": 5,
+      "error": null,
+      "video": [
+        {
+          "duration": 10.0,
+          "video_codec": "h264",
+          "has_audio": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "name": "video-preview-3-stages",
+      "status": "done",
+      "urls": {
+        "imageUrl": "https://localhost:8080/s3/picturas/users/6b03240c24e44db3b264889c/projects/6b03240cc56d01c365ee0e13/preview_cache/956f4e98-e268-4004-b305-114fdd650d39.mp4?AWSAccessKeyId=admin&Expires=1795371563&Signature=q8s1g9aPYPJL9Va0ofRxgcbMLF0%3D",
+        "textResults": [],
+        "mediaType": "video"
+      },
+      "total_s": 15.205462217330933,
+      "ok": true,
+      "video": [
+        {
+          "duration": 3.0,
+          "video_codec": "h264",
+          "has_audio": true
+        }
+      ]
+    }
+  ],
+  "passed": 5
+}

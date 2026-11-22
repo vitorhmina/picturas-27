@@ -1,0 +1,424 @@
+{
+  "scenario": "chaos-projects",
+  "env": {
+    "timestamp": "2026-11-22T17:26:07.352248+00:00",
+    "git_commit": "e9c87509b2e66e9f904a7ce311cd26a0b78167bc",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "speech_video": "speech_60s.webm",
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "dev-control-plane"
+    ]
+  },
+  "params": {
+    "base": "https://localhost:8080",
+    "label": "reliable-messaging",
+    "target": "projects",
+    "services": "",
+    "runs": 5,
+    "image_projects": 3,
+    "images": 4,
+    "video_projects": 2,
+    "fault": "pause-kill",
+    "hold": 10.0,
+    "kill_after": 3.0,
+    "downtime": 5.0,
+    "timeout": 180.0
+  },
+  "services": [
+    "projects"
+  ],
+  "runs": [
+    {
+      "t_kill": 1795368383.907964,
+      "t_restart": 1795368392.8373132,
+      "jobs": [
+        {
+          "kind": "image",
+          "project_id": "6b0325b2c56d01c365ee2d05",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368372.3506107,
+          "finished": 1795368398.3763301,
+          "total_s": 26.02571940422058,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b0325b2c56d01c365ee2d07",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368372.351389,
+          "finished": 1795368398.4001257,
+          "total_s": 26.048736810684204,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b0325b2c56d01c365ee2d09",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368372.3522282,
+          "finished": 1795368398.415139,
+          "total_s": 26.062910795211792,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b0325b2c56d01c365ee2d03",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368372.352876,
+          "finished": 1795368439.4408064,
+          "total_s": 67.08793044090271,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b0325b2c56d01c365ee2d01",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368372.3537316,
+          "finished": 1795368407.629484,
+          "total_s": 35.2757523059845,
+          "error": null
+        }
+      ],
+      "done": 5,
+      "errored": 0,
+      "hung": 0,
+      "total": 5,
+      "r1_terminal_pct": 100.0,
+      "r1_done_pct": 100.0,
+      "r2_recovery_s": 46.603493213653564,
+      "r3_orphan_processes": 0
+    },
+    {
+      "t_kill": 1795368453.7709877,
+      "t_restart": 1795368461.3590944,
+      "jobs": [
+        {
+          "kind": "image",
+          "project_id": "6b0325f8650d23a713e454e2",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368441.8479319,
+          "finished": 1795368463.6607418,
+          "total_s": 21.812809944152832,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b0325f8650d23a713e454de",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368441.8487504,
+          "finished": 1795368463.665151,
+          "total_s": 21.8164005279541,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b0325f8650d23a713e454e0",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368441.8508072,
+          "finished": 1795368463.6818955,
+          "total_s": 21.831088304519653,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b0325f8650d23a713e454da",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368441.8539848,
+          "finished": 1795368507.9063916,
+          "total_s": 66.05240678787231,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b0325f8650d23a713e454dc",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368441.8580887,
+          "finished": 1795368476.085707,
+          "total_s": 34.22761821746826,
+          "error": null
+        }
+      ],
+      "done": 5,
+      "errored": 0,
+      "hung": 0,
+      "total": 5,
+      "r1_terminal_pct": 100.0,
+      "r1_done_pct": 100.0,
+      "r2_recovery_s": 46.54729723930359,
+      "r3_orphan_processes": 0
+    },
+    {
+      "t_kill": 1795368521.958473,
+      "t_restart": 1795368529.9028976,
+      "jobs": [
+        {
+          "kind": "image",
+          "project_id": "6b03263d01088364f78e4bea",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368510.1740904,
+          "finished": 1795368533.1638262,
+          "total_s": 22.9897358417511,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b03263d01088364f78e4bec",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368510.1754613,
+          "finished": 1795368533.178498,
+          "total_s": 23.003036737442017,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b03263d01088364f78e4be6",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368510.177147,
+          "finished": 1795368533.192917,
+          "total_s": 23.015770196914673,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b03263d01088364f78e4bef",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368510.1786096,
+          "finished": 1795368577.9634702,
+          "total_s": 67.78486061096191,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b03263d01088364f78e4be8",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368510.18211,
+          "finished": 1795368546.5750794,
+          "total_s": 36.392969369888306,
+          "error": null
+        }
+      ],
+      "done": 5,
+      "errored": 0,
+      "hung": 0,
+      "total": 5,
+      "r1_terminal_pct": 100.0,
+      "r1_done_pct": 100.0,
+      "r2_recovery_s": 48.06057262420654,
+      "r3_orphan_processes": 0
+    },
+    {
+      "t_kill": 1795368595.3049998,
+      "t_restart": 1795368604.337894,
+      "jobs": [
+        {
+          "kind": "image",
+          "project_id": "6b03268331b6f0fd28ac9fc2",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368581.4685879,
+          "finished": 1795368606.596574,
+          "total_s": 25.127986192703247,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b03268231b6f0fd28ac9fb1",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368581.469418,
+          "finished": 1795368606.612839,
+          "total_s": 25.143420934677124,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b03268331b6f0fd28ac9fbf",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368581.4702828,
+          "finished": 1795368606.6216507,
+          "total_s": 25.151367902755737,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b03268231b6f0fd28ac9fb5",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368581.4728754,
+          "finished": 1795368618.9381082,
+          "total_s": 37.465232849121094,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b03268231b6f0fd28ac9fb3",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368581.475921,
+          "finished": 1795368650.8959496,
+          "total_s": 69.42002868652344,
+          "error": null
+        }
+      ],
+      "done": 5,
+      "errored": 0,
+      "hung": 0,
+      "total": 5,
+      "r1_terminal_pct": 100.0,
+      "r1_done_pct": 100.0,
+      "r2_recovery_s": 46.55805563926697,
+      "r3_orphan_processes": 0
+    },
+    {
+      "t_kill": 1795368668.4150515,
+      "t_restart": 1795368681.8863275,
+      "jobs": [
+        {
+          "kind": "image",
+          "project_id": "6b0326cd4ea4a3ebf64060c2",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368655.9507408,
+          "finished": 1795368690.3250327,
+          "total_s": 34.37429189682007,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b0326ce4ea4a3ebf64060c7",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368655.9524634,
+          "finished": 1795368690.3599029,
+          "total_s": 34.40743947029114,
+          "error": null
+        },
+        {
+          "kind": "image",
+          "project_id": "6b0326cd4ea4a3ebf64060e3",
+          "expected": 4,
+          "status": "done",
+          "results": 4,
+          "submitted": 1795368655.9541476,
+          "finished": 1795368690.3535318,
+          "total_s": 34.39938426017761,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b0326cd4ea4a3ebf64060e1",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368655.9622808,
+          "finished": 1795368726.3436031,
+          "total_s": 70.38132238388062,
+          "error": null
+        },
+        {
+          "kind": "video",
+          "project_id": "6b0326ce4ea4a3ebf64060c9",
+          "expected": 1,
+          "status": "done",
+          "results": 1,
+          "submitted": 1795368655.968251,
+          "finished": 1795368692.3436508,
+          "total_s": 36.37539982795715,
+          "error": null
+        }
+      ],
+      "done": 5,
+      "errored": 0,
+      "hung": 0,
+      "total": 5,
+      "r1_terminal_pct": 100.0,
+      "r1_done_pct": 100.0,
+      "r2_recovery_s": 44.45727562904358,
+      "r3_orphan_processes": 0
+    }
+  ],
+  "summary": {
+    "r1_terminal_pct": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 100.0,
+      "p50": 100.0,
+      "p95": 100.0,
+      "max": 100.0,
+      "mean": 100.0
+    },
+    "r1_done_pct": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 100.0,
+      "p50": 100.0,
+      "p95": 100.0,
+      "max": 100.0,
+      "mean": 100.0
+    },
+    "r2_recovery_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 44.45727562904358,
+      "p50": 46.55805563926697,
+      "p95": 48.06057262420654,
+      "max": 48.06057262420654,
+      "mean": 46.44533886909485
+    },
+    "r3_orphan_processes": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 0,
+      "p50": 0,
+      "p95": 0,
+      "max": 0,
+      "mean": 0.0
+    },
+    "hung_jobs_total": 0
+  }
+}
