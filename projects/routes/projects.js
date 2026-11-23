@@ -195,6 +195,7 @@ function process_msg() {
     let runnerIdSafe = null;
     let ownerIdSafe = null;
     let msgIdSafe = null;
+    let projectIdSafe = null;
     let holdsRunSafe = false;
 
     try {
@@ -207,6 +208,7 @@ function process_msg() {
 
       msgIdSafe = msg_id;
       ownerIdSafe = process.user_id;
+      projectIdSafe = process.project_id;
       runnerIdSafe = process.runner_id || process.user_id;
 
        console.log(
@@ -252,7 +254,8 @@ function process_msg() {
             timestamp,
             runnerId,   
             msg_content.error.code,
-            msg_content.error.msg
+            msg_content.error.msg,
+            process.project_id
           );
         }
         return;
@@ -530,7 +533,8 @@ if (/preview/.test(msg_id) && isLast) {
         send_msg_client(
           user_msg_id,
           timestamp,
-          runnerId
+          runnerId,
+          process.project_id
         );
 
       if (chainEnd) return;
@@ -607,7 +611,8 @@ if (/preview/.test(msg_id) && isLast) {
         timestamp,
         target,
         "30000",
-        "An error happened while processing the project"
+        "An error happened while processing the project",
+        projectIdSafe
       );
       return;
     }

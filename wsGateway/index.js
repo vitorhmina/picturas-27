@@ -92,12 +92,13 @@ function process_msg() {
                 const error_code = msg_content.errorCode;
                 const error_msg = msg_content.errorMsg;
 
-                io.to(user).emit("process-error", { error_code, error_msg }); 
+                io.to(user).emit("process-error", { error_code, error_msg, projectId: msg_content.projectId }); 
 
                 return;
             }
 
-            io.to(user).emit("process-update", msg_id);
+            // second argument: which project the step belongs to (older clients read only the first)
+            io.to(user).emit("process-update", msg_id, { projectId: msg_content.projectId });
         }
 
         else if (msg_content.type === "project-op") {
