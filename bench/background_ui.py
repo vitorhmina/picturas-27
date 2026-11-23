@@ -9,10 +9,10 @@ public API (client.py); everything that is measured happens in the browser.
                 "Download project" button can still be clicked (Playwright's
                 actionability check fails while something covers it).
                 Records the time the UI was blocked and the job's duration.
-  U2 reload:    click Apply, reload the page while the job runs, then check
+  U2 reload:    click Apply on the 60 s video, reload the page while the job runs, then check
                 whether a progress bar and a cancel control are shown, and
                 whether the page shows the results by itself once the job ends.
-  U3 new tab:   click Apply, open the same project in a second tab, and check
+  U3 new tab:   click Apply on the 60 s video, open the same project in a second tab, and check
                 whether that tab shows the progress.
 
 Selectors are deliberately generic (role=progressbar, a button named
@@ -34,7 +34,7 @@ from playwright.sync_api import Error as PwError
 from playwright.sync_api import sync_playwright
 
 from client import DEFAULT_BASE, BenchUser
-from common import SHORT_VIDEO, environment, single_instance, summary, write_result
+from common import SHORT_VIDEO, SPEECH_VIDEO, environment, single_instance, summary, write_result
 from prepare_samples import image_paths
 
 PROBE_S = 0.25
@@ -44,6 +44,8 @@ TOOLS = [("brightness", {"brightness": 1.3}), ("contrast", {"contrastFactor": 1.
 WORKLOADS = {
     # name: (media, tools, expected results)
     "video": ([SHORT_VIDEO], TOOLS[:1], 1),
+    # U2/U3 need the job to outlast a page load, even on a loaded machine
+    "long_video": ([SPEECH_VIDEO], TOOLS[:1], 1),
     "images": (image_paths(3), TOOLS, 3),
 }
 
@@ -152,7 +154,7 @@ def u1_blocking(browser, base: str, workload: str) -> dict:
 
 
 def u2_reload(browser, base: str, reload_after_s: float = 3.0) -> dict:
-    user, project, expected = prepare(base, "video")
+    user, project, expected = prepare(base, "long_video")
     ctx, page = open_page(browser, base, user, project.project_id)
     try:
         t0 = click_apply(page)
@@ -166,6 +168,8 @@ def u2_reload(browser, base: str, reload_after_s: float = 3.0) -> dict:
         page.get_by_role("button", name=re.compile(r"apply|download", re.I)).first.wait_for(timeout=60_000)
         progress = visible(page.get_by_role("progressbar"), 5)
         cancel = visible(page.get_by_role("button", name=CANCEL), 1)
+        # the checks above only count if the job was still running once the page had loaded
+        running_after = results_count(project) < expected
         done_at = None
         while time.time() < t0 + 600:
             if results_count(project) >= expected:
@@ -181,7 +185,8 @@ def u2_reload(browser, base: str, reload_after_s: float = 3.0) -> dict:
             except PwError:
                 pass
         return {"progress_before_reload": progress_before, "cancel_before_reload": cancel_before,
-                "running_at_reload": running_at_reload, "progress_after_reload": progress,
+                "running_at_reload": running_at_reload, "running_after_reload": running_after,
+                "progress_after_reload": progress,
                 "cancel_after_reload": cancel, "completed": done_at is not None,
                 "results_shown_without_reload": shown_at is not None,
                 "results_shown_delay_s": None if shown_at is None else shown_at - done_at}
@@ -191,7 +196,7 @@ def u2_reload(browser, base: str, reload_after_s: float = 3.0) -> dict:
 
 
 def u3_second_tab(browser, base: str, open_after_s: float = 3.0) -> dict:
-    user, project, expected = prepare(base, "video")
+    user, project, expected = prepare(base, "long_video")
     ctx, page = open_page(browser, base, user, project.project_id)
     try:
         t0 = click_apply(page)
@@ -203,9 +208,11 @@ def u3_second_tab(browser, base: str, open_after_s: float = 3.0) -> dict:
         second.get_by_role("button", name=re.compile(r"apply|download", re.I)).first.wait_for(timeout=60_000)
         progress = visible(second.get_by_role("progressbar"), 5)
         cancel = visible(second.get_by_role("button", name=CANCEL), 1)
+        running_after = results_count(project) < expected
         while time.time() < t0 + 600 and results_count(project) < expected:
             time.sleep(0.5)
-        return {"running_when_opened": running, "progress_in_second_tab": progress,
+        return {"running_when_opened": running, "running_after_open": running_after,
+                "progress_in_second_tab": progress,
                 "cancel_in_second_tab": cancel}
     finally:
         ctx.close()
@@ -260,9 +267,11 @@ def main():
         "u2_cancel_after_reload_pct": rate(r["u2_reload"], "cancel_after_reload"),
         "u2_results_shown_without_reload_pct": rate(r["u2_reload"], "results_shown_without_reload"),
         "u2_running_at_reload_pct": rate(r["u2_reload"], "running_at_reload"),
+        "u2_running_after_reload_pct": rate(r["u2_reload"], "running_after_reload"),
         "u3_progress_in_second_tab_pct": rate(r["u3_second_tab"], "progress_in_second_tab"),
         "u3_cancel_in_second_tab_pct": rate(r["u3_second_tab"], "cancel_in_second_tab"),
         "u3_running_when_opened_pct": rate(r["u3_second_tab"], "running_when_opened"),
+        "u3_running_after_open_pct": rate(r["u3_second_tab"], "running_after_open"),
     }
     print(json.dumps(out["summary"], indent=2))
     print("  ->", write_result(args.label, "background-ui", out))

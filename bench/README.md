@@ -155,8 +155,8 @@ scenario uses a new premium user.
 | Metric | Definition |
 | --- | --- |
 | U1 | Click Apply, then every 0.25 s check whether the header's *Download project* button can still be clicked (Playwright's actionability check fails while something covers it). Reports the time the UI was blocked, the share of probes that found it blocked, and the job's duration (from Apply until `GET /process/url` lists the results). Workloads: brightness on the 10 s video; brightness → contrast → saturation on 3 images |
-| U2 | Click Apply on the video project, reload the page 3 s later, then check for a progress bar (`role=progressbar`) and a *Cancel* button, and whether the page switches to the results by itself (URL `mode=results`) within 15 s of the job ending |
-| U3 | Click Apply, open the same project in a second tab 3 s later, and check that tab for a progress bar and a *Cancel* button |
+| U2 | Click Apply on the 60 s video (brightness), reload the page 3 s later, then check for a progress bar (`role=progressbar`) and a *Cancel* button, and whether the page switches to the results by itself (URL `mode=results`) within 15 s of the job ending |
+| U3 | Click Apply on the same 60 s video project, open it in a second tab 3 s later, and check that tab for a progress bar and a *Cancel* button |
 
 The selectors are generic on purpose, so they hold for any UI that shows the same information.
 Two controls guard against a broken harness:
@@ -164,7 +164,10 @@ Two controls guard against a broken harness:
 - U1 checks that the probe finds the page usable before Apply.
 - U2 checks that the progress bar and *Cancel* button are found before the reload.
 
-If either control fails, the run's result is not valid.
+If either control fails, the run's result is not valid. U2 and U3 also record whether the job was
+still running once the page had loaded (`running_after_reload`, `running_after_open`): if it had
+already finished, the run says nothing about restoring progress. The 60 s clip keeps the job
+running well past a page load, even on a loaded machine.
 
 ### Statistics
 
