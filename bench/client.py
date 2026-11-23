@@ -67,6 +67,7 @@ class BenchUser:
         }
         data = _check(self.http.post(f"{self.api}/users/", json=body, timeout=30), "register").json()
         self.user_id = data["user"]["_id"]
+        self.profile = data["user"]  # what the frontend keeps in its session
         self.jwt = data["jwt"]
         self.http.headers["Authorization"] = f"Bearer {self.jwt}"
 
