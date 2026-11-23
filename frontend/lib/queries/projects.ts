@@ -93,10 +93,12 @@ export const useGetProcessStatus = (
   token: string,
   ownerId?: string,
   shareId?: string,
+  refetchInterval: number | false = false,
 ) => {
   return useQuery({
     queryKey: ["processStatus", uid, pid, token, ownerId, shareId],
     queryFn: () => fetchProcessStatus(uid, pid, token, ownerId, shareId),
+    refetchInterval,
   });
 };
 

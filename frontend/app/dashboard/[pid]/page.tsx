@@ -124,7 +124,7 @@ export default function Project({
     (acc, v) => acc + (videoProgress[v._id] ?? 0) / 100,
     0,
   );
-  const displayedProgress = !hasVideos
+  const localProgress = !hasVideos
     ? processingProgress
     : totalProcessingSteps > 0
       ? Math.min(100, Math.round(((imageStepsDone + videoFraction) * 100) / totalProcessingSteps))
@@ -140,14 +140,21 @@ export default function Project({
 
   // The run's state is kept by the server, so a reloaded page, a second tab or a
   // return to the project picks up a run that is already in progress.
+  // While a run is in progress the state is also checked every few seconds, in
+  // case socket events were missed (e.g. while the page was reloading).
   const processStatus = useGetProcessStatus(
     session.user._id,
     pid,
     session.token,
     ownerId,
     shareId,
+    processing ? 5000 : false,
   );
   const restoredRunRef = useRef(false);
+  // completeRun() runs once per run
+  const finishingRef = useRef(false);
+  // a status fetched before this instant predates the current run
+  const runStartedAtRef = useRef(0);
 
   useEffect(() => {
     const s = processStatus.data;
@@ -156,12 +163,26 @@ export default function Project({
     restoredRunRef.current = true;
     if (s.status !== "running" || processing) return;
     ignoreUpdatesRef.current = false;
+    finishingRef.current = false;
+    runStartedAtRef.current = 0;
     processStartTimeRef.current = null; // the start of a resumed run is unknown
     processIsAiRef.current = false;
     setProcessingSteps(s.done + 1);
     setProcessingProgress(s.total > 0 ? Math.round((s.done * 100) / s.total) : 0);
     setProcessing(true);
   }, [processStatus.data, processStatus.isFetchedAfterMount, processing]);
+
+  // Shown progress: the events counted here, or the server's count if it is ahead
+  // (steps whose events were missed)
+  const serverRun = processStatus.data;
+  const serverProgress =
+    processing &&
+    serverRun?.status === "running" &&
+    serverRun.total > 0 &&
+    processStatus.dataUpdatedAt > runStartedAtRef.current
+      ? Math.round((serverRun.done * 100) / serverRun.total)
+      : 0;
+  const displayedProgress = Math.max(localProgress, serverProgress);
 
   useLayoutEffect(() => {
     if (
@@ -321,6 +342,120 @@ useEffect(() => {
   };
 }, [socket.data, pid, qc, session.user._id, session.token, ownerId, shareId, toast]);
 
+  // Ends the run in the UI: refreshes the results and shows them. Called when the
+  // last step's event arrives, or when the server reports the run as finished
+  // (events can be missed, e.g. while the page reloads). Runs once per run.
+  const completeRun = () => {
+    if (finishingRef.current) return;
+    finishingRef.current = true;
+    if (ignoreUpdatesRef.current) {
+      // cancelar medição
+      processStartTimeRef.current = null;
+      processIsAiRef.current = false;
+      return;
+    }
+
+    const startedAt = processStartTimeRef.current;
+    const isAiProcess = processIsAiRef.current;
+
+    // limpar medição
+    processStartTimeRef.current = null;
+    processIsAiRef.current = false;
+
+    projectResults.refetch().then(() => {
+      if (ignoreUpdatesRef.current) return;
+
+      setProcessing(false);
+      if (!isMobile) sidebar.setOpen(true);
+      setProcessingProgress(0);
+      setProcessingSteps(1);
+    setVideoProgress({});
+
+      // avisar o ProjectProvider que o Apply terminou
+      setWaitingForPreview("__APPLY_DONE__");
+
+      const params = new URLSearchParams();
+      params.set("mode", "results");
+      params.set("view", "grid");
+      
+      const ownerFromQuery = searchParams.get("owner");
+      const shareFromQuery = searchParams.get("share");  
+
+      if (ownerFromQuery) params.set("owner", ownerFromQuery);
+      if (shareFromQuery) params.set("share", shareFromQuery); 
+
+      router.push(`?${params.toString()}`);
+
+      if (startedAt != null) {
+        const durationMs = performance.now() - startedAt;
+        const seconds = durationMs / 1000;
+        const perStep =
+          totalProcessingSteps > 0
+            ? durationMs / totalProcessingSteps
+            : undefined;
+
+        console.log(
+          `[Perf] Processamento ${
+            isAiProcess ? "IA" : "normal"
+          } concluído em ${seconds.toFixed(2)}s (${totalProcessingSteps} passos${
+            perStep ? ` ~${perStep.toFixed(0)}ms/pass` : ""
+          })`,
+        );
+
+        // limiares diferentes: 5s filtros normais, 60s IA
+        const NORMAL_THRESHOLD_MS = 5000; // 5s
+        const AI_THRESHOLD_MS = 60000; // 60s
+
+        const threshold = isAiProcess
+          ? AI_THRESHOLD_MS
+          : NORMAL_THRESHOLD_MS;
+
+        if (durationMs > threshold && !hasVideos) {
+          toast({
+            title: isAiProcess
+              ? "Processamento de IA demorado"
+              : "Processamento demorado",
+            description: isAiProcess
+              ? `Este processamento com ferramentas de IA demorou ${seconds.toFixed(
+                  1,
+                )} segundos. Isto ainda está dentro do limite aceitável para IA (até 1 minuto), mas foi mais lento do que o esperado.`
+              : `Este processamento demorou ${seconds.toFixed(
+                  1,
+                )} segundos, acima do objetivo de 5 segundos para filtros normais.`,
+          });
+        }
+      }
+    });
+  };
+
+  // Missed events: when the server reports that the run has ended, end it here too
+  useEffect(() => {
+    const s = processStatus.data;
+    if (!s || !processing || ignoreUpdatesRef.current || finishingRef.current) return;
+    if (processStatus.dataUpdatedAt <= runStartedAtRef.current) return; // predates this run
+    if (s.status === "running") return;
+    if (s.committed) {
+      completeRun();
+      return;
+    }
+    // ended without results: it failed, or it was cancelled from another tab
+    processStartTimeRef.current = null;
+    processIsAiRef.current = false;
+    setProcessing(false);
+    setProcessingProgress(0);
+    setProcessingSteps(1);
+    setVideoProgress({});
+    toast({
+      title: "Processing stopped",
+      description:
+        s.status === "failed"
+          ? "The project could not be processed. Try again."
+          : "The run ended without results. It may have been cancelled elsewhere.",
+      variant: "destructive",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [processStatus.data, processStatus.dataUpdatedAt, processing]);
+
 useEffect(() => {
   function onProcessUpdate(msgId: string, meta?: { projectId?: string }) {
     // se já cancelámos ou já não estamos em processamento, ignora tudo
@@ -339,86 +474,7 @@ useEffect(() => {
       setProcessingProgress(progress);
 
       if (nextSteps - 1 >= totalProcessingSteps) {
-        setTimeout(() => {
-          if (ignoreUpdatesRef.current) {
-            // cancelar medição
-            processStartTimeRef.current = null;
-            processIsAiRef.current = false;
-            return;
-          }
-
-          const startedAt = processStartTimeRef.current;
-          const isAiProcess = processIsAiRef.current;
-
-          // limpar medição
-          processStartTimeRef.current = null;
-          processIsAiRef.current = false;
-
-          projectResults.refetch().then(() => {
-            if (ignoreUpdatesRef.current) return;
-
-            setProcessing(false);
-            if (!isMobile) sidebar.setOpen(true);
-            setProcessingProgress(0);
-            setProcessingSteps(1);
-    setVideoProgress({});
-
-            // avisar o ProjectProvider que o Apply terminou
-            setWaitingForPreview("__APPLY_DONE__");
-
-            const params = new URLSearchParams();
-            params.set("mode", "results");
-            params.set("view", "grid");
-            
-            const ownerFromQuery = searchParams.get("owner");
-            const shareFromQuery = searchParams.get("share");  
-
-            if (ownerFromQuery) params.set("owner", ownerFromQuery);
-            if (shareFromQuery) params.set("share", shareFromQuery); 
-
-            router.push(`?${params.toString()}`);
-
-            if (startedAt != null) {
-              const durationMs = performance.now() - startedAt;
-              const seconds = durationMs / 1000;
-              const perStep =
-                totalProcessingSteps > 0
-                  ? durationMs / totalProcessingSteps
-                  : undefined;
-
-              console.log(
-                `[Perf] Processamento ${
-                  isAiProcess ? "IA" : "normal"
-                } concluído em ${seconds.toFixed(2)}s (${totalProcessingSteps} passos${
-                  perStep ? ` ~${perStep.toFixed(0)}ms/pass` : ""
-                })`,
-              );
-
-              // limiares diferentes: 5s filtros normais, 60s IA
-              const NORMAL_THRESHOLD_MS = 5000; // 5s
-              const AI_THRESHOLD_MS = 60000; // 60s
-
-              const threshold = isAiProcess
-                ? AI_THRESHOLD_MS
-                : NORMAL_THRESHOLD_MS;
-
-              if (durationMs > threshold && !hasVideos) {
-                toast({
-                  title: isAiProcess
-                    ? "Processamento de IA demorado"
-                    : "Processamento demorado",
-                  description: isAiProcess
-                    ? `Este processamento com ferramentas de IA demorou ${seconds.toFixed(
-                        1,
-                      )} segundos. Isto ainda está dentro do limite aceitável para IA (até 1 minuto), mas foi mais lento do que o esperado.`
-                    : `Este processamento demorou ${seconds.toFixed(
-                        1,
-                      )} segundos, acima do objetivo de 5 segundos para filtros normais.`,
-                });
-              }
-            }
-          });
-        }, 2000);
+        setTimeout(completeRun, 2000);
       }
 
       return nextSteps;
@@ -729,6 +785,9 @@ const handleCancel = () => {
                     onClick={() => {
                       // começa a contar o tempo
                       processStartTimeRef.current = performance.now();
+                      finishingRef.current = false;
+                      // ignore the server's state until it has registered this run
+                      runStartedAtRef.current = Number.MAX_SAFE_INTEGER;
                       setProcessing(true);
                       
                       const aiProcedures = [
@@ -768,6 +827,7 @@ const handleCancel = () => {
                               params.set("view", "grid");
                               router.push(`?${params.toString()}`);
                             } else {
+                              runStartedAtRef.current = Date.now();
                               setProcessing(true);
                             }
 
