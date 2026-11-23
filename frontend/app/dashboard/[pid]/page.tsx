@@ -11,6 +11,7 @@ import { ShareProjectDialog } from "@/components/projects/share-dialog";
 import {
   useGetProject,
   useGetProjectResults,
+  useGetProcessStatus,
   useGetSocket,
 } from "@/lib/queries/projects";
 import Loading from "@/components/loading";
@@ -136,6 +137,31 @@ export default function Project({
     shareId,
   );
   const qc = useQueryClient();
+
+  // The run's state is kept by the server, so a reloaded page, a second tab or a
+  // return to the project picks up a run that is already in progress.
+  const processStatus = useGetProcessStatus(
+    session.user._id,
+    pid,
+    session.token,
+    ownerId,
+    shareId,
+  );
+  const restoredRunRef = useRef(false);
+
+  useEffect(() => {
+    const s = processStatus.data;
+    // only a status fetched after the page opened (a cached one may be outdated)
+    if (!s || !processStatus.isFetchedAfterMount || restoredRunRef.current) return;
+    restoredRunRef.current = true;
+    if (s.status !== "running" || processing) return;
+    ignoreUpdatesRef.current = false;
+    processStartTimeRef.current = null; // the start of a resumed run is unknown
+    processIsAiRef.current = false;
+    setProcessingSteps(s.done + 1);
+    setProcessingProgress(s.total > 0 ? Math.round((s.done * 100) / s.total) : 0);
+    setProcessing(true);
+  }, [processStatus.data, processStatus.isFetchedAfterMount, processing]);
 
   useLayoutEffect(() => {
     if (
@@ -296,9 +322,11 @@ useEffect(() => {
 }, [socket.data, pid, qc, session.user._id, session.token, ownerId, shareId, toast]);
 
 useEffect(() => {
-  function onProcessUpdate(msgId: string) {
+  function onProcessUpdate(msgId: string, meta?: { projectId?: string }) {
     // se já cancelámos ou já não estamos em processamento, ignora tudo
     if (ignoreUpdatesRef.current || !processing) return;
+    // a step of another project of the same user
+    if (meta?.projectId && meta.projectId !== pid) return;
 
     setProcessingSteps((prev) => {
       const nextSteps = prev + 1;
@@ -397,7 +425,8 @@ useEffect(() => {
     });
   }
 
-  function onProcessError(payload: { error_code: string; error_msg: string }) {
+  function onProcessError(payload: { error_code: string; error_msg: string; projectId?: string }) {
+    if (payload?.projectId && payload.projectId !== pid) return;
     if (processStartTimeRef.current !== null) {
       const durationMs = performance.now() - processStartTimeRef.current;
       console.error(
@@ -425,8 +454,9 @@ useEffect(() => {
     });
   }
 
-  function onVideoProgress(payload: { imgId: string; percent: number; preview?: boolean }) {
+  function onVideoProgress(payload: { projectId?: string; imgId: string; percent: number; preview?: boolean }) {
     if (ignoreUpdatesRef.current || !processing || payload?.preview) return;
+    if (payload.projectId && payload.projectId !== pid) return;
     setVideoProgress((prev) => ({ ...prev, [payload.imgId]: payload.percent }));
   }
 

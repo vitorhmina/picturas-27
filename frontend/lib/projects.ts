@@ -835,6 +835,34 @@ export const downloadProjectResults = async ({
   };
 };
 
+// State of the project's current processing run, kept by the server
+export interface ProcessStatus {
+  status: "idle" | "running" | "failed";
+  token: number;
+  committed: boolean;
+  total: number;
+  done: number;
+  media: { img_id: string; video: boolean; done: number; total: number }[];
+}
+
+export const fetchProcessStatus = async (
+  uid: string,
+  pid: string,
+  token: string,
+  ownerId?: string,
+  shareId?: string,
+) => {
+  const query = buildQuery({ ownerId, shareId });
+  const pathUid = pathUidFor(uid, ownerId, shareId);
+  const response = await api.get<ProcessStatus>(
+    `/projects/${pathUid}/${pid}/process/status${query}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  if (response.status !== 200 || !response.data)
+    throw new Error("Failed to fetch the processing status");
+  return response.data;
+};
+
 export const fetchProjectResults = async (
   uid: string,
   pid: string,
