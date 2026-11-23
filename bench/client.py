@@ -87,9 +87,15 @@ class BenchUser:
                 time.sleep(2 * (attempt + 1))
 
     def _recorder(self, name):
-        def handler(payload=None):
+        # process-update carries the message id and, since the run-status work, a
+        # second argument with the project id: keep both
+        def handler(payload=None, *extra):
+            data = dict(payload) if isinstance(payload, dict) else {"raw": payload}
+            for e in extra:
+                if isinstance(e, dict):
+                    data.update(e)
             with self._lock:
-                self.events.append((time.time(), name, payload if isinstance(payload, dict) else {"raw": payload}))
+                self.events.append((time.time(), name, data))
         return handler
 
     def events_since(self, t0: float, name: str | None = None) -> list[tuple[float, str, dict]]:

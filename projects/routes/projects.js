@@ -28,6 +28,7 @@ const {
 const Project = require("../controllers/project");
 const Process = require("../controllers/process");
 const { dispatch, removeStageFiles } = require("../utils/recovery");
+const { runStatus } = require("../utils/runStatus");
 const Result = require("../controllers/result");
 const Preview = require("../controllers/preview");
 const jwt = require("jsonwebtoken");
@@ -194,6 +195,7 @@ function process_msg() {
     let runnerIdSafe = null;
     let ownerIdSafe = null;
     let msgIdSafe = null;
+    let projectIdSafe = null;
     let holdsRunSafe = false;
 
     try {
@@ -206,6 +208,7 @@ function process_msg() {
 
       msgIdSafe = msg_id;
       ownerIdSafe = process.user_id;
+      projectIdSafe = process.project_id;
       runnerIdSafe = process.runner_id || process.user_id;
 
        console.log(
@@ -251,7 +254,8 @@ function process_msg() {
             timestamp,
             runnerId,   
             msg_content.error.code,
-            msg_content.error.msg
+            msg_content.error.msg,
+            process.project_id
           );
         }
         return;
@@ -529,7 +533,8 @@ if (/preview/.test(msg_id) && isLast) {
         send_msg_client(
           user_msg_id,
           timestamp,
-          runnerId
+          runnerId,
+          process.project_id
         );
 
       if (chainEnd) return;
@@ -606,7 +611,8 @@ if (/preview/.test(msg_id) && isLast) {
         timestamp,
         target,
         "30000",
-        "An error happened while processing the project"
+        "An error happened while processing the project",
+        projectIdSafe
       );
       return;
     }
@@ -1121,6 +1127,21 @@ router.get("/:user/:project/process/url", checkSharePermission, async (req, res)
     return res.status(200).jsonp(ans);
   } catch (e) {
     return res.status(601).jsonp("Error acquiring project's processing result");
+  }
+});
+
+
+// State of the project's current processing run (utils/runStatus.js), so that a
+// reloaded page, another tab or another page can follow or cancel it.
+router.get("/:user/:project/process/status", checkSharePermission, async (req, res) => {
+  try {
+    const project = await Project.getOne(req.params.user, req.params.project);
+    if (!project) return res.status(404).jsonp("Project not found");
+    const processes = await Process.getProject(req.params.user, req.params.project);
+    return res.status(200).jsonp(runStatus(project, processes));
+  } catch (e) {
+    console.error("process/status error:", e);
+    return res.status(500).jsonp("Error acquiring the processing status");
   }
 });
 
