@@ -59,7 +59,7 @@ async function failJob(job, deps = defaultDeps) {
   const runner = job.runner_id || job.user_id;
   const timestamp = new Date().toISOString();
   if (preview) deps.previewError(`update-client-preview-${uuidv4()}`, timestamp, runner, LOST_CODE, LOST_MESSAGE);
-  else deps.processError(`update-client-process-${uuidv4()}`, timestamp, runner, LOST_CODE, LOST_MESSAGE);
+  else deps.processError(`update-client-process-${uuidv4()}`, timestamp, runner, LOST_CODE, LOST_MESSAGE, job.project_id);
 }
 
 async function recoverOnce(now = Date.now(), deps = defaultDeps) {

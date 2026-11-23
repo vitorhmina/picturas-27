@@ -3,6 +3,7 @@
 import DashboardSidebar from "@/components/dashboard-sidebar/dashboard-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import { ProcessingNotifier } from "@/components/processing-notifier";
 
 export default function RootLayout({
   children,
@@ -23,6 +24,8 @@ export default function RootLayout({
           )}
           {children}
         </main>
+        {/* announces finished or failed runs while the user is on another page */}
+        <ProcessingNotifier />
       </div>
     </SidebarProvider>
   );

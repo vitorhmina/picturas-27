@@ -47,24 +47,27 @@ function tool_queue_depth(tool) {
     return queues[tool] ? queue_depth(queues[tool]) : Promise.resolve(null);
 }
 
-function send_msg_client(msg_id, timestamp, user) {
+// projectId lets the browser tell which project an event belongs to
+function send_msg_client(msg_id, timestamp, user, projectId) {
     const queue = queues['ws'];
     const msg = {
         "messageId": msg_id,
         "timestamp": timestamp,
         "user": user,
+        "projectId": projectId ? String(projectId) : undefined,
         "status": 'success'
     };
 
     send_rabbit_msg(msg, queue);
 }
 
-function send_msg_client_error(msg_id, timestamp, user, error_code, error_msg) {
+function send_msg_client_error(msg_id, timestamp, user, error_code, error_msg, projectId) {
     const queue = queues['ws'];
     const msg = {
         "messageId": msg_id,
         "timestamp": timestamp,
         "user": user,
+        "projectId": projectId ? String(projectId) : undefined,
         "status": "error",
         "errorCode": error_code,
         "errorMsg": error_msg
