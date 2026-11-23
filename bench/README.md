@@ -27,6 +27,7 @@ cd bench
 python -m venv .venv
 .venv/Scripts/pip install -r requirements.txt    # Linux/macOS: .venv/bin/pip
 .venv/Scripts/python prepare_samples.py          # 12 test images in bench/data/
+.venv/Scripts/python -m playwright install chromium   # only for background_ui.py
 ```
 
 On Docker 29+, `docker compose up --build` builds through `buildx bake` and can stop with
@@ -67,6 +68,9 @@ Individual scenarios:
 .venv/Scripts/python chaos.py --label baseline --target image-tool --runs 5
 .venv/Scripts/python chaos.py --label baseline --target video      --runs 5
 .venv/Scripts/python chaos.py --label baseline --target projects   --runs 5
+
+# Background work (usability): U1-U3 through the web UI, 5 runs each
+.venv/Scripts/python background_ui.py --label baseline --runs 5
 
 # Summary table
 .venv/Scripts/python summarize.py baseline           # results/baseline/summary.csv
@@ -141,6 +145,26 @@ Fault modes (`--fault`):
 
 `--target none` is the control run. It must reach 100% and 0 orphans, otherwise the harness
 itself is broken.
+
+### Background work
+
+`background_ui.py` drives the real web UI with a headless Chromium (Playwright). Projects are
+prepared through the API, and only the user's experience is measured in the browser. Each
+scenario uses a new premium user.
+
+| Metric | Definition |
+| --- | --- |
+| U1 | Click Apply, then every 0.25 s check whether the header's *Download project* button can still be clicked (Playwright's actionability check fails while something covers it). Reports the time the UI was blocked, the share of probes that found it blocked, and the job's duration (from Apply until `GET /process/url` lists the results). Workloads: brightness on the 10 s video; brightness → contrast → saturation on 3 images |
+| U2 | Click Apply on the video project, reload the page 3 s later, then check for a progress bar (`role=progressbar`) and a *Cancel* button, and whether the page switches to the results by itself (URL `mode=results`) within 15 s of the job ending |
+| U3 | Click Apply, open the same project in a second tab 3 s later, and check that tab for a progress bar and a *Cancel* button |
+
+The selectors are generic on purpose, so they hold for any UI that shows the same information.
+Two controls guard against a broken harness:
+
+- U1 checks that the probe finds the page usable before Apply.
+- U2 checks that the progress bar and *Cancel* button are found before the reload.
+
+If either control fails, the run's result is not valid.
 
 ### Statistics
 
