@@ -55,11 +55,18 @@ de uma falha do _browser_.
 
 == Trabalho futuro
 
-#preencher[Valores-alvo não atingidos depois da medição final (e.g., R2), com a razão.]
+Os valores-alvo de U1–U3, R1 e R3 foram atingidos. O R2 só atingiu o alvo com a ferramenta de imagem (29,6 s): com
+o orquestrador (32,7 s) e com os serviços de vídeo (48,9 s) fica no mínimo aceitável. Em ambos os casos, o tempo é
+dominado por reprocessar o passo ou estágio interrompido desde o início; reduzi-lo exigiria guardar progresso
+intermédio, o que não foi feito. A causa da diferença no vídeo (28,7 s na base) não foi isolada.
+
+A medição final revelou ainda um custo de desempenho: com uma rajada de 10 trabalhos de vídeo (E2), a espera mediana
+diminui, mas o _makespan_ sobe 60 %, sobretudo por causa da separação do vídeo. A causa provável (a ordem das filas
+entre estágios, com uma réplica por estágio) não foi confirmada e é o primeiro ponto a investigar.
 
 Ficaram por fazer a fila de mensagens mortas, a elasticidade e as restantes recomendações da secção anterior. Ficaram
-também por confirmar duas hipóteses: o custo de desempenho das confirmações, só medido numa máquina sem outra carga,
-e o comportamento com vários utilizadores a processar ao mesmo tempo, que os cenários U1–U3 não exercitam.
+também por confirmar duas hipóteses: o custo de desempenho próprio das confirmações, que a medição final não separa
+do da separação do vídeo, e o comportamento com vários utilizadores a processar ao mesmo tempo, que os cenários U1–U3 não exercitam.
 
 *Ligação à Fase 3.* O _refactoring_ facilita a integração de novas funcionalidades em três pontos: um novo efeito de
 vídeo é acrescentado a um estágio sem tocar nos outros (`Tools/video_common/`); uma nova ferramenta herda a entrega

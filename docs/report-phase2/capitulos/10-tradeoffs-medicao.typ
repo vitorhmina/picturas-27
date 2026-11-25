@@ -51,11 +51,11 @@
     colunas: (1.4cm, 1fr, 2cm, 2cm, 2cm, 2cm, 2cm),
     tamanho: 8.5pt,
     [Cenário], [Medição (o que se mede, unidade)], [Antes (_baseline_)], [Depois], [Valor-alvo], [Mínimo aceitável], [Atingido?],
-    [QS-07], [U1: tempo de bloqueio por execução, p50 (s): vídeo / imagens], [#preencher[…]], [#preencher[…]], [0], [≤ 1], [#preencher[…]],
-    [QS-07], [U1: sondagens com a interface bloqueada (%): vídeo / imagens], [#preencher[…]], [#preencher[…]], [0], [—], [#preencher[…]],
-    [QS-07], [U2: recarregamentos com progresso e cancelar (%)], [#preencher[…]], [#preencher[…]], [100], [100], [#preencher[…]],
-    [QS-07], [U2: execuções retomadas com os resultados mostrados sem recarregar (%)], [#preencher[…]], [#preencher[…]], [100], [80], [#preencher[…]],
-    [QS-07], [U3: segundos separadores com progresso e cancelar (%)], [#preencher[…]], [#preencher[…]], [100], [100], [#preencher[…]],
+    [QS-07], [U1: tempo de bloqueio por execução, p50 (s): vídeo / imagens], [22,8 / 2,8], [0 / 0 (máximo 0,6 s numa repetição)], [0], [≤ 1], [Sim],
+    [QS-07], [U1: sondagens com a interface bloqueada (%): vídeo / imagens], [96,8 / 78,6], [0 / 0 (máximo 1,3 %)], [0], [—], [Sim],
+    [QS-07], [U2: recarregamentos com progresso e cancelar (%)], [0], [100], [100], [100], [Sim],
+    [QS-07], [U2: execuções retomadas com os resultados mostrados sem recarregar (%)], [0], [100 (0,1–2,0 s após o fim)], [100], [80], [Sim],
+    [QS-07], [U3: segundos separadores com progresso e cancelar (%)], [0], [100], [100], [100], [Sim],
     [QS-02], [R1: trabalhos com estado terminal correto, mínimo por alvo (%): ferramenta de imagem / orquestrador], [40 / 40 (média 52 / 68)], [100 / 100 (média 100 / 100)], [100], [95], [Sim],
     [QS-02], [R1: trabalhos pendentes no total das 5 repetições: ferramenta de imagem / orquestrador], [12 / 8], [0 / 0], [0], [0], [Sim],
     [QS-02], [R2: tempo de recuperação, p95 (s): ferramenta de imagem / orquestrador], [n.d. (nenhuma repetição recuperou) / 10,3 (2 de 5)], [29,6 / 32,7], [≤ 30], [≤ 60], [Alvo / mínimo],
@@ -112,7 +112,25 @@ estão em `bench/results/reliable-messaging/` e `bench/results/process-recovery/
   ),
 )
 
-#preencher[Operabilidade (QS-07, DA-1): após a medição de `bench/background_ui.py` antes e depois.]
+*Operabilidade (QS-07, DA-1).* Os valores «antes» são os do _frontend_ original e os «depois» os da pilha final
+(`bench/results/baseline/background-ui.json` e `bench/results/after-dirty-fix/background-ui.json`, 25 de novembro, sem
+contentores alheios ao projeto). As duas medições usam a mesma pilha; só mudam a imagem do _frontend_ e a correção
+de `/dirty` no orquestrador (secção «Defeitos pré-existentes»).
+
+- *U1 atinge o alvo.* Na base, a página ficava bloqueada durante toda a execução: 22,8 s num vídeo de 10 s e 2,8 s
+  com 3 imagens, 97 % e 79 % das sondagens. Depois, o bloqueio é 0 s em 9 das 10 repetições; numa delas, uma
+  sondagem (0,6 s) apanhou a página bloqueada no arranque da execução, abaixo do mínimo aceitável de 1 s. A duração
+  das execuções não aumenta (vídeo p50 20,5 s antes, 16,0 s depois; imagens 0,8 s e 0,6 s).
+- *U2 e U3 atingem o alvo.* Na base, recarregar a página ou abri-la noutro separador perdia o progresso e o botão de
+  cancelar em todas as repetições, e os resultados só apareciam ao recarregar de novo. Depois, as duas coisas
+  sobrevivem em 5/5 repetições, e os resultados aparecem sozinhos 0,1–2,0 s após o fim. Os controlos do instrumento
+  confirmam que a execução estava em curso no momento do recarregamento e depois dele, em todas as repetições.
+- *Um defeito encontrado pela medição.* Na primeira medição «depois» (`bench/results/after-bg/`), uma das 5
+  repetições de U2 nunca começou (80 %): o Apply foi rejeitado com 409 porque a página, ao abrir, incrementava a
+  versão do projeto sem nada mudar. O defeito existia na base e é descrito na secção «Defeitos pré-existentes»; a
+  medição foi repetida depois da correção, com o resultado da tabela.
+- *Efeitos noutros atributos.* A consulta do estado acrescenta um pedido ao abrir a página e um a cada 5 s durante
+  uma execução; os testes ponta a ponta passam (5/5) na pilha final.
 
 *Ameaças à validade já identificadas.* (1) A máquina de medição é um portátil (Ryzen 5 5500U) partilhado com outros
 contentores, cuja lista fica registada em cada ficheiro de resultados para garantir as mesmas condições antes e
@@ -134,7 +152,7 @@ alheios antes de começar (lista vazia em `other_containers`).
     colunas: (2.4cm, 4cm, 3cm, 3.2cm, 1fr),
     tamanho: 8.5pt,
     [Zona alterada], [Testes de regressão existentes (`Tools/video/tests`, `projects/tests`, …)], [Lacunas de teste], [Testes acrescentados], [Resultado (imagem e vídeo)],
-    [DA-1: estado da execução e página do projeto], [`projects/tests` (`node --test`); `bench/e2e_smoke.py` (5 cenários com imagens e vídeo, incluindo o número de eventos `process-update`)], [Nenhum teste da página do projeto nem do estado da execução], [`projects/tests/run-status.test.js` (6 testes: passos por imagem e por vídeo, itens terminados, execução confirmada, registos de outras execuções e pré-visualizações, falha, projeto nunca processado); `bench/background_ui.py` com controlos; o cliente de medição passou a aceitar o segundo argumento de `process-update`], [`projects/tests`: 35/36 (a falha é o teste de ligações simbólicas, que não corre em Windows); #preencher[ponta a ponta e U1–U3 após a medição]],
+    [DA-1: estado da execução e página do projeto], [`projects/tests` (`node --test`); `bench/e2e_smoke.py` (5 cenários com imagens e vídeo, incluindo o número de eventos `process-update`)], [Nenhum teste da página do projeto nem do estado da execução], [`projects/tests/run-status.test.js` (6 testes: passos por imagem e por vídeo, itens terminados, execução confirmada, registos de outras execuções e pré-visualizações, falha, projeto nunca processado); `bench/background_ui.py` com controlos; o cliente de medição passou a aceitar o segundo argumento de `process-update`], [`projects/tests`: 35/36 (a falha é o teste de ligações simbólicas, que não corre em Windows); ponta a ponta (`bench/e2e_smoke.py`): 5/5; U1–U3 no alvo (`after-dirty-fix`)],
     [DA-2: entrega de mensagens e recuperação], [Nenhum], [Confirmação, reentrega, idempotência e reconciliação não têm testes], [`projects/tests/recovery.test.js` (7 testes: publicação com registo da confirmação, republicação de passos nunca publicados, falha de passos expirados só com a fila vazia, prazo maior para vídeo, barreira de _commit_ da extração, erro de pré-visualização); cenário de controlo `chaos.py --target none`; `bench/outage_crash.py` (falha do _broker_ e do orquestrador); verificação do caminho de erro], [`projects/tests`: 29/30 (a falha é um teste de ligações simbólicas já existente, que não corre em Windows); `Tools/video_common/tests`: 90/90; ponta a ponta (`bench/e2e_smoke.py`): 5/5, com imagens e vídeo; controlo: 100 % em 5/5 repetições],
   ),
 )
@@ -166,5 +184,6 @@ dos RNF escolhidos. Foram corrigidos à parte, sem alterar o comportamento prete
     [Respostas de erro das ferramentas com identificadores trocados (EV-11)], [Um erro de uma ferramenta nunca chegava ao utilizador e o trabalho ficava pendente], [O `messageId` e o `correlationId` estavam trocados, bem como a ordem dos argumentos. Por ser objeto da recuperabilidade, a correção faz parte da DA-2 (`a69a0e8`, classe B)], [Erro comunicado em 0,1 s (secção anterior)],
     [Apply rejeitado com «Project version conflict» depois de adicionar uma ferramenta], [O pedido de processamento falhava com 409 até a página ser recarregada], [Adicionar uma ferramenta volta a pedir o projeto e, logo a seguir, marcar o projeto com alterações por guardar (`/dirty`) incrementa outra vez a versão. Se o servidor lia o projeto antes dessa escrita e respondia depois dela, a resposta substituía a versão em _cache_ pela anterior, e todas as edições seguintes enviavam uma versão desatualizada. A página volta a pedir o projeto quando uma resposta traz uma versão inferior à que já tem (`7f75a8c`, PR \#7, `frontend/lib/queries/projects.ts`)], [Adicionar uma borda e aplicar logo: 409 em 2 de 5 tentativas antes, 0 de 15 depois],
     [A barra de progresso recuava de 100 % para 75 %], [Em projetos com imagens e vídeos, a percentagem voltava atrás perto do fim], [Descrito na DA-1 (desvios), por afetar o indicador que é objeto do QS-07 (`b4326b4`)], [Recuo em 2 de 3 execuções antes, 0 de 5 depois],
+    [Apply rejeitado com 409 logo depois de abrir o projeto], [Um processamento lançado nos primeiros instantes nunca começava; a página não mostrava erro], [Ao abrir, a página comunica que não há alterações por guardar (`/dirty`), quase sempre o valor que já está guardado. A escrita incrementava a versão mesmo sem alterar nada, e um Apply enviado nesse intervalo levava a versão anterior. O orquestrador responde agora 204 com a versão atual, sem escrever, quando o valor não muda; uma versão desatualizada continua a receber 409 (`38058ce`, `projects/routes/projects.js`)], [U2: 1 de 5 repetições sem início antes, 0 de 5 depois e nenhum 409 nos registos; 5 casos da API (sem alteração, alteração, versão desatualizada)],
   ),
 )
