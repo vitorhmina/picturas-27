@@ -117,9 +117,26 @@ tempos (R2) não são comparáveis e são repetidos na medição final, com a m�
     tamanho: 8.5pt,
     [Risco], [Funcionalidade afetada (imagem / vídeo)], [Mitigação], [Teste de regressão],
     [Separação do vídeo (preparatória): a divisão em estágios altera a ordem ou o número de codificações e muda o resultado], [Vídeo: efeitos, legendagem, extração], [Agrupar efeitos contíguos num só estágio, como antes; manter a extração no fim], [`bench/video_equivalence.py`: 9/9 saídas idênticas; `bench/e2e_smoke.py`: 5/5],
-    [Reentrega processa duas vezes o mesmo passo e duplica resultados], [Imagem e vídeo], [Respostas idempotentes pelo `correlationId`], [Teste unitário do tratamento de respostas duplicadas; R3 = 0],
+    [Reentrega processa duas vezes o mesmo passo e duplica resultados], [Imagem e vídeo], [Respostas idempotentes pelo estado do `Process` (`output_stored`, `successor_msg_id`; desvio 2 da DA-2)], [Cenários de falha R1–R3, em que o _broker_ reentrega o passo interrompido: R3 = 0. Sem teste unitário dedicado (lacuna)],
     [O _commit_ da execução passa a acontecer cedo demais ou nunca], [Imagem e vídeo, incluindo extração de fotogramas], [Manter o registo prévio do lote (`processBatch.js`) e a regra de _commit_ quando não restam `Process`], [`projects/tests/process-batch.test.js`, `frame-extraction.test.js`; cenário de controlo],
     [Com a página utilizável, o utilizador altera o _pipeline_ ou remove _media_ a meio de uma execução], [Imagem e vídeo], [Edição do _pipeline_, assistente, predefinições e adição e remoção de _media_ bloqueados para o projeto em processamento], [Verificação manual; U1 sonda só uma ação de leitura (descarregar)],
     [Um estado antigo do servidor termina a execução na página antes de tempo], [Imagem e vídeo], [Só conta um estado obtido depois de o servidor registar a execução; terminar pelo estado exige uma execução confirmada (`committed`)], [U2 (resultados mostrados depois do fim, nunca antes); `run-status.test.js`],
+  ),
+)
+
+== Defeitos pré-existentes encontrados
+
+Os testes na pilha em execução revelaram defeitos que já existiam no _commit_ de partida e que não pertencem a nenhum
+dos RNF escolhidos. Foram corrigidos à parte, sem alterar o comportamento pretendido nem acrescentar funcionalidade
+(não são classe C), e ficam registados aqui para não serem confundidos com efeitos das decisões.
+
+#tab([Defeitos pré-existentes encontrados e corrigidos],
+  tabela(
+    colunas: (3cm, 4.2cm, 1fr, 2.8cm),
+    tamanho: 8.5pt,
+    [Defeito], [Sintoma], [Causa e correção], [Verificação],
+    [Respostas de erro das ferramentas com identificadores trocados (EV-11)], [Um erro de uma ferramenta nunca chegava ao utilizador e o trabalho ficava pendente], [O `messageId` e o `correlationId` estavam trocados, bem como a ordem dos argumentos. Por ser objeto da recuperabilidade, a correção faz parte da DA-2 (`a69a0e8`, classe B)], [Erro comunicado em 0,1 s (secção anterior)],
+    [Apply rejeitado com «Project version conflict» depois de adicionar uma ferramenta], [O pedido de processamento falhava com 409 até a página ser recarregada], [Adicionar uma ferramenta volta a pedir o projeto e, logo a seguir, marcar o projeto com alterações por guardar (`/dirty`) incrementa outra vez a versão. Se o servidor lia o projeto antes dessa escrita e respondia depois dela, a resposta substituía a versão em _cache_ pela anterior, e todas as edições seguintes enviavam uma versão desatualizada. A página volta a pedir o projeto quando uma resposta traz uma versão inferior à que já tem (`7f75a8c`, PR \#7, `frontend/lib/queries/projects.ts`)], [Adicionar uma borda e aplicar logo: 409 em 2 de 5 tentativas antes, 0 de 15 depois],
+    [A barra de progresso recuava de 100 % para 75 %], [Em projetos com imagens e vídeos, a percentagem voltava atrás perto do fim], [Descrito na DA-1 (desvios), por afetar o indicador que é objeto do QS-07 (`b4326b4`)], [Recuo em 2 de 3 execuções antes, 0 de 5 depois],
   ),
 )
