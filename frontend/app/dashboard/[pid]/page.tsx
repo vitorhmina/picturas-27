@@ -182,7 +182,13 @@ export default function Project({
     processStatus.dataUpdatedAt > runStartedAtRef.current
       ? Math.round((serverRun.done * 100) / serverRun.total)
       : 0;
-  const displayedProgress = Math.max(localProgress, serverProgress);
+  // The local count can briefly drop: a video at 100 % is subtracted from the
+  // counted steps before its own step event arrives. Progress never goes back
+  // within a run.
+  const peakProgressRef = useRef(0);
+  if (!processing) peakProgressRef.current = 0;
+  const displayedProgress = Math.max(peakProgressRef.current, localProgress, serverProgress);
+  peakProgressRef.current = displayedProgress;
 
   useLayoutEffect(() => {
     if (
