@@ -1,4 +1,5 @@
 #import "../template.typ": *
+#import "arquitetura.typ": vista-global, legenda-arquitetura, sequencia-pedido, legenda-sequencia
 
 = Âmbito e Vista da Arquitetura
 
@@ -60,27 +61,29 @@ detém projetos, _media_, _pipelines_ e execuções. Cada efeito de imagem é um
 vídeo afasta-se deste padrão: um único serviço, `video_tool`, consome `video_queue` e executa o _pipeline_ inteiro.
 
 #figure(kind: image,
-  figura-pendente[vista da arquitetura global com o caminho do vídeo destacado (`images/arquitetura_global.png`)],
+  block(breakable: false)[#vista-global() #v(0.15cm) #legenda-arquitetura()],
   caption: [Vista da arquitetura global com o caminho do vídeo destacado],
 )
 
-*Ferramenta / notação:* #preencher[e.g., diagrama de contentores C4]
+*Ferramenta / notação:* diagrama de contentores ao estilo C4 (nível 2), desenhado em Typst com as mesmas primitivas
+das vistas do capítulo 9. Estado no _commit_ de partida `0523102`. As setas indicam o sentido do pedido ou da
+mensagem; uma seta com duas pontas indica pedidos e respostas.
 
 #tab([Legenda da vista da arquitetura],
   tabela(
     colunas: (5cm, 1fr),
     [Elemento (cor, forma ou estilo)], [Significado],
-    [#preencher[…]], [Caminho do vídeo],
-    [#preencher[…]], [Caminho das imagens (uma mensagem por passo)],
-    [#preencher[…]], [Fila RabbitMQ],
-    [#preencher[…]], [Armazenamento (MongoDB, S3, volume partilhado)],
+    [Caixa e setas roxas], [Caminho do vídeo],
+    [Setas pretas], [Caminho das imagens (uma mensagem por passo) e comunicação comum],
+    [Caixa verde], [Fila RabbitMQ],
+    [Caixa cinzenta tracejada], [Armazenamento (MongoDB, S3, volume partilhado)],
   ),
 )
 
 == Sequência de um pedido completo
 
 #figure(kind: image,
-  figura-pendente[diagrama de sequência do processamento em lote de um projeto com vídeos (`images/sequencia_pedido.png`)],
+  block(breakable: false)[#sequencia-pedido() #v(0.15cm) #legenda-sequencia()],
   caption: [Sequência do processamento em lote de um projeto com vídeos],
 )
 
