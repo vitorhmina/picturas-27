@@ -16,7 +16,7 @@
     tamanho: 8pt,
     [Decisão], [Desempenho], [Disponibilidade / Fiabilidade], [Segurança], [Usabilidade], [Manutenibilidade / Testabilidade], [Justificação],
     [DA-1], [↓ ligeira: um pedido de estado ao abrir a página e um a cada 5 s durante uma execução (leituras)], [\= processamento inalterado; ↑ a página termina a execução mesmo com eventos perdidos], [\= a consulta usa a mesma autenticação e as permissões de partilha (`checkSharePermission`)], [↑ operabilidade (objetivo): página utilizável, progresso e cancelamento persistentes; ↓ edição do projeto em processamento bloqueada], [↑ estado da execução com uma só fonte (servidor), com testes (`run-status.test.js`); ↓ mais um ponto de consulta e um componente global], [O custo de desempenho limita-se a leituras; o bloqueio da edição só afeta o projeto em processamento],
-    [DA-2], [↓ ligeira (confirmações e persistência das mensagens); possível reprocessamento após falha], [↑ recuperabilidade e tolerância a falhas (objetivo)], [\= (sem efeito)], [↑ erros das ferramentas passam a chegar ao utilizador; trabalhos deixam de ficar pendentes], [↑ falhas visíveis e estado consistente; ↓ lógica de entrega mais complexa no orquestrador], [O custo de desempenho é verificado repetindo E1–E2 depois da DA-2; o reprocessamento não altera resultados graças à idempotência],
+    [DA-2], [↓ ligeira (confirmações e persistência das mensagens); possível reprocessamento após falha], [↑ recuperabilidade e tolerância a falhas (objetivo)], [\= (sem efeito)], [↑ erros das ferramentas passam a chegar ao utilizador; trabalhos deixam de ficar pendentes], [↑ falhas visíveis e estado consistente; ↓ lógica de entrega mais complexa no orquestrador], [E1–E2 repetidos na pilha final: espera mediana menor, mas _makespan_ de uma rajada maior, sobretudo pela separação do vídeo (tabela «Custo de desempenho»); o reprocessamento não altera resultados graças à idempotência],
   ),
 )
 ]
@@ -58,7 +58,8 @@
     [QS-07], [U3: segundos separadores com progresso e cancelar (%)], [#preencher[…]], [#preencher[…]], [100], [100], [#preencher[…]],
     [QS-02], [R1: trabalhos com estado terminal correto, mínimo por alvo (%): ferramenta de imagem / orquestrador], [40 / 40 (média 52 / 68)], [100 / 100 (média 100 / 100)], [100], [95], [Sim],
     [QS-02], [R1: trabalhos pendentes no total das 5 repetições: ferramenta de imagem / orquestrador], [12 / 8], [0 / 0], [0], [0], [Sim],
-    [QS-02], [R2: tempo de recuperação, p95 (s): ferramenta de imagem / orquestrador], [n.d. (nenhuma repetição recuperou) / 10,3 (2 de 5)], [48,4 / 50,7 (provisório)], [≤ 30], [≤ 60], [Mínimo, provisório],
+    [QS-02], [R2: tempo de recuperação, p95 (s): ferramenta de imagem / orquestrador], [n.d. (nenhuma repetição recuperou) / 10,3 (2 de 5)], [29,6 / 32,7], [≤ 30], [≤ 60], [Alvo / mínimo],
+    [QS-02], [R2: tempo de recuperação, p95 (s): serviços de vídeo (R1 = 100 % e R3 = 0 antes e depois)], [28,7], [48,9], [≤ 30], [≤ 60], [Mínimo],
     [QS-02], [R3: `Process` órfãos, máximo: ferramenta de imagem / orquestrador], [8 / 7], [0 / 0], [0], [0], [Sim],
     [QS-02], [Falha do _broker_ (pausa) seguida de SIGKILL do orquestrador (`bench/outage_crash.py`)], [Só com DA-2 parcial (mensagens fiáveis): o trabalho nunca termina], [Concluído (3/3 _media_) em 40,5 s], [Concluído], [Concluído ou erro comunicado], [Sim],
   ),
@@ -66,8 +67,9 @@
 
 *Análise dos resultados* (por requisito não funcional):
 
-*Fiabilidade (QS-02, DA-2).* Os valores «depois» são os de `bench/results/process-recovery/` (PR \#4, sobre o PR \#3);
-os resultados intermédios, só com as mensagens fiáveis, estão em `bench/results/reliable-messaging/`.
+*Fiabilidade (QS-02, DA-2).* Os valores «depois» são os da medição final (`bench/results/after-da2/`, 25 de novembro,
+máquina ligada à corrente e sem outros contentores). As medições intermédias, que confirmaram R1 e R3 após cada parte,
+estão em `bench/results/reliable-messaging/` e `bench/results/process-recovery/`.
 
 - *R1 e R3 atingem o alvo.* Na base, terminar uma ferramenta de imagem ou o orquestrador a meio de um lote deixava, no
   pior caso, 60 % dos trabalhos pendentes para sempre e até 8 registos `Process` órfãos, porque as mensagens eram
@@ -78,13 +80,37 @@ os resultados intermédios, só com as mensagens fiáveis, estão em `bench/resu
   registado e o trabalho conclui em 40,5 s.
 - *Os erros chegam ao utilizador.* Com os identificadores e a ordem dos argumentos corrigidos, um erro de uma ferramenta
   chega ao utilizador como `process-error` em 0,1 s; antes era descartado e o trabalho ficava pendente (EV-11).
-- *R2 fica dentro do mínimo aceitável, mas não do alvo, e o valor é provisório.* O R2 da base não é comparável: com a
-  ferramenta de imagem nenhuma repetição recuperou, e com o orquestrador só recuperaram as 2 repetições em que a falha
-  não apanhou trabalho em curso, o que favorece a base. Depois da DA-2, o R2 inclui reprocessar o passo interrompido
-  com a máquina em sobrecarga (ameaça 5), pelo que é repetido na medição final.
+- *R2 atinge o alvo com a ferramenta de imagem (29,6 s) e fica no mínimo aceitável com o orquestrador (32,7 s) e com
+  os serviços de vídeo (48,9 s).* O R2 da base não é comparável: com a ferramenta de imagem nenhuma repetição
+  recuperou, e com o orquestrador só recuperaram as 2 repetições em que a falha não apanhou trabalho em curso, o que
+  favorece a base. Depois da DA-2, o R2 inclui reprocessar o passo interrompido. A dispersão é pequena (p50 e p95
+  diferem menos de 1 s em cada alvo), pelo que o valor é estável. No vídeo, o R2 sobe de 28,7 s para 48,9 s: o
+  alvo passou a ser os três serviços de estágio, terminados e reiniciados em conjunto, e o estágio interrompido é
+  processado de novo desde o início; a causa exata da diferença não foi isolada.
 - *Efeitos noutros atributos.* No controlo (sem falhas) todos os trabalhos continuam a terminar e os testes ponta a
-  ponta passam (5/5), pelo que as confirmações não alteram os resultados. O custo de desempenho das confirmações e da
-  persistência é medido na medição final, repetindo E1–E2.
+  ponta passam (5/5), pelo que as confirmações não alteram os resultados. Repetir E1–E2 na pilha final mostra efeitos
+  em sentidos opostos, que não podem ser atribuídos só à DA-2, porque a pilha final inclui também a separação do vídeo
+  (tabela seguinte). O trabalho curto de E1 espera menos de metade (p50 97,0 → 41,5 s), porque deixou de ficar atrás
+  da legendagem. Na rajada de E2, a espera mediana cai (41,7 → 9,1 s), mas o _makespan_ sobe 60 % (331,2 → 531,6 s,
+  p50) e alguns trabalhos curtos esperam até 478 s. A medição só com a separação (`bench/results/split-177s/`, antes da
+  DA-2) já tinha um _makespan_ de 523,7 s, o que aponta a separação como a origem principal do aumento. A cauda da
+  espera, porém, é maior na pilha final (p95 218,0 → 455,6 s), pelo que não se exclui um custo da DA-2 na ordem de
+  entrega das mensagens. Esta comparação é indicativa: essa medição usou o vídeo de fala de 177 s em E1 e foi feita com um
+  _cluster_ local alheio ao projeto em execução. A causa provável é a ordem das filas entre estágios (cada estágio tem
+  uma réplica que processa uma mensagem de cada vez, e os trabalhos com legendas voltam à fila de efeitos depois da
+  legendagem), mas não foi confirmada; fica como trabalho futuro (cap. 11).
+
+#tab([Custo de desempenho na pilha final (E1–E2)],
+  tabela(
+    colunas: (1fr, 2.4cm, 2.4cm, 2.6cm),
+    tamanho: 8.5pt,
+    [Medição (s)], [Base (`0523102`)], [Final (`efd3094`)], [Só separação (`split-177s`)],
+    [E1: espera do trabalho curto, p50 / p95], [97,0 / 112,8], [41,5 / 54,9], [134,7 / 137,3 (vídeo de 177 s)],
+    [E1: legendagem, total p50], [102,4], [81,1], [228,8 (vídeo de 177 s)],
+    [E2: _makespan_ de 10 trabalhos, p50 / p95], [331,2 / 350,0], [531,6 / 546,7], [523,7 / 552,6],
+    [E2: espera por trabalho, p50 / p95], [41,7 / 191,6], [9,1 / 455,6], [13,4 / 218,0],
+  ),
+)
 
 #preencher[Operabilidade (QS-07, DA-1): após a medição de `bench/background_ui.py` antes e depois.]
 
@@ -97,7 +123,9 @@ intermédias da DA-2 decorreram com a máquina limitada (bateria a carregar a pa
 _cluster_ Kubernetes local alheio ao projeto a usar 25–40 % de CPU): processar diretamente o vídeo de 10 s demorou
 41,6 s em vez de cerca de 13 s. As taxas de conclusão (R1) e os órfãos (R3) não dependem do tempo e são válidos; os
 tempos (R2) não são comparáveis e são repetidos na medição final, com a máquina em repouso e ligada à corrente
-(`bench/results/*/NOTE.txt`).
+(`bench/results/*/NOTE.txt`). A medição final de 24 de novembro coincidiu com outra pilha alheia ao projeto e foi
+descartada (`*.contended-2026-11-24`, `*.INVALID-contention-2026-11-24`); a de 25 de novembro parou todos os contentores
+alheios antes de começar (lista vazia em `other_containers`).
 
 == Preservação funcional
 
