@@ -2801,6 +2801,14 @@ router.post(
       const project = await Project.getOne(req.params.user, req.params.project);
       if (!project) return res.status(404).jsonp("Project not found");
 
+      // The page reports the flag when it loads, usually with the value already
+      // stored. Writing it would bump the version, and an Apply clicked right then
+      // would carry the old version and get a 409. Nothing changes, so no write.
+      if (!!project.dirty === dirty && Number(project.version) === req.expectedVersion) {
+        res.set("X-Project-Version", String(project.version));
+        return res.sendStatus(204);
+      }
+
       // atualiza flags
       project.dirty = dirty;
       project.dirtyUpdatedAt = new Date();
