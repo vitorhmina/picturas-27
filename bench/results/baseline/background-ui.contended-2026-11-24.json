@@ -1,0 +1,291 @@
+{
+  "environment": {
+    "timestamp": "2026-11-24T04:00:09.157027+00:00",
+    "git_commit": "5cb41e51fce47b8b02ddb9588df9f05496f3c097",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "speech_video": "speech_60s.webm",
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "myapp-frontend-angular-1",
+      "myapp-frontend-react-1",
+      "myapp-gateway-1",
+      "myapp-example-service-1",
+      "myapp-auth-service-1",
+      "myapp-notification-service-1",
+      "myapp-keycloak-1",
+      "myapp-kafka-1",
+      "myapp-postgres-1"
+    ]
+  },
+  "probe_s": 0.25,
+  "runs": {
+    "u1_video": [
+      {
+        "workload": "video",
+        "free_before_apply": true,
+        "job_s": 31.557448387145996,
+        "blocked_s": 33.795310497283936,
+        "probes": 138,
+        "blocked_probes": 135,
+        "blocked_pct": 97.82608695652173,
+        "completed": true
+      },
+      {
+        "workload": "video",
+        "free_before_apply": true,
+        "job_s": 22.014530181884766,
+        "blocked_s": 24.034412145614624,
+        "probes": 100,
+        "blocked_probes": 96,
+        "blocked_pct": 96.0,
+        "completed": true
+      },
+      {
+        "workload": "video",
+        "free_before_apply": true,
+        "job_s": 22.26010298728943,
+        "blocked_s": 24.283154249191284,
+        "probes": 101,
+        "blocked_probes": 97,
+        "blocked_pct": 96.03960396039604,
+        "completed": true
+      },
+      {
+        "workload": "video",
+        "free_before_apply": true,
+        "job_s": 21.511566877365112,
+        "blocked_s": 23.783064365386963,
+        "probes": 98,
+        "blocked_probes": 95,
+        "blocked_pct": 96.93877551020408,
+        "completed": true
+      },
+      {
+        "workload": "video",
+        "free_before_apply": true,
+        "job_s": 22.030887842178345,
+        "blocked_s": 24.284146785736084,
+        "probes": 100,
+        "blocked_probes": 97,
+        "blocked_pct": 97.0,
+        "completed": true
+      }
+    ],
+    "u1_images": [
+      {
+        "workload": "images",
+        "free_before_apply": true,
+        "job_s": 1.5074546337127686,
+        "blocked_s": 3.7549095153808594,
+        "probes": 18,
+        "blocked_probes": 15,
+        "blocked_pct": 83.33333333333333,
+        "completed": true
+      },
+      {
+        "workload": "images",
+        "free_before_apply": true,
+        "job_s": 0.7574925422668457,
+        "blocked_s": 3.003054618835449,
+        "probes": 15,
+        "blocked_probes": 12,
+        "blocked_pct": 80.0,
+        "completed": true
+      },
+      {
+        "workload": "images",
+        "free_before_apply": true,
+        "job_s": 0.7606446743011475,
+        "blocked_s": 2.75329327583313,
+        "probes": 15,
+        "blocked_probes": 11,
+        "blocked_pct": 73.33333333333333,
+        "completed": true
+      },
+      {
+        "workload": "images",
+        "free_before_apply": true,
+        "job_s": 0.7603976726531982,
+        "blocked_s": 2.7539126873016357,
+        "probes": 15,
+        "blocked_probes": 11,
+        "blocked_pct": 73.33333333333333,
+        "completed": true
+      },
+      {
+        "workload": "images",
+        "free_before_apply": true,
+        "job_s": 0.5052392482757568,
+        "blocked_s": 2.7541699409484863,
+        "probes": 14,
+        "blocked_probes": 11,
+        "blocked_pct": 78.57142857142857,
+        "completed": true
+      }
+    ],
+    "u2_reload": [
+      {
+        "progress_before_reload": true,
+        "cancel_before_reload": true,
+        "running_at_reload": true,
+        "running_after_reload": true,
+        "progress_after_reload": false,
+        "cancel_after_reload": false,
+        "completed": true,
+        "results_shown_without_reload": false,
+        "results_shown_delay_s": null
+      },
+      {
+        "progress_before_reload": true,
+        "cancel_before_reload": true,
+        "running_at_reload": true,
+        "running_after_reload": true,
+        "progress_after_reload": false,
+        "cancel_after_reload": false,
+        "completed": true,
+        "results_shown_without_reload": false,
+        "results_shown_delay_s": null
+      },
+      {
+        "progress_before_reload": true,
+        "cancel_before_reload": true,
+        "running_at_reload": true,
+        "running_after_reload": true,
+        "progress_after_reload": false,
+        "cancel_after_reload": false,
+        "completed": true,
+        "results_shown_without_reload": false,
+        "results_shown_delay_s": null
+      },
+      {
+        "progress_before_reload": true,
+        "cancel_before_reload": true,
+        "running_at_reload": true,
+        "running_after_reload": true,
+        "progress_after_reload": false,
+        "cancel_after_reload": false,
+        "completed": true,
+        "results_shown_without_reload": false,
+        "results_shown_delay_s": null
+      },
+      {
+        "progress_before_reload": true,
+        "cancel_before_reload": true,
+        "running_at_reload": true,
+        "running_after_reload": true,
+        "progress_after_reload": false,
+        "cancel_after_reload": false,
+        "completed": true,
+        "results_shown_without_reload": false,
+        "results_shown_delay_s": null
+      }
+    ],
+    "u3_second_tab": [
+      {
+        "running_when_opened": true,
+        "running_after_open": true,
+        "progress_in_second_tab": false,
+        "cancel_in_second_tab": false
+      },
+      {
+        "running_when_opened": true,
+        "running_after_open": true,
+        "progress_in_second_tab": false,
+        "cancel_in_second_tab": false
+      },
+      {
+        "running_when_opened": true,
+        "running_after_open": true,
+        "progress_in_second_tab": false,
+        "cancel_in_second_tab": false
+      },
+      {
+        "running_when_opened": true,
+        "running_after_open": true,
+        "progress_in_second_tab": false,
+        "cancel_in_second_tab": false
+      },
+      {
+        "running_when_opened": true,
+        "running_after_open": true,
+        "progress_in_second_tab": false,
+        "cancel_in_second_tab": false
+      }
+    ]
+  },
+  "summary": {
+    "u1_video_blocked_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 23.783064365386963,
+      "p50": 24.283154249191284,
+      "p95": 33.795310497283936,
+      "max": 33.795310497283936,
+      "mean": 26.036017608642577
+    },
+    "u1_video_blocked_pct": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 96.0,
+      "p50": 96.93877551020408,
+      "p95": 97.82608695652173,
+      "max": 97.82608695652173,
+      "mean": 96.76089328542437
+    },
+    "u1_video_job_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 21.511566877365112,
+      "p50": 22.030887842178345,
+      "p95": 31.557448387145996,
+      "max": 31.557448387145996,
+      "mean": 23.87490725517273
+    },
+    "u1_images_blocked_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 2.75329327583313,
+      "p50": 2.7541699409484863,
+      "p95": 3.7549095153808594,
+      "max": 3.7549095153808594,
+      "mean": 3.003868007659912
+    },
+    "u1_images_blocked_pct": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 73.33333333333333,
+      "p50": 78.57142857142857,
+      "p95": 83.33333333333333,
+      "max": 83.33333333333333,
+      "mean": 77.71428571428571
+    },
+    "u1_images_job_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 0.5052392482757568,
+      "p50": 0.7603976726531982,
+      "p95": 1.5074546337127686,
+      "max": 1.5074546337127686,
+      "mean": 0.8582457542419434
+    },
+    "u1_free_before_apply_pct": 100.0,
+    "u2_progress_before_reload_pct": 100.0,
+    "u2_cancel_before_reload_pct": 100.0,
+    "u2_progress_after_reload_pct": 0.0,
+    "u2_cancel_after_reload_pct": 0.0,
+    "u2_results_shown_without_reload_pct": 0.0,
+    "u2_running_at_reload_pct": 100.0,
+    "u2_running_after_reload_pct": 100.0,
+    "u3_progress_in_second_tab_pct": 0.0,
+    "u3_cancel_in_second_tab_pct": 0.0,
+    "u3_running_when_opened_pct": 100.0,
+    "u3_running_after_open_pct": 100.0
+  }
+}
