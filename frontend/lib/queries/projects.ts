@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   fetchProjects,
   fetchProject,
@@ -40,9 +40,22 @@ export const useGetProject = (
   ownerId?: string,
   shareId?: string,
 ) => {
+  const qc = useQueryClient();
+  const queryKey = ["project", uid, pid, token, ownerId, shareId];
   return useQuery({
-    queryKey: ["project", uid, pid, token, ownerId, shareId],
-    queryFn: () => fetchProject(uid, pid, token, ownerId, shareId),
+    queryKey,
+    queryFn: async () => {
+      const fresh = await fetchProject(uid, pid, token, ownerId, shareId);
+      // A write can finish while this request is in flight (e.g. the dirty flag
+      // set right after adding a tool) and bump the cached version. The server
+      // read this response before that write, so it is stale: storing it would
+      // move the version back and every later edit would get a 409.
+      const cached = qc.getQueryData<{ version?: number }>(queryKey);
+      if (cached && Number(cached.version) > Number(fresh.version)) {
+        return fetchProject(uid, pid, token, ownerId, shareId);
+      }
+      return fresh;
+    },
   });
 };
 
