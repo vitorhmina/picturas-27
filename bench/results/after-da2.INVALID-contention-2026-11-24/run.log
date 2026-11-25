@@ -1,0 +1,852 @@
+[2026-11-24 05:54:56] label=after-da2 runs=5 commit=5cb41e5
+[2026-11-24 05:54:56] START elasticity.py --label after-da2 --runs 5
+commit 5cb41e51  services=34
+warm-up: one subtitles job (loads the Whisper model; discarded)
+packet queue is empty, aborting
+  warm-up done
+E1 run 1: light wait=224.6732039451599 total=245.12169790267944 heavy total=269.70965003967285
+E1 run 2: light wait=225.0591757297516 total=246.03882145881653 heavy total=268.65910291671753
+E1 run 3: light wait=242.59033513069153 total=264.03081035614014 heavy total=286.88105750083923
+E1 run 4: light wait=215.48002219200134 total=237.04252314567566 heavy total=259.81087493896484
+E1 run 5: light wait=213.63800716400146 total=235.43284392356873 heavy total=257.3210368156433
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\E1.json
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+packet queue is empty, aborting
+E2 run 1: makespan=None statuses=['timeout', 'done', 'done', 'done', 'done', 'timeout', 'timeout', 'timeout', 'done', 'done']
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ConnectionResetError: [WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\elasticity.py", line 215, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\elasticity.py", line 175, in main
+    r = run_e2(args.base, args.burst, args.timeout)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\elasticity.py", line 94, in run_e2
+    prepared = list(ex.map(lambda k: prepare(k, base), kinds))
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\elasticity.py", line 94, in <lambda>
+    prepared = list(ex.map(lambda k: prepare(k, base), kinds))
+                                     ~~~~~~~^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\elasticity.py", line 35, in prepare
+    user = BenchUser(base)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\client.py", line 68, in __init__
+    data = _check(self.http.post(f"{self.api}/users/", json=body, timeout=30), "register").json()
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 711, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+[2026-11-24 07:03:49] END   elasticity.py --label after-da2 --runs 5 (exit 1)
+[2026-11-24 07:03:50] START chaos.py --label after-da2 --target none --runs 5
+commit 5cb41e51  target=none services=[]
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ConnectionResetError: [WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 176, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 156, in main
+    r = run_once(args, services)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 77, in run_once
+    p, n = f.result()
+           ~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 45, in prepare_images
+    p = BenchUser(base).create_project("chaos-images")
+        ~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\client.py", line 68, in __init__
+    data = _check(self.http.post(f"{self.api}/users/", json=body, timeout=30), "register").json()
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 711, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+[2026-11-24 07:06:34] END   chaos.py --label after-da2 --target none --runs 5 (exit 1)
+[2026-11-24 07:06:34] START chaos.py --label after-da2 --target image-tool --runs 5
+commit 5cb41e51  target=image-tool services=['contrast_tool']
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ConnectionResetError: [WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 176, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 156, in main
+    r = run_once(args, services)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 77, in run_once
+    p, n = f.result()
+           ~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 45, in prepare_images
+    p = BenchUser(base).create_project("chaos-images")
+        ~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\client.py", line 68, in __init__
+    data = _check(self.http.post(f"{self.api}/users/", json=body, timeout=30), "register").json()
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 711, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+[2026-11-24 07:09:13] END   chaos.py --label after-da2 --target image-tool --runs 5 (exit 1)
+[2026-11-24 07:09:13] START chaos.py --label after-da2 --target video --runs 5 --services video_effects_tool,video_subtitles_tool,video_frames_tool
+commit 5cb41e51  target=video services=['video_effects_tool', 'video_subtitles_tool', 'video_frames_tool']
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ConnectionResetError: [WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 176, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 156, in main
+    r = run_once(args, services)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 77, in run_once
+    p, n = f.result()
+           ~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 45, in prepare_images
+    p = BenchUser(base).create_project("chaos-images")
+        ~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\client.py", line 68, in __init__
+    data = _check(self.http.post(f"{self.api}/users/", json=body, timeout=30), "register").json()
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 711, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+[2026-11-24 07:10:12] END   chaos.py --label after-da2 --target video --runs 5 --services video_effects_tool,video_subtitles_tool,video_frames_tool (exit 1)
+[2026-11-24 07:10:12] START chaos.py --label after-da2 --target projects --runs 5
+commit 5cb41e51  target=projects services=['projects']
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ConnectionResetError: [WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\retry.py", line 510, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 878, in connect
+    wrapped_socket, is_verified = _ssl_wrap_socket_and_match_hostname(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<14 lines>...
+        assert_fingerprint=self.assert_fingerprint,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\connection.py", line 1080, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+        sock=sock,
+    ...<8 lines>...
+        tls_in_tls=tls_in_tls,
+    )
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 437, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 481, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 469, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1087, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\ssl.py", line 1383, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 176, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 156, in main
+    r = run_once(args, services)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 77, in run_once
+    p, n = f.result()
+           ~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\vitor\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\chaos.py", line 45, in prepare_images
+    p = BenchUser(base).create_project("chaos-images")
+        ~~~~~~~~~^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\client.py", line 68, in __init__
+    data = _check(self.http.post(f"{self.api}/users/", json=body, timeout=30), "register").json()
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\vitor\Documents\GitHub\picturas-27\bench\.venv\Lib\site-packages\requests\adapters.py", line 711, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(10054, 'Uma ligação existente foi forçada a fechar pelo anfitrião remoto', None, 10054, None))
+[2026-11-24 07:10:53] END   chaos.py --label after-da2 --target projects --runs 5 (exit 1)
+[2026-11-24 07:10:53] START summarize.py after-da2
+C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\summary.csv
+[2026-11-24 07:10:53] END   summarize.py after-da2 (exit 0)
+[2026-11-24 07:10:53] ALL DONE

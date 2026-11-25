@@ -1,0 +1,233 @@
+{
+  "scenario": "E1",
+  "env": {
+    "timestamp": "2026-11-24T05:54:57.227313+00:00",
+    "git_commit": "5cb41e51fce47b8b02ddb9588df9f05496f3c097",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.8",
+    "cpu_count": 12,
+    "speech_video": "speech_60s.webm",
+    "docker": {
+      "ServerVersion": "29.8.2",
+      "NCPU": 12,
+      "MemTotal": 7969980416,
+      "OperatingSystem": "Docker Desktop (containerized)"
+    },
+    "other_containers": [
+      "myapp-frontend-angular-1",
+      "myapp-frontend-react-1",
+      "myapp-gateway-1",
+      "myapp-example-service-1",
+      "myapp-auth-service-1",
+      "myapp-notification-service-1",
+      "myapp-keycloak-1",
+      "myapp-kafka-1",
+      "myapp-postgres-1"
+    ],
+    "services": [
+      "api_gateway",
+      "bg_remove_ai_tool",
+      "binarization_tool",
+      "border_tool",
+      "brightness_tool",
+      "contrast_tool",
+      "cut_ai_tool",
+      "cut_tool",
+      "expand_ai_tool",
+      "frontend",
+      "generative-mock",
+      "img_storage",
+      "mongo-backup",
+      "nginx",
+      "obj_ai_tool",
+      "people_ai_tool",
+      "projects",
+      "projects_mongoDB",
+      "rabbitmq",
+      "resize_tool",
+      "rotate_tool",
+      "saturation_tool",
+      "seaweedfs",
+      "subscriptions",
+      "subscriptions_mongoDB",
+      "text_ai_tool",
+      "upgrade_ai_tool",
+      "users",
+      "users_mongoDB",
+      "video_effects_tool",
+      "video_frames_tool",
+      "video_subtitles_tool",
+      "watermark_tool_ms",
+      "ws_gateway"
+    ]
+  },
+  "params": {
+    "base": "https://localhost:8080",
+    "label": "after-da2",
+    "runs": 5,
+    "scenarios": "E1,E2,E3",
+    "light_delay": 5.0,
+    "burst": 10,
+    "timeout": 1800.0,
+    "settle": 60.0,
+    "no_warmup": false
+  },
+  "runs": [
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795500390.174513,
+        "first_progress": 1795500392.895848,
+        "finished": 1795500659.8841631,
+        "wait_s": 2.721334934234619,
+        "total_s": 269.70965003967285,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795500395.31049,
+        "first_progress": 1795500619.9836938,
+        "finished": 1795500640.4321878,
+        "wait_s": 224.6732039451599,
+        "total_s": 245.12169790267944,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795500661.8150337,
+        "first_progress": 1795500664.26667,
+        "finished": 1795500930.4741366,
+        "wait_s": 2.45163631439209,
+        "total_s": 268.65910291671753,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795500666.9407573,
+        "first_progress": 1795500891.999933,
+        "finished": 1795500912.9795787,
+        "wait_s": 225.0591757297516,
+        "total_s": 246.03882145881653,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795500932.4151309,
+        "first_progress": 1795500935.13219,
+        "finished": 1795501219.2961884,
+        "wait_s": 2.7170591354370117,
+        "total_s": 286.88105750083923,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795500937.7965724,
+        "first_progress": 1795501180.3869076,
+        "finished": 1795501201.8273828,
+        "wait_s": 242.59033513069153,
+        "total_s": 264.03081035614014,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795501221.228967,
+        "first_progress": 1795501223.8367295,
+        "finished": 1795501481.039842,
+        "wait_s": 2.607762575149536,
+        "total_s": 259.81087493896484,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795501226.5637486,
+        "first_progress": 1795501442.0437708,
+        "finished": 1795501463.6062717,
+        "wait_s": 215.48002219200134,
+        "total_s": 237.04252314567566,
+        "results": 1,
+        "error": null
+      }
+    },
+    {
+      "heavy": {
+        "kind": "subtitles",
+        "status": "done",
+        "submitted": 1795501483.0860126,
+        "first_progress": 1795501485.7480729,
+        "finished": 1795501740.4070494,
+        "wait_s": 2.662060260772705,
+        "total_s": 257.3210368156433,
+        "results": 1,
+        "error": null
+      },
+      "light": {
+        "kind": "light",
+        "status": "done",
+        "submitted": 1795501488.4898307,
+        "first_progress": 1795501702.127838,
+        "finished": 1795501723.9226747,
+        "wait_s": 213.63800716400146,
+        "total_s": 235.43284392356873,
+        "results": 1,
+        "error": null
+      }
+    }
+  ],
+  "summary": {
+    "light_wait_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 213.63800716400146,
+      "p50": 224.6732039451599,
+      "p95": 242.59033513069153,
+      "max": 242.59033513069153,
+      "mean": 224.28814883232116
+    },
+    "light_total_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 235.43284392356873,
+      "p50": 245.12169790267944,
+      "p95": 264.03081035614014,
+      "max": 264.03081035614014,
+      "mean": 245.5333393573761
+    },
+    "heavy_total_s": {
+      "n": 5,
+      "n_valid": 5,
+      "min": 257.3210368156433,
+      "p50": 268.65910291671753,
+      "p95": 286.88105750083923,
+      "max": 286.88105750083923,
+      "mean": 268.4763444423676
+    },
+    "light_status": [
+      "done",
+      "done",
+      "done",
+      "done",
+      "done"
+    ]
+  }
+}

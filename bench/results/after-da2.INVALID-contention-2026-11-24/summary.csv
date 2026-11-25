@@ -1,0 +1,5 @@
+metric,unit,after-da2
+E1 light job wait p50,s,224.67
+E1 light job wait p95,s,242.59
+E1 light job total p95,s,264.03
+E1 subtitles job total p50,s,268.66
