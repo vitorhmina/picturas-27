@@ -1,0 +1,59 @@
+[2026-11-25 06:41:07] label=after-da2 runs=5 commit=efd3094
+[2026-11-25 06:41:07] START elasticity.py --label after-da2 --runs 5
+commit efd30941  services=34
+warm-up: one subtitles job (loads the Whisper model; discarded)
+  warm-up done
+E1 run 1: light wait=54.87116360664368 total=63.31069612503052 heavy total=95.3588318824768
+E1 run 2: light wait=42.18716287612915 total=51.27905607223511 heavy total=81.94824624061584
+E1 run 3: light wait=41.14049458503723 total=49.26116991043091 heavy total=79.93591022491455
+E1 run 4: light wait=41.10974884033203 total=49.31895399093628 heavy total=79.98159432411194
+E1 run 5: light wait=41.518030643463135 total=49.42427158355713 heavy total=81.13699245452881
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\E1.json
+E2 run 1: makespan=546.6771025657654 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 2: makespan=531.5643985271454 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 3: makespan=533.7784657478333 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 4: makespan=516.1918323040009 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+E2 run 5: makespan=506.15974140167236 statuses=['done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done', 'done']
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\E2.json
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\E3.json
+[2026-11-25 07:35:49] END   elasticity.py --label after-da2 --runs 5 (exit 0)
+[2026-11-25 07:35:49] START chaos.py --label after-da2 --target none --runs 5
+commit efd30941  target=none services=[]
+run 1: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+run 5: done=5 error=0 hung=0 / 5  recovery=None  orphans=0
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\chaos-none.json
+[2026-11-25 07:39:54] END   chaos.py --label after-da2 --target none --runs 5 (exit 0)
+[2026-11-25 07:39:54] START chaos.py --label after-da2 --target image-tool --runs 5
+commit efd30941  target=image-tool services=['contrast_tool']
+run 1: done=5 error=0 hung=0 / 5  recovery=28.525084733963013  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=29.570361375808716  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=29.536017656326294  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=29.533026456832886  orphans=0
+run 5: done=5 error=0 hung=0 / 5  recovery=28.50457000732422  orphans=0
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\chaos-image-tool.json
+[2026-11-25 07:43:59] END   chaos.py --label after-da2 --target image-tool --runs 5 (exit 0)
+[2026-11-25 07:43:59] START chaos.py --label after-da2 --target video --runs 5 --services video_effects_tool,video_subtitles_tool,video_frames_tool
+commit efd30941  target=video services=['video_effects_tool', 'video_subtitles_tool', 'video_frames_tool']
+run 1: done=5 error=0 hung=0 / 5  recovery=48.87596321105957  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=48.82016587257385  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=48.85498833656311  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=48.82854747772217  orphans=0
+run 5: done=5 error=0 hung=0 / 5  recovery=48.84114623069763  orphans=0
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\chaos-video.json
+[2026-11-25 07:49:47] END   chaos.py --label after-da2 --target video --runs 5 --services video_effects_tool,video_subtitles_tool,video_frames_tool (exit 0)
+[2026-11-25 07:49:47] START chaos.py --label after-da2 --target projects --runs 5
+commit efd30941  target=projects services=['projects']
+run 1: done=5 error=0 hung=0 / 5  recovery=32.7207350730896  orphans=0
+run 2: done=5 error=0 hung=0 / 5  recovery=31.675646781921387  orphans=0
+run 3: done=5 error=0 hung=0 / 5  recovery=31.797065258026123  orphans=0
+run 4: done=5 error=0 hung=0 / 5  recovery=31.814029455184937  orphans=0
+run 5: done=5 error=0 hung=0 / 5  recovery=31.785714864730835  orphans=0
+  -> C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\chaos-projects.json
+[2026-11-25 07:54:07] END   chaos.py --label after-da2 --target projects --runs 5 (exit 0)
+[2026-11-25 07:54:07] START summarize.py after-da2
+C:\Users\vitor\Documents\GitHub\picturas-27\bench\results\after-da2\summary.csv
+[2026-11-25 07:54:07] END   summarize.py after-da2 (exit 0)
+[2026-11-25 07:54:07] ALL DONE
