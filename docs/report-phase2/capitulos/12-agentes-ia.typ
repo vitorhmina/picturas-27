@@ -31,14 +31,26 @@
     [Claude Code / Opus 5.5], [Implementação da DA-2 (cap. 8, 10)], [Confirmação após resposta confirmada nas ferramentas e no orquestrador, correção das respostas de erro, registo `Process` com a mensagem do passo e vigilante de recuperação, testes e cenário de falha do _broker_], [Republicar passos expirados a partir do registo: rejeitado depois de verificar que os passos de imagem escrevem por cima do próprio ficheiro, pelo que a repetição não é idempotente. A primeira versão da rota de processamento esperava as confirmações do _broker_ e bloqueava o pedido com o _broker_ em baixo; detetado ao preparar o cenário `outage_crash.py` e corrigido para publicar em segundo plano], [Testes unitários, cenários de falha R1–R3 antes e depois, teste ponta a ponta; #preencher[revisão do código pela equipa]],
     [Claude Code / Opus 5.5], [Reavaliação do primeiro candidato antes do autoescalador (cap. 6)], [Comparação da elasticidade com a operabilidade do trabalho em segundo plano por pertinência, complexidade, solidez da medição e custo; recomendação de operabilidade], [A primeira recomendação (manter a elasticidade) pesava o trabalho já feito; a equipa pediu uma comparação sem esse viés, que a inverteu. A sugestão de migrar para Kubernetes com KEDA foi rejeitada por custo e por mudar a plataforma entre medições], [Decisão da equipa],
     [Claude Code / Opus 5.5], [Implementação da DA-1 e instrumento U1–U3 (cap. 8, 10)], [Ponto de consulta do estado, eventos com o projeto, indicador não bloqueante, retoma, fim pelo estado do servidor, notificação global; _script_ Playwright com controlos], [A primeira sondagem (U1) declarava a página bloqueada antes de Apply, enquanto a página ainda estava a carregar: detetado pelo controlo e corrigido. Com um vídeo de 10 s, U2 e U3 davam falsos negativos numa máquina carregada (a execução terminava antes de o separador carregar): passaram a usar o vídeo de 60 s e a registar se a execução ainda decorria], [Testes unitários, controlos do instrumento, verificação funcional na pilha; #preencher[revisão do código pela equipa]],
+    [Claude Code / Opus 5.5], [Vistas antes e depois (cap. 9)], [Desenho das duas vistas com primitivas do Typst, mesma disposição e notação, cores por decisão e tabela das 14 interações], [Uma tabela cujas células começavam por `=` era interpretada como título e impedia a compilação: detetado pela compilação e corrigido], [Comparação das vistas com o código das duas versões; #preencher[revisão pela equipa]],
+    [Claude Code / Opus 5.5], [Medição final e testes na pilha (cap. 10)], [Execução noturna agendada dos cenários, com verificação da alimentação e registo dos contentores alheios ao projeto], [A primeira execução final coincidiu com uma pilha alheia (Kafka a 160 % de CPU) e foi declarada inválida pelo próprio agente ao analisar os resultados (ligações recusadas, E1 70 % mais lento); repetida com essa pilha parada], [Comparação com as medições anteriores e com o registo de recursos; #preencher[…]],
+    [Claude Code / Opus 5.5], [Correção de defeitos pré-existentes (cap. 8, 10)], [Diagnóstico pelos registos do `nginx` e do orquestrador, correção do conflito de versão e do recuo da barra de progresso, _scripts_ de reprodução antes e depois], [A primeira hipótese para o conflito de versão (a escrita `/dirty` não atualizava a _cache_) era falsa: a leitura do código mostrou que atualizava, e a causa real era uma resposta antiga a substituí-la], [Reprodução no _browser_ antes e depois de cada correção; #preencher[verificação manual pela equipa]],
   ),
 )
 
 == Análise crítica
 
-#preencher[O que correu bem, onde a IA introduziu erros ou soluções inadequadas, como foram detetados, e que práticas a equipa adotou para validar o resultado.]
+*O que correu bem.* O agente foi mais útil nas tarefas com verificação objetiva: recolher evidências no código,
+escrever os instrumentos de medição, implementar alterações com testes e diagnosticar falhas a partir dos registos dos
+serviços. Nestas tarefas, cada resultado pôde ser confirmado por um comando, um teste ou uma medição.
 
-Até esta versão, os erros introduzidos pela IA foram afirmações não verificadas (uma contagem e o efeito de uma
-variável de ambiente) e um erro de interpretação de uma resposta da API. Todos foram detetados por verificação direta:
-contagem no código, execução do comando e leitura do código do _gateway_. A prática adotada é não aceitar nenhuma
-evidência, contagem ou comando sem uma verificação executada no _commit_ de partida.
+*Onde a IA errou.* Os erros foram de quatro tipos: (1) afirmações não verificadas (uma contagem de serviços e o efeito
+de uma variável de ambiente); (2) interpretações erradas do comportamento do sistema (a resposta de `POST /process`,
+a primeira hipótese para o conflito de versão); (3) instrumentos de medição com falsos resultados (a sondagem U1 antes
+de a página carregar, U2 e U3 com um vídeo demasiado curto); e (4) um viés na recomendação do candidato, que pesava o
+trabalho já feito. Os três primeiros foram detetados por verificação direta (contagem, execução, leitura do código,
+controlos do instrumento); o quarto só foi detetado porque a equipa questionou a recomendação.
+
+*Práticas adotadas.* Nenhuma evidência, contagem ou comando é aceite sem uma verificação executada; cada cenário de
+medição tem controlos que detetam um instrumento avariado; cada correção é reproduzida antes e depois; e as decisões
+de âmbito (o RNF a escolher, o que fica fora da fase) são tomadas pela equipa, com o agente a apresentar a comparação.
+#preencher[Revisão e opinião da equipa.]
