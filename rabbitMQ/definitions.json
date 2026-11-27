@@ -186,6 +186,22 @@
             "durable": true,
             "auto_delete": false,
             "arguments": {}
+        },
+        {
+            "name": "dead_letter_queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "dead_letter_archive",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-max-length": 1000
+            }
         }
     ],
     "exchanges": [
@@ -193,6 +209,15 @@
             "name": "picturas",
             "vhost": "/",
             "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        },
+        {
+            "name": "picturas.dlx",
+            "vhost": "/",
+            "type": "fanout",
             "durable": true,
             "auto_delete": false,
             "internal": false,
@@ -375,6 +400,34 @@
             "destination_type": "queue",
             "routing_key": "video_frames_queue",
             "arguments": {}
+        },
+        {
+            "source": "picturas.dlx",
+            "vhost": "/",
+            "destination": "dead_letter_queue",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        },
+        {
+            "source": "picturas.dlx",
+            "vhost": "/",
+            "destination": "dead_letter_archive",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        }
+    ],
+    "policies": [
+        {
+            "vhost": "/",
+            "name": "tool-dead-letters",
+            "pattern": "^(?!project_queue$|ws_queue$|dead_letter).*_queue$",
+            "apply-to": "queues",
+            "definition": {
+                "dead-letter-exchange": "picturas.dlx"
+            },
+            "priority": 0
         }
     ]
 }
