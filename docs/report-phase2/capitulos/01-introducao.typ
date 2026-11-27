@@ -35,7 +35,7 @@ imagens e para vídeos, o que é verificado por testes de regressão (capítulo 
     [Documento de requisitos de base], [doc-ext-requisitos-2627.pdf],
     [Documento de solução arquitetural de base], [doc-sol-arquitetural.pdf],
     [Repositório de partida], [`https://github.com/picturas-um/picturas-27`, _commit_ `052310226c51fa57a17101c7bd1ad795674aac95` (`0523102`, «Tell students replacing Phase 1 to wipe old Docker volumes (\#37)»)],
-    [Repositório entregue], [`https://github.com/vitorhmina/picturas-27`, _commit_ `fd3723be9432377d8d7175b299ff8701186bc7ce` (`fd3723b`)],
+    [Repositório entregue], [`https://github.com/vitorhmina/picturas-27`, _commit_ `e9a6cbc6e42daf0c979ed778680fc666f9e432d5` (`e9a6cbc`)],
     [Diretrizes da Fase 2], [Versão 1 (4 de novembro de 2026)],
   ),
 )
