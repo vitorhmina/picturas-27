@@ -33,8 +33,9 @@ function runStatus(project, processes) {
   const items = media.map((m) => {
     const p = byMedia.get(String(m._id));
     const n = steps(m);
-    // no pending record: the batch is registered up front, so this item has finished
-    const d = !p ? n : isVideoMedia(m) ? 0 : Math.min(p.cur_pos || 0, n);
+    // no pending record: the batch is registered up front, so this item has finished;
+    // a finished record waits only for the run to be committed
+    const d = !p || p.finished ? n : isVideoMedia(m) ? 0 : Math.min(p.cur_pos || 0, n);
     done += d;
     return { img_id: String(m._id), video: isVideoMedia(m), done: d, total: n };
   });

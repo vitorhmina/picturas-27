@@ -474,13 +474,16 @@ if (/preview/.test(msg_id) && isLast) {
       // Se esta imagem acabou o pipeline, pode ser que a execução tenha terminado
       if (!/preview/.test(msg_id) && isLast) {
 
-        if (chainEnd) await Process.delete(process.user_id, process.project_id, process._id);
         // A terminal source has all outputs stored; intermediate text results
         // retain their barrier until their successor is registered below.
-        const remaining = await Process.countByProjectAndToken(
+        // The finished record is kept until the commit check below, so the run
+        // status never sees a run with no records that is not yet committed.
+        if (chainEnd) await Process.markFinished(msg_id);
+        const remaining = await Process.countUnfinishedByProjectAndToken(
           process.project_id,
           process.token || 0
         );
+        let commitStop = false;
 
         if (remaining === 0) {
           // re-fetch do projeto (já tens project) mas garante que está fresh
@@ -505,17 +508,18 @@ if (/preview/.test(msg_id) && isLast) {
             const committed = await Project.commitRunIfActive(
               process.user_id, process.project_id, process.token || 0, toolsSnapshot
             );
-            if (!committed) return;
-
-            console.log(`[COMMIT] project=${process.project_id} committedToken=${process.token || 0}`);
+            if (!committed) commitStop = true;
+            else console.log(`[COMMIT] project=${process.project_id} committedToken=${process.token || 0}`);
 
           } else {
             console.log(
               `[COMMIT-SKIP] project=${process.project_id} token=${process.token} activeToken=${freshProject.activeToken}`
             );
-            return;
+            commitStop = true;
           }
         }
+        if (chainEnd) await Process.delete(process.user_id, process.project_id, process._id);
+        if (commitStop) return;
       }
 
       if (holdsRunCommit) {

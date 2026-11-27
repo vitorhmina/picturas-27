@@ -29,6 +29,14 @@ test("an item with no pending record has finished", () => {
   assert.deepEqual(s.media.map((m) => m.done), [1, 2, 0]);
 });
 
+test("a run whose last record finished but is not committed yet is still running", () => {
+  // the last source keeps its record until the commit, so the page never sees
+  // a run without records that has not been committed
+  const s = runStatus(project(), [proc("v", 1, { finished: true })]);
+  assert.equal(s.status, "running");
+  assert.equal(s.done, s.total);
+});
+
 test("a committed run is idle and complete", () => {
   const s = runStatus(project({ committedToken: 3 }), []);
   assert.equal(s.status, "idle");
