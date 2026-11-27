@@ -42,7 +42,7 @@ colorida pela decisão que mais a altera; as linhas do seu texto usam a cor da d
     [3], [`projects` → RabbitMQ: pedido de cada passo], [Publicação sem persistência nem confirmação, numa ligação nova por mensagem], [Publicada por `dispatch()`, persistente e confirmada pelo _broker_; o `Process` guarda a mensagem (DA-2)],
     [4], [RabbitMQ → `projects`: respostas das ferramentas (`project_queue`)], [Confirmadas antes de serem tratadas: uma falha a meio perde a resposta], [Confirmadas só depois de tratadas; uma resposta repetida é tolerada (DA-2)],
     [5], [`projects` → RabbitMQ: eventos para o utilizador (`ws_queue`)], [`process-update` e `process-error` sem projeto], [Com `projectId` (DA-1); publicação confirmada (DA-2)],
-    [6], [RabbitMQ → ferramentas de imagem], [_Auto-ack_ à receção: uma ferramenta que morre perde o passo], [Confirmação só depois de a resposta ser confirmada; reentrega pelo _broker_ e, à segunda falha, fila de mensagens mortas (DA-2); o `watermark` (imagem pré-construída) mantém-se],
+    [6], [RabbitMQ → ferramentas de imagem], [_Auto-ack_ à receção: uma ferramenta que morre perde o passo], [Confirmação só depois de a resposta ser confirmada; reentrega pelo _broker_ (DA-2); o `watermark` (imagem pré-construída) mantém-se],
     [7], [Ferramentas de imagem → RabbitMQ: respostas], [Não persistentes; respostas de erro com identificadores trocados], [Persistentes e confirmadas; os erros chegam ao utilizador (DA-2)],
     [8], [RabbitMQ → vídeo], [Uma fila e um serviço para todas as etapas], [Uma fila por etapa; uma etapa de cada vez (preparatório)],
     [9], [Vídeo → RabbitMQ: respostas e progresso], [Publicação sem persistência nem confirmação], [Publicação confirmada e persistente (DA-2)],
