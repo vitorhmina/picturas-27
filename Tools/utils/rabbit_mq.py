@@ -80,8 +80,10 @@ class Rabbit_MQ:
                 # is redelivered once the consumer reconnects
                 raise
             except Exception as e:  # noqa: BLE001 - a bug in the tool, not a broker fault
-                # retry once (possibly on another replica), then drop it so a message
-                # that always fails cannot loop forever
+                # retry once (possibly on another replica), then reject it so a message
+                # that always fails cannot loop forever: the broker dead-letters it
+                # (policy in rabbitMQ/definitions.json) and the orchestrator answers
+                # the step with an error (projects/utils/deadLetters.js)
                 print(f"[rabbit] callback failed on {self._queue}: {e!r} "
                       f"(redelivered={method.redelivered})", flush=True)
                 ch.basic_nack(delivery_tag=method.delivery_tag, requeue=not method.redelivered)

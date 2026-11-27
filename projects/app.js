@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 
 const { router: projectsRouter, process_msg } = require("./routes/projects");
 const { startRecovery } = require("./utils/recovery");
+const { consumeDeadLetters } = require("./utils/deadLetters");
 
 // Run Docker
 const mongoDB = "mongodb://projects_mongoDB:27018/project";
@@ -38,6 +39,8 @@ app.use("/", projectsRouter);
 
 // Start the message processing
 process_msg();
+// steps whose message failed a tool twice end with an error at once
+consumeDeadLetters();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

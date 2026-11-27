@@ -128,6 +128,9 @@ cd Tools/video_common && python3 -m venv .venv && .venv/bin/pip install -r requi
 - Messaging is at-least-once: tools ack only after their reply is confirmed, `projects` acks a
   reply only after its handler finished, and messages are persistent. A message can therefore
   arrive twice; handlers must tolerate duplicates. The pre-built `watermark` image still auto-acks.
+- A message that fails a tool twice is rejected and dead-lettered (policy `tool-dead-letters` in
+  `rabbitMQ/definitions.json`, exchange `picturas.dlx`): `projects/utils/deadLetters.js` answers it
+  as a tool error, so the user gets it at once, and `dead_letter_archive` keeps the last 1000.
 - Create every `Process` with `tool` and `params` and publish it with `dispatch()`
   (`projects/utils/recovery.js`), never `send_msg_tool` directly: the recovery watchdog relies on
   the record to publish lost steps again. Delete a `Process` only after its step's effects are
