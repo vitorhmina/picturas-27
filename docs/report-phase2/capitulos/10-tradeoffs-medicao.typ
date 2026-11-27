@@ -138,7 +138,7 @@ correção de `/dirty` no orquestrador (`bench/results/baseline/` e `bench/resul
 
 *Regressão na versão final.* Todos os testes foram repetidos sobre a versão entregue: `projects/tests` 37/38,
 `Tools/video_common/tests` 90/90 e `bench/e2e_smoke.py` 5/5, com imagens e vídeo. A única falha é um teste de
-ligações simbólicas já existente, que não corre em Windows. As duas correções posteriores à medição final
+ligações simbólicas já existente, que não corre em Windows. As duas alterações posteriores à medição final
 (cap. 8) foram ainda verificadas com `bench/chaos.py`, com o orquestrador como alvo (2 repetições: R1 = 100 %,
 R3 = 0); os valores de U1–U3 e R1–R3 da secção «Resultados das medições» são anteriores a elas. A equipa testou ainda a aplicação manualmente, com imagens
 e vídeos; foi assim que se encontrou o 409 depois de adicionar uma ferramenta («Defeitos pré-existentes encontrados»).
@@ -152,7 +152,7 @@ e vídeos; foi assim que se encontrou o 409 depois de adicionar uma ferramenta (
     [A reentrega duplica resultados], [Imagem e vídeo], [Respostas idempotentes pelo estado do `Process` (desvio 2 da DA-2); risco residual de reaplicar um efeito de imagem (cap. 8)], [R1–R3 (R3 = 0); sem verificação do conteúdo dos resultados (lacuna)],
     [O _commit_ da execução acontece cedo demais ou nunca], [Imagem e vídeo, incluindo extração], [Registo prévio do lote e _commit_ só quando não restam `Process`], [`process-batch.test.js`, `frame-extraction.test.js`; controlo],
     [O utilizador altera o projeto a meio de uma execução], [Imagem e vídeo], [Edição do projeto bloqueada durante a execução (cap. 8)], [Utilização manual pela equipa],
-    [Um estado antigo do servidor termina a execução na página antes de tempo], [Imagem e vídeo], [Só conta um estado posterior ao registo da execução, e os resultados exigem uma execução confirmada; o último `Process` só é removido depois do _commit_ (cap. 8)], [U2; `run-status.test.js`; sondagem do estado em 10 execuções (cap. 8)],
+    [Um estado antigo do servidor termina a execução na página antes de tempo], [Imagem e vídeo], [Só conta um estado posterior ao registo da execução, e os resultados exigem uma execução confirmada; o último `Process` só é removido depois do _commit_ (cap. 8)], [U2; `run-status.test.js`],
   ),
 )
 
