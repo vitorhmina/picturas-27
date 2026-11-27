@@ -5,18 +5,7 @@
 #paisagem[
 = Vista Arquitetural Antes e Depois
 
-#orientacao[
-  *Origem:* Exercício 7, secção 4 do _template_.
-
-  Duas vistas do mesmo diagrama: *antes* e *depois* das decisões. Usem o tipo de diagrama que melhor mostrar a alteração
-  (componentes, implantação ou sequência). Destaquem os elementos ou as interações introduzidos ou alterados pelas
-  táticas (com um estereótipo `«tática: …»` ou uma cor) e incluam uma *legenda*.
-
-  As duas vistas devem ser comparáveis: mesma notação, mesma escala e os mesmos elementos de contexto, de modo a que a
-  diferença se perceba a olho. A legenda e as notas explicam o que mudou entre elas e porquê.
-]
-
-Vista de componentes e conectores do processamento de um projeto. As caixas são serviços (contentores Docker) ou
+Vista de componentes e ligações do processamento de um projeto. As caixas são serviços (contentores Docker) ou
 armazenamento; as setas são pedidos HTTP, mensagens RabbitMQ ou eventos Socket.IO, numeradas e descritas nas notas.
 As duas vistas usam a mesma disposição e a mesma notação; só mudam as cores, os estereótipos e o texto dos elementos
 alterados.
@@ -53,14 +42,14 @@ colorida pela decisão que mais a altera; as linhas do seu texto usam a cor da d
     [3], [`projects` → RabbitMQ: pedido de cada passo], [Publicação sem persistência nem confirmação, numa ligação nova por mensagem], [Publicada por `dispatch()`, persistente e confirmada pelo _broker_; o `Process` guarda a mensagem (DA-2)],
     [4], [RabbitMQ → `projects`: respostas das ferramentas (`project_queue`)], [Confirmadas antes de serem tratadas: uma falha a meio perde a resposta], [Confirmadas só depois de tratadas; uma resposta repetida é tolerada (DA-2)],
     [5], [`projects` → RabbitMQ: eventos para o utilizador (`ws_queue`)], [`process-update` e `process-error` sem projeto], [Com `projectId` (DA-1); publicação confirmada (DA-2)],
-    [6], [RabbitMQ → ferramentas de imagem], [_Auto-ack_ à receção: uma ferramenta que morre perde o passo], [Confirmação só depois de a resposta ser confirmada; reentrega pelo _broker_ (DA-2)],
+    [6], [RabbitMQ → ferramentas de imagem], [_Auto-ack_ à receção: uma ferramenta que morre perde o passo], [Confirmação só depois de a resposta ser confirmada; reentrega pelo _broker_ (DA-2); o `watermark` (imagem pré-construída) mantém-se],
     [7], [Ferramentas de imagem → RabbitMQ: respostas], [Não persistentes; respostas de erro com identificadores trocados], [Persistentes e confirmadas; os erros chegam ao utilizador (DA-2)],
-    [8], [RabbitMQ → vídeo], [Uma fila e um serviço para todos os estágios], [Uma fila por estágio; um estágio de cada vez (preparatório)],
-    [9], [Vídeo → RabbitMQ: respostas e progresso], [—], [Publicação confirmada e persistente (DA-2)],
+    [8], [RabbitMQ → vídeo], [Uma fila e um serviço para todas as etapas], [Uma fila por etapa; uma etapa de cada vez (preparatório)],
+    [9], [Vídeo → RabbitMQ: respostas e progresso], [Publicação sem persistência nem confirmação], [Publicação confirmada e persistente (DA-2)],
     [10], [`projects` ↔ MongoDB (`Process`)], [Registo apagado antes de os efeitos do passo estarem guardados], [Guarda a mensagem e o estado do passo; o vigilante (DA-2) e o estado da execução (DA-1) leem-no],
     [11], [RabbitMQ → `ws_gateway` (`ws_queue`)], [—], [Transporte inalterado; os eventos levam o projeto (DA-1)],
     [12], [`ws_gateway` → _browser_ (Socket.IO)], [A página conta os eventos de qualquer projeto e ignora-os se não tiver uma execução local], [A página filtra os eventos pelo projeto; um componente global notifica a conclusão noutras páginas (DA-1)],
-    [13], [_Browser_ → `api_gateway`: `GET …/process/status`], [Não existe], [Novo: ao abrir a página e a cada 5 s durante uma execução (DA-1)],
+    [13], [_Browser_ → `api_gateway`: `GET …/process/status`], [Não existe], [Novo: ao abrir a página, a cada 5 s durante uma execução e, noutras páginas, um por evento recebido pelo notificador (DA-1)],
     [14], [`api_gateway` → `projects`: `GET …/process/status`], [Não existe], [Novo: estado derivado dos _tokens_ da execução e dos registos `Process`, sem escritas (DA-1)],
   ),
 )

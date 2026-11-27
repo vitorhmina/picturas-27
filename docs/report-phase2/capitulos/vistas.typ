@@ -5,11 +5,31 @@
 #let laranja = rgb("#c8650a")   // DA-2 (QS-02)
 #let cinza = rgb("#6f6f6f")     // refactoring preparatório (QS-03)
 
-// Uma linha do corpo de uma caixa: texto simples, ou (texto, cor) para um destaque
-#let _linha(l) = if type(l) == array {
-  text(size: 6.5pt, fill: l.at(1), weight: "medium", l.at(0))
-} else {
-  text(size: 6.5pt, l)
+// Posição e tamanho de cada caixa (x, y, largura, altura), comuns às duas vistas
+#let G = (
+  browser: (0, 0.6, 4.8, 4.4),
+  api: (5.7, 0.6, 3.4, 1.7),
+  ws: (5.7, 3.3, 3.4, 1.7),
+  projects: (10.0, 0.6, 5.0, 4.4),
+  mongo: (10.0, 6.2, 5.0, 2.4),
+  rabbit: (15.9, 0.6, 3.2, 8.0),
+  tools: (20.0, 0.6, 4.6, 3.6),
+  video: (20.0, 5.0, 4.6, 3.6),
+)
+
+// Uma linha do corpo de uma caixa, com marcador: texto, (texto, cor) para um destaque,
+// (rotulo: …) para um rótulo sem marcador, ou "" para um espaço
+#let _linha(l) = {
+  if l == "" { return v(0.15em) }
+  if type(l) == dictionary {
+    return block(spacing: 0.5em, text(size: 7.3pt, fill: gray.darken(30%), style: "italic", l.rotulo))
+  }
+  let (t, c) = if type(l) == array { (l.at(0), l.at(1)) } else { (l, black) }
+  block(spacing: 0.5em, grid(
+    columns: (0.25cm, 1fr),
+    text(size: 7.6pt, fill: c, "•"),
+    text(size: 7.6pt, fill: c, weight: if c == black { "regular" } else { "medium" }, t),
+  ))
 }
 
 #let caixa(x, y, w, h, titulo, corpo: (), cor: black, tracejado: false, estereotipo: none) = place(
@@ -19,15 +39,16 @@
     width: w * 1cm,
     height: h * 1cm,
     radius: 2pt,
-    inset: 4pt,
+    inset: 5pt,
     fill: if cor == black { white } else { cor.lighten(90%) },
     stroke: (paint: cor, thickness: if cor == black { 0.7pt } else { 1.1pt }, dash: if tracejado { "dashed" } else { none }),
   )[
-    #set par(leading: 0.3em, justify: false, spacing: 0.3em)
+    #set par(leading: 0.35em, justify: false, spacing: 0.35em)
     #set align(left)
-    #if estereotipo != none [#text(size: 5.8pt, fill: cor, style: "italic", estereotipo) \ ]
-    #text(size: 7.3pt, weight: "bold", fill: if cor == black { black } else { cor.darken(20%) }, titulo)
-    #for l in corpo [ \ #_linha(l) ]
+    #if estereotipo != none [#text(size: 6.6pt, fill: cor, style: "italic", estereotipo) \ ]
+    #block(spacing: 0.45em, text(size: 8.6pt, weight: "bold", fill: if cor == black { black } else { cor.darken(20%) }, titulo))
+    #block(spacing: 0.45em, line(length: 100%, stroke: 0.4pt + if cor == black { gray } else { cor.lighten(40%) }))
+    #for l in corpo { _linha(l) }
   ],
 )
 
@@ -89,112 +110,114 @@
 }
 
 // Setas comuns às duas vistas (mesma disposição)
-#let _setas-base(cor-msg: black, cor-ws: black) = {
-  seta(((4.6, 1.3), (5.6, 1.3)), num: 1)
-  seta(((8.8, 1.3), (9.8, 1.3)), num: 2)
-  seta(((14.6, 1.4), (15.6, 1.4)), cor: cor-msg, num: 3)
-  seta(((15.6, 2.6), (14.6, 2.6)), cor: cor-msg, num: 4)
-  seta(((14.6, 4.2), (15.6, 4.2)), cor: cor-msg, num: 5)
-  seta(((18.6, 1.5), (19.6, 1.5)), cor: cor-msg, num: 6)
-  seta(((19.6, 3.4), (18.6, 3.4)), cor: cor-msg, num: 7)
-  seta(((18.6, 6.0), (19.6, 6.0)), cor: cor-msg, num: 8)
-  seta(((19.6, 7.8), (18.6, 7.8)), cor: cor-msg, num: 9)
-  seta(((12.2, 5.0), (12.2, 6.2)), num: 10, dupla: true)
-  seta(((17.1, 8.6), (17.1, 9.4), (7.2, 9.4), (7.2, 5.0)), cor: cor-ws, num: 11, pos: (12.2, 9.4))
-  seta(((5.6, 4.2), (4.6, 4.2)), cor: cor-ws, num: 12)
+#let _setas-base(cor-msg: black, cor-ws: black, cor-video: black) = {
+  seta(((4.8, 1.3), (5.7, 1.3)), num: 1)
+  seta(((9.1, 1.3), (10.0, 1.3)), num: 2)
+  seta(((15.0, 1.4), (15.9, 1.4)), cor: cor-msg, num: 3)
+  seta(((15.9, 2.6), (15.0, 2.6)), cor: cor-msg, num: 4)
+  seta(((15.0, 4.2), (15.9, 4.2)), cor: cor-msg, num: 5)
+  seta(((19.1, 1.5), (20.0, 1.5)), cor: cor-msg, num: 6)
+  seta(((20.0, 3.4), (19.1, 3.4)), cor: cor-msg, num: 7)
+  seta(((19.1, 6.0), (20.0, 6.0)), cor: cor-video, num: 8)
+  seta(((20.0, 7.8), (19.1, 7.8)), cor: cor-msg, num: 9)
+  seta(((12.5, 5.0), (12.5, 6.2)), num: 10, dupla: true)
+  seta(((17.5, 8.6), (17.5, 9.4), (7.4, 9.4), (7.4, 5.0)), cor: cor-ws, num: 11, pos: (12.5, 9.4))
+  seta(((5.7, 4.2), (4.8, 4.2)), cor: cor-ws, num: 12)
 }
 
-#let vista-antes() = box(width: 24cm, height: 9.8cm, {
-  caixa(0, 0.8, 4.6, 4.2, "Browser — página do projeto (Next.js)", corpo: (
-    "Estado da execução só na memória da página (processing, progresso, vídeos) (EV-20)",
-    "Camada sobreposta bloqueia toda a página até ao fim; cancelar só dentro dela (EV-19)",
-    "Conta todos os process-update como do projeto aberto (EV-21)",
-    "Recarregar ou outro separador: sem progresso nem cancelar",
+#let vista-antes() = box(width: 24.6cm, height: 9.8cm, {
+  caixa(..G.browser, "Browser — página do projeto", corpo: (
+    "Estado da execução só na memória da página (EV-20)",
+    "Camada sobreposta bloqueia a página; cancelar só dentro dela (EV-19)",
+    "Conta eventos de qualquer projeto (EV-21)",
+    "Ao recarregar ou noutro separador: sem progresso nem cancelar",
   ))
-  caixa(5.6, 0.8, 3.2, 1.6, "api_gateway (Express)", corpo: ("Valida o JWT e encaminha para projects",))
-  caixa(5.6, 3.4, 3.2, 1.6, "ws_gateway (Socket.IO)", corpo: ("Consome ws_queue; eventos sem identificação do projeto",))
-  caixa(9.8, 0.8, 4.8, 4.2, "projects (orquestrador)", corpo: (
-    "Regista um Process por media e publica cada passo",
+  caixa(..G.api, "api_gateway", corpo: ("Valida o JWT e encaminha",))
+  caixa(..G.ws, "ws_gateway", corpo: ("Consome ws_queue", "Eventos sem projeto (EV-21)"))
+  caixa(..G.projects, "projects (orquestrador)", corpo: (
+    "Um Process por media; publica cada passo",
     "Confirma a resposta antes de a tratar (EV-12)",
-    "Nova ligação ao broker por mensagem; sem confirmações",
-    "Sem prazo nem reconciliação dos passos (EV-13)",
+    "Uma ligação por mensagem, sem confirmações",
+    "Sem prazo nem reconciliação (EV-13)",
   ))
-  caixa(9.8, 6.2, 4.8, 2.4, "MongoDB — Process", corpo: (
+  caixa(..G.mongo, "MongoDB — Process", corpo: (
     "Um registo por passo em curso",
-    "Apagado antes de os efeitos do passo estarem guardados",
+    "Apagado antes de os efeitos ficarem guardados",
   ))
-  caixa(15.6, 0.8, 3.0, 7.8, "RabbitMQ (exchange picturas)", corpo: (
-    "Filas:",
-    "· uma por ferramenta",
-    "· video_queue",
-    "· project_queue (respostas)",
-    "· ws_queue (eventos)",
+  caixa(..G.rabbit, "RabbitMQ", corpo: (
+    (rotulo: "Filas (exchange picturas)"),
+    "Uma por ferramenta",
+    "video_queue",
+    "project_queue (respostas)",
+    "ws_queue (eventos)",
     "",
-    "Mensagens publicadas sem persistência (EV-10)",
+    "Mensagens não persistentes (EV-10)",
   ))
-  caixa(19.6, 0.8, 4.4, 3.4, "Ferramentas de imagem (PIL e IA)", corpo: (
-    "Confirmam a mensagem à receção (auto-ack) (EV-10)",
-    "Respostas de erro com identificadores trocados: o erro não chega ao utilizador (EV-11)",
+  caixa(..G.tools, "Ferramentas de imagem", corpo: (
+    "Auto-ack à receção (EV-10)",
+    "Erros com identificadores trocados: não chegam ao utilizador (EV-11)",
   ))
-  caixa(19.6, 5.2, 4.4, 3.4, "video_tool", corpo: (
-    "Efeitos, legendagem e extração de fotogramas num só serviço e numa só fila (EV-06, EV-08)",
+  caixa(..G.video, "video_tool", corpo: (
+    "Efeitos, legendas e fotogramas num só serviço e fila (EV-06, EV-08)",
     "Um consumidor, prefetch 1 (EV-07)",
+    "Respostas sem persistência nem confirmação",
   ))
   _setas-base()
 })
 
-#let vista-depois() = box(width: 24cm, height: 9.8cm, {
-  caixa(0, 0.8, 4.6, 4.2, "Browser — página do projeto (Next.js)", cor: azul,
+#let vista-depois() = box(width: 24.6cm, height: 9.8cm, {
+  caixa(..G.browser, "Browser — página do projeto", cor: azul,
     estereotipo: "«tática: TAT-12, TAT-13, TAT-14, TAT-15»", corpo: (
-      ("Indicador de progresso no cabeçalho, com cancelar; a página continua utilizável", azul),
-      ("Ao abrir, retoma a execução a partir do servidor (13)", azul),
-      ("Durante a execução, consulta o estado a cada 5 s e termina-a por ele", azul),
-      ("Ignora eventos de outros projetos; notifica a conclusão noutras páginas", azul),
-      "Edição do projeto bloqueada só durante a execução",
+      ("Estado lido do servidor (13)", azul),
+      ("Indicador no cabeçalho, com cancelar; só a edição do projeto fica bloqueada", azul),
+      ("Ignora eventos de outros projetos", azul),
+      ("Ao recarregar ou noutro separador: retoma progresso e cancelar", azul),
+      ("Consulta o estado a cada 5 s; notifica noutras páginas", azul),
     ))
-  caixa(5.6, 0.8, 3.2, 1.6, "api_gateway (Express)", cor: azul, corpo: (
-    "Valida o JWT e encaminha para projects",
+  caixa(..G.api, "api_gateway", cor: azul, corpo: (
+    "Valida o JWT e encaminha",
     ("+ GET …/process/status", azul),
   ))
-  caixa(5.6, 3.4, 3.2, 1.6, "ws_gateway (Socket.IO)", cor: azul, estereotipo: "«tática: TAT-15»", corpo: (
+  caixa(..G.ws, "ws_gateway", cor: azul, estereotipo: "«tática: TAT-15»", corpo: (
     "Consome ws_queue",
     ("Eventos com projectId", azul),
   ))
-  caixa(9.8, 0.8, 4.8, 4.2, "projects (orquestrador)", cor: laranja,
+  caixa(..G.projects, "projects (orquestrador)", cor: laranja,
     estereotipo: "«tática: TAT-06, TAT-07, TAT-08, TAT-09, TAT-13»", corpo: (
-      ("runStatus.js: estado da execução, derivado dos tokens e dos Process", azul),
-      ("Confirma a resposta só depois de a tratar; tolera duplicados", laranja),
-      ("Uma ligação com religação; publicação confirmada e persistente", laranja),
-      ("dispatch(): o Process guarda a mensagem do passo (outbox)", laranja),
-      ("recovery.js: a cada 15 s republica o que nunca foi publicado e termina com erro os passos expirados", laranja),
+      ("runStatus.js: estado da execução", azul),
+      ("dispatch(): o Process guarda a mensagem do passo", laranja),
+      ("Confirma a resposta depois de a tratar; tolera repetidas", laranja),
+      ("Uma ligação; mensagens persistentes e confirmadas", laranja),
+      ("recovery.js: republica ou termina com erro os passos perdidos", laranja),
     ))
-  caixa(9.8, 6.2, 4.8, 2.4, "MongoDB — Process", cor: laranja, estereotipo: "«tática: TAT-08, TAT-09»", corpo: (
-    ("+ tool, params, dispatched_at, output_stored, successor_msg_id, failed", laranja),
-    ("Apagado só depois de os efeitos estarem guardados", laranja),
+  caixa(..G.mongo, "MongoDB — Process", cor: laranja, estereotipo: "«tática: TAT-08, TAT-09»", corpo: (
+    ("Guarda a mensagem e o estado do passo (dispatched_at, output_stored, …)", laranja),
+    ("Apagado só depois de os efeitos ficarem guardados", laranja),
   ))
-  caixa(15.6, 0.8, 3.0, 7.8, "RabbitMQ (exchange picturas)", cor: laranja, estereotipo: "«tática: TAT-07»", corpo: (
-    "Filas:",
-    "· uma por ferramenta",
-    ("· video_effects_queue, video_subtitles_queue, video_frames_queue", cinza),
-    "· project_queue (respostas)",
-    "· ws_queue (eventos)",
+  caixa(..G.rabbit, "RabbitMQ", cor: laranja, estereotipo: "«tática: TAT-07»", corpo: (
+    (rotulo: "Filas (exchange picturas)"),
+    "Uma por ferramenta",
+    ("Uma por etapa de vídeo (3)", cinza),
+    "project_queue (respostas)",
+    "ws_queue (eventos)",
     "",
-    ("Mensagens persistentes; confirmações do publicador", laranja),
+    ("Mensagens persistentes e confirmadas", laranja),
   ))
-  caixa(19.6, 0.8, 4.4, 3.4, "Ferramentas de imagem (PIL e IA)", cor: laranja, estereotipo: "«tática: TAT-06, TAT-10»", corpo: (
-    ("Confirmam só depois de a resposta ser confirmada; prefetch 1; religação", laranja),
+  caixa(..G.tools, "Ferramentas de imagem", cor: laranja, estereotipo: "«tática: TAT-06, TAT-10»", corpo: (
+    ("Confirmam depois da resposta; prefetch 1, religação", laranja),
     ("Terminação graciosa (SIGTERM)", laranja),
-    ("Erros chegam ao utilizador (identificadores corrigidos)", laranja),
+    ("Erros chegam ao utilizador", laranja),
+    "watermark: inalterado",
   ))
-  caixa(19.6, 5.2, 4.4, 3.4, "Serviços de vídeo por estágio", cor: cinza, tracejado: true, estereotipo: "«tática: TAT-02» (preparatório)", corpo: (
-    ("video_effects_tool — efeitos, corte, velocidade", cinza),
-    ("video_subtitles_tool — legendagem (Whisper)", cinza),
-    ("video_frames_tool — extração de fotogramas", cinza),
-    ("Biblioteca comum Tools/video_common; um estágio de cada vez", cinza),
-  ))
-  _setas-base(cor-msg: laranja, cor-ws: azul)
-  seta(((4.6, 2.0), (5.6, 2.0)), cor: azul, num: 13)
-  seta(((8.8, 2.0), (9.8, 2.0)), cor: azul, num: 14)
+  caixa(..G.video, "Serviços de vídeo por etapa", cor: cinza, tracejado: true,
+    estereotipo: "«tática: TAT-02» (preparatório)", corpo: (
+      ("Efeitos, legendas e fotogramas em três serviços e filas", cinza),
+      ("Uma etapa de cada vez; biblioteca comum", cinza),
+      ("Respostas persistentes e confirmadas", laranja),
+    ))
+  _setas-base(cor-msg: laranja, cor-ws: azul, cor-video: cinza)
+  seta(((4.8, 2.0), (5.7, 2.0)), cor: azul, num: 13)
+  seta(((9.1, 2.0), (10.0, 2.0)), cor: azul, num: 14)
 })
 
 #let legenda-vistas() = _legenda((
