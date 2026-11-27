@@ -138,9 +138,11 @@ correção de `/dirty` no orquestrador (`bench/results/baseline/` e `bench/resul
 
 *Regressão na versão final.* Todos os testes foram repetidos sobre a versão entregue: `projects/tests` 37/38,
 `Tools/video_common/tests` 90/90 e `bench/e2e_smoke.py` 5/5, com imagens e vídeo. A única falha é um teste de
-ligações simbólicas já existente, que não corre em Windows. As duas alterações posteriores à medição final
-(cap. 8) foram ainda verificadas com `bench/chaos.py`, com o orquestrador como alvo (2 repetições: R1 = 100 %,
-R3 = 0); os valores de U1–U3 e R1–R3 da secção «Resultados das medições» são anteriores a elas. A equipa testou ainda a aplicação manualmente, com imagens
+ligações simbólicas já existente, que não corre em Windows. Depois das duas alterações posteriores à medição
+final (cap. 8), repetiu-se ainda `bench/chaos.py` com o orquestrador como alvo (2 repetições: R1 = 100 %, R3 = 0).
+A fila de mensagens mortas foi verificada com um passo de brilho sem o parâmetro esperado, que faz a ferramenta
+falhar sempre: em 3 repetições, o erro chegou ao utilizador 0,11 a 0,16 s depois de Apply, sem `Process` órfãos.
+Os valores de U1–U3 e R1–R3 da secção «Resultados das medições» são anteriores a estas alterações. A equipa testou ainda a aplicação manualmente, com imagens
 e vídeos; foi assim que se encontrou o 409 depois de adicionar uma ferramenta («Defeitos pré-existentes encontrados»).
 
 #tab([Riscos para a preservação funcional e mitigação],
