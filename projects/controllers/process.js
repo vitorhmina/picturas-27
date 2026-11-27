@@ -45,6 +45,11 @@ module.exports.countByProjectAndToken = async (project_id, token) => {
   return await Process.countDocuments({ project_id, token }).exec();
 };
 
+// records of a run that still hold its commit back (not yet finished)
+module.exports.countUnfinishedByProjectAndToken = async (project_id, token) => {
+  return await Process.countDocuments({ project_id, token, finished: { $ne: true } }).exec();
+};
+
 
 // --- recovery (utils/recovery.js) ---
 
@@ -57,6 +62,8 @@ module.exports.markOutputStored = (msg_id) => setByMsgId(msg_id, { output_stored
 module.exports.setSuccessor = (msg_id, successor_msg_id) => setByMsgId(msg_id, { successor_msg_id });
 
 module.exports.markFailed = (msg_id) => setByMsgId(msg_id, { failed: true });
+
+module.exports.markFinished = (msg_id) => setByMsgId(msg_id, { finished: true });
 
 module.exports.deleteByMsgId = (msg_id) => Process.deleteOne({ msg_id }).exec();
 

@@ -22,6 +22,7 @@ var processSchema = new mongoose.Schema({
   output_stored: { type: Boolean, required: false },  // results/previews of this step are saved
   successor_msg_id: { type: String, required: false }, // the next step, once registered
   failed: { type: Boolean, required: false },         // failed job kept as a commit barrier
+  finished: { type: Boolean, required: false },       // last step done; kept until the run is committed
 }, { timestamps: true });
 
 processSchema.index({ msg_id: 1 });
