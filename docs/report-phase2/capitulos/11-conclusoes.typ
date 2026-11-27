@@ -21,9 +21,6 @@ de imagem, sem alterar os resultados.
 
 As otimizações sugeridas dão continuidade às duas decisões:
 
-+ *Fila de mensagens mortas com limite de tentativas (DA-2).* Hoje uma mensagem que faz falhar a ferramenta é repetida
-  uma vez e descartada, e o utilizador só recebe o erro quando o passo expira (desvio 1 da DA-2). Uma fila própria
-  daria o erro de imediato e guardaria a mensagem para análise.
 + *Progresso intermédio dos passos longos (DA-2).* Um passo ou etapa interrompido é processado de novo desde o início,
   o que domina o tempo de recuperação com o orquestrador (32,7 s) e com os serviços de vídeo (48,9 s). Guardar
   progresso intermédio, por exemplo por segmentos de vídeo, reduziria esse tempo.

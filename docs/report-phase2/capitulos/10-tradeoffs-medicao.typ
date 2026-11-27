@@ -131,14 +131,16 @@ correção de `/dirty` no orquestrador (`bench/results/baseline/` e `bench/resul
     colunas: (2.2cm, 3cm, 2.8cm, 1fr, 3cm),
     tamanho: 8.5pt,
     [Zona alterada], [Testes existentes], [Lacunas de teste], [Testes acrescentados], [Resultado (imagem e vídeo)],
-    [DA-1: estado da execução e página do projeto], [`projects/tests`; `bench/e2e_smoke.py` (5 cenários com imagens e vídeo)], [Nenhum teste da página nem do estado da execução], [`run-status.test.js` (6 testes); `bench/background_ui.py`], [U1–U3 no alvo; regressão sem falhas novas (abaixo)],
-    [DA-2: entrega de mensagens e recuperação], [Nenhum], [Confirmação, reentrega, idempotência e reconciliação], [`recovery.test.js` (7 testes); `bench/chaos.py`, com controlo sem falhas; `bench/outage_crash.py`], [R1–R3 no alvo; controlo: 100 %; regressão sem falhas novas (abaixo)],
+    [DA-1: estado da execução e página do projeto], [`projects/tests`; `bench/e2e_smoke.py` (5 cenários com imagens e vídeo)], [Nenhum teste da página nem do estado da execução], [`run-status.test.js` (7 testes); `bench/background_ui.py`], [U1–U3 no alvo; regressão sem falhas novas (abaixo)],
+    [DA-2: entrega de mensagens e recuperação], [Nenhum], [Confirmação, reentrega, idempotência e reconciliação], [`recovery.test.js` (7 testes); `dead-letters.test.js` (1 teste); `bench/chaos.py`, com controlo sem falhas; `bench/outage_crash.py`], [R1–R3 no alvo; controlo: 100 %; regressão sem falhas novas (abaixo)],
   ),
 )
 
-*Regressão na versão final.* Todos os testes foram repetidos sobre a versão entregue: `projects/tests` 35/36,
+*Regressão na versão final.* Todos os testes foram repetidos sobre a versão entregue: `projects/tests` 37/38,
 `Tools/video_common/tests` 90/90 e `bench/e2e_smoke.py` 5/5, com imagens e vídeo. A única falha é um teste de
-ligações simbólicas já existente, que não corre em Windows. A equipa testou ainda a aplicação manualmente, com imagens
+ligações simbólicas já existente, que não corre em Windows. As duas correções posteriores à medição final
+(cap. 8) foram ainda verificadas com `bench/chaos.py`, com o orquestrador como alvo (2 repetições: R1 = 100 %,
+R3 = 0); os valores de U1–U3 e R1–R3 da secção «Resultados das medições» são anteriores a elas. A equipa testou ainda a aplicação manualmente, com imagens
 e vídeos; foi assim que se encontrou o 409 depois de adicionar uma ferramenta («Defeitos pré-existentes encontrados»).
 
 #tab([Riscos para a preservação funcional e mitigação],
@@ -150,7 +152,7 @@ e vídeos; foi assim que se encontrou o 409 depois de adicionar uma ferramenta (
     [A reentrega duplica resultados], [Imagem e vídeo], [Respostas idempotentes pelo estado do `Process` (desvio 2 da DA-2); risco residual de reaplicar um efeito de imagem (cap. 8)], [R1–R3 (R3 = 0); sem verificação do conteúdo dos resultados (lacuna)],
     [O _commit_ da execução acontece cedo demais ou nunca], [Imagem e vídeo, incluindo extração], [Registo prévio do lote e _commit_ só quando não restam `Process`], [`process-batch.test.js`, `frame-extraction.test.js`; controlo],
     [O utilizador altera o projeto a meio de uma execução], [Imagem e vídeo], [Edição do projeto bloqueada durante a execução (cap. 8)], [Utilização manual pela equipa],
-    [Um estado antigo do servidor termina a execução na página antes de tempo], [Imagem e vídeo], [Só conta um estado posterior ao registo da execução, e os resultados exigem uma execução confirmada; risco residual no cap. 8], [U2; `run-status.test.js`],
+    [Um estado antigo do servidor termina a execução na página antes de tempo], [Imagem e vídeo], [Só conta um estado posterior ao registo da execução, e os resultados exigem uma execução confirmada; o último `Process` só é removido depois do _commit_ (cap. 8)], [U2; `run-status.test.js`; sondagem do estado em 10 execuções (cap. 8)],
   ),
 )
 
